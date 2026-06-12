@@ -6,6 +6,8 @@ The primary metric is `benign_pathogenic_gap`: the SAME sibling rate for benign 
 
 The evaluation also reports the benign and pathogenic SAME sibling rates separately, SAME boundary rates (`benign_same_idx`, `pathogenic_same_idx`), vocabulary size, and family coverage. Family coverage is a constraint metric: a method should produce a meaningful genealogy rather than only a flat vocabulary.
 
+A second biological validation uses human ProteinGym deep mutational scanning assays. It reports the SAME sibling-rate gap between positive/high-fitness and negative/low-fitness substitutions with the same unchanged-boundary filter.
+
 A secondary vocabulary-structure experiment reports `family_coverage`, `mutated_vocab_fraction`, `parent_vocab_fraction`, and `vocab_size` at the same fixed vocabulary budget. This prevents future systems from improving the clinical metric by discarding the family structure that the task is meant to evaluate.
 
 ## Baselines and Targets

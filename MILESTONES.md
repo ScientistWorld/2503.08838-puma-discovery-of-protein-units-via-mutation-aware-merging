@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: secondary_claims**
 
 ## Progress Log
 
@@ -16,5 +16,10 @@
 - Added the vocabulary-structure experiment to verify non-trivial mutation-linked family coverage at the same fixed vocabulary budget.
 - `python validate.py --compare` passes with clean method/eval separation.
 
+### [2026-06-12 13:47] - secondary_claims
+- Audited method fidelity, evaluation independence, scripts, and documentation.
+- Restored the `secondary_claims` milestone because the vocabulary-structure reproduction covers a secondary paper claim in addition to the core clinical association.
+- Cleaned baseline and documentation inconsistencies found during the continuation audit.
+
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Completed at milestone `secondary_claims`.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compute-node job script for the compact PUMA reproduction.
+# Compute-node job script for the compact PUMA reproduction with DMS scoring.
 
 set -euo pipefail
 

@@ -7,3 +7,7 @@ Tests whether a protein-unit vocabulary captures clinically meaningful mutation 
 ## vocabulary_structure
 
 Checks whether the produced unit vocabulary has a non-trivial family structure at the same vocabulary budget. This is a constraint-style experiment: future systems should not improve clinical association scores by abandoning the family coverage that makes the benchmark meaningful.
+
+## dms_sibling_association
+
+Tests whether the same family-preservation signal appears in experimental fitness assays. The experiment compares positive and negative single amino-acid substitutions from human ProteinGym DMS assays using the same SAME sibling-rate logic as the clinical experiment.

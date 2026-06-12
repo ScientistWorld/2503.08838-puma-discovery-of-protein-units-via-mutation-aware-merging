@@ -29,6 +29,25 @@ def clinical_metric_block(method_result: dict) -> dict[str, float]:
     }
 
 
+def dms_metric_block(method_result: dict) -> dict[str, float]:
+    labels = method_result["dms"]["labels"]
+    positive = labels.get("Positive") or labels.get("positive")
+    negative = labels.get("Negative") or labels.get("negative")
+    if positive is None or negative is None:
+        raise ValueError(f"Expected Positive/Negative DMS labels, got {sorted(labels)}")
+    positive_rate = float(positive["same_sibling_rate"])
+    negative_rate = float(negative["same_sibling_rate"])
+    return {
+        "positive_same_sibling_rate": positive_rate,
+        "negative_same_sibling_rate": negative_rate,
+        "positive_negative_gap": positive_rate - negative_rate,
+        "positive_same_idx": float(positive["same_idx"]),
+        "negative_same_idx": float(negative["same_idx"]),
+        "family_coverage": float(method_result["family_coverage"]),
+        "vocab_size": float(method_result["vocab_size"]),
+    }
+
+
 def structure_metric_block(method_result: dict) -> dict[str, float]:
     vocab_size = float(method_result["vocab_size"])
     return {
@@ -51,11 +70,14 @@ def main() -> None:
     scores = {
         "experiments": {
             "clinical_sibling_association": {"results": {}},
+            "dms_sibling_association": {"results": {}},
             "vocabulary_structure": {"results": {}},
         }
     }
     for name, result in raw["methods"].items():
         scores["experiments"]["clinical_sibling_association"]["results"][name] = clinical_metric_block(result)
+        if "dms" in result:
+            scores["experiments"]["dms_sibling_association"]["results"][name] = dms_metric_block(result)
         scores["experiments"]["vocabulary_structure"]["results"][name] = structure_metric_block(result)
 
     scores_path = ROOT / args.scores

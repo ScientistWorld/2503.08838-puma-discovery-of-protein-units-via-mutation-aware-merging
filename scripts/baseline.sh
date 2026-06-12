@@ -5,6 +5,6 @@ set -euo pipefail
 
 cd /home/user
 
-mkdir -p outputs/puma_reproduction
+mkdir -p outputs/bpe_baseline
 python baseline/run_bpe.py
-bash scripts/evaluate.sh outputs/puma_reproduction/raw_results.json
+bash scripts/evaluate.sh outputs/bpe_baseline/raw_results.json

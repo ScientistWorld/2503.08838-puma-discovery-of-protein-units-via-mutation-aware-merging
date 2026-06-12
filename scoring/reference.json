@@ -2,16 +2,37 @@
   "experiments": {
     "clinical_sibling_association": {
       "description": "ProteinGym ClinVar single-substitution validation: benign variants should retain within-family unit substitutions more often than pathogenic variants.",
-      "weight": 0.8,
+      "weight": 0.6,
       "primary_metric": "benign_pathogenic_gap",
       "metrics": {
-        "benign_same_sibling_rate": {"higher_is_better": true, "coefficient": 1.0},
-        "pathogenic_same_sibling_rate": {"higher_is_better": false, "coefficient": -0.8},
-        "benign_pathogenic_gap": {"higher_is_better": true, "coefficient": 1.5},
-        "benign_same_idx": {"higher_is_better": true, "coefficient": 0.2},
-        "pathogenic_same_idx": {"higher_is_better": true, "coefficient": 0.1},
-        "family_coverage": {"higher_is_better": true, "coefficient": 0.4},
-        "vocab_size": {"higher_is_better": false, "coefficient": -0.1}
+        "benign_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 1.0
+        },
+        "pathogenic_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": -0.8
+        },
+        "benign_pathogenic_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.5
+        },
+        "benign_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2
+        },
+        "pathogenic_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.1
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.4
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": -0.1
+        }
       },
       "results": {
         "puma_official_6400": {
@@ -36,15 +57,80 @@
         }
       }
     },
+    "dms_sibling_association": {
+      "description": "ProteinGym human DMS single-substitution validation: positive/high-fitness variants should retain within-family unit substitutions more often than negative/low-fitness variants.",
+      "weight": 0.25,
+      "primary_metric": "positive_negative_gap",
+      "metrics": {
+        "positive_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 1.0
+        },
+        "negative_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": -0.8
+        },
+        "positive_negative_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.5
+        },
+        "positive_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2
+        },
+        "negative_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.1
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.4
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": -0.1
+        }
+      },
+      "results": {
+        "puma_official_6400": {
+          "type": "proposed",
+          "positive_same_sibling_rate": 0.0753931013349166,
+          "negative_same_sibling_rate": 0.04736253684317512,
+          "positive_negative_gap": 0.028030564491741482,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400
+        },
+        "bpe_official_6400": {
+          "type": "baseline",
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
     "vocabulary_structure": {
       "description": "Vocabulary-level structure at 6400 units: the learned vocabulary should allocate most units to mutation-linked families while preserving the fixed vocabulary budget.",
-      "weight": 0.2,
+      "weight": 0.15,
       "primary_metric": "family_coverage",
       "metrics": {
-        "family_coverage": {"higher_is_better": true, "coefficient": 1.0},
-        "mutated_vocab_fraction": {"higher_is_better": true, "coefficient": 0.7},
-        "parent_vocab_fraction": {"higher_is_better": true, "coefficient": 0.3},
-        "vocab_size": {"higher_is_better": false, "coefficient": -0.1}
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 1.0
+        },
+        "mutated_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.7
+        },
+        "parent_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.3
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": -0.1
+        }
       },
       "results": {
         "puma_official_6400": {

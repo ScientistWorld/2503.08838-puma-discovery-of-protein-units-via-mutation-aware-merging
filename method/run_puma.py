@@ -133,6 +133,47 @@ def load_clinical_variants(path: Path, max_per_label: int | None, seed: int) -> 
     return df.reset_index(drop=True)
 
 
+def load_dms_variants(path: Path, max_per_bin: int | None, seed: int) -> pd.DataFrame:
+    files = sorted(path.glob("*.parquet")) if path.is_dir() else [path]
+    if not files:
+        raise FileNotFoundError(f"No DMS parquet files found under {path}")
+    df = pd.concat((pd.read_parquet(file) for file in files), ignore_index=True)
+    required = {"mutated_sequence", "mutant", "DMS_score", "DMS_score_bin"}
+    missing = required.difference(df.columns)
+    if missing:
+        raise ValueError(f"ProteinGym DMS file missing columns: {sorted(missing)}")
+
+    human_columns = [column for column in ("DMS_id", "assay_name", "target_name") if column in df.columns]
+    if human_columns:
+        mask = False
+        for column in human_columns:
+            mask = mask | df[column].astype(str).str.contains("HUMAN", case=False, na=False)
+        df = df[mask].copy()
+
+    df = df[list(required)].copy()
+    df = df[~df["mutant"].astype(str).str.contains(":", na=False)]
+    df = df[(df["DMS_score"] <= 5) & (df["DMS_score"] >= -5)]
+    df["parsed_mutation"] = df["mutant"].map(parse_single_mutant)
+    df = df[df["parsed_mutation"].notna()]
+
+    def reverse_mutation(row: pd.Series) -> str | None:
+        pos, ref, _alt = row["parsed_mutation"]
+        seq = row["mutated_sequence"]
+        if not isinstance(seq, str) or pos < 0 or pos >= len(seq):
+            return None
+        return seq[:pos] + ref + seq[pos + 1 :]
+
+    df["target_seq"] = df.apply(reverse_mutation, axis=1)
+    df = df[df["target_seq"].notna()]
+    df["annotation"] = df["DMS_score_bin"].map(lambda x: "Positive" if int(x) == 1 else "Negative")
+    if max_per_bin:
+        parts = []
+        for _, group in df.groupby("annotation"):
+            parts.append(group.sample(n=min(max_per_bin, len(group)), random_state=seed))
+        df = pd.concat(parts).sample(frac=1.0, random_state=seed).reset_index(drop=True)
+    return df[["mutated_sequence", "target_seq", "parsed_mutation", "annotation"]].reset_index(drop=True)
+
+
 def evaluate_tokenizer(
     name: str,
     tokenizer_path: Path,
@@ -202,11 +243,23 @@ def evaluate_tokenizer(
     }
 
 
+def evaluate_dms_tokenizer(
+    name: str,
+    tokenizer_path: Path,
+    vocab_path: Path,
+    variants: pd.DataFrame,
+    has_genealogy: bool,
+) -> dict[str, object]:
+    return evaluate_tokenizer(name, tokenizer_path, vocab_path, variants, has_genealogy)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="outputs/puma_reproduction/raw_results.json")
     parser.add_argument("--clinical-parquet", default="data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet")
     parser.add_argument("--max-per-label", type=int, default=4000)
+    parser.add_argument("--dms-path", default="data/downloads/proteingym_dms_substitutions")
+    parser.add_argument("--max-dms-per-bin", type=int, default=0)
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--train-small", action="store_true")
     parser.add_argument("--train-sequences", type=int, default=1200)
@@ -243,14 +296,18 @@ def main() -> None:
     ]
 
     method_results = {}
+    dms_variants = load_dms_variants(ROOT / args.dms_path, args.max_dms_per_bin or None, args.seed)
     for name, tokenizer_path, vocab_path, has_genealogy in methods:
         method_results[name] = evaluate_tokenizer(name, tokenizer_path, vocab_path, variants, has_genealogy)
+        method_results[name]["dms"] = evaluate_dms_tokenizer(name, tokenizer_path, vocab_path, dms_variants, has_genealogy)
 
     payload = {
         "experiment": "clinical_sibling_association",
         "seed": args.seed,
         "max_per_label": args.max_per_label,
+        "max_dms_per_bin": args.max_dms_per_bin,
         "clinical_parquet": args.clinical_parquet,
+        "dms_path": args.dms_path,
         "training_summary": training_summary,
         "methods": method_results,
     }
