@@ -12,5 +12,7 @@ The paper addresses how to discover contiguous protein sequence units that act l
 ## Key Results
 
 - On ProteinGym ClinVar substitutions, PUMA(BLOSUM62, 0.7, 0.05) at 6,400 tokens has a benign SAME sibling rate of 0.158 versus 0.074 for pathogenic variants.
+- On human ProteinGym DMS substitutions, the same compact PUMA setting has a positive SAME sibling rate of 0.075 versus 0.047 for negative variants.
+- The released 6,400-token PUMA vocabulary has 94.1% family coverage, while the frequency-only BPE baseline has no genealogy.
 - The frequency-only BPE baseline has no genealogy and therefore zero SAME sibling rate under this metric.
-- The reproduced benchmark focuses on the clinical-substitution validation and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.
+- The reproduced benchmark focuses on clinical, DMS, and vocabulary-structure validations and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.

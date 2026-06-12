@@ -40,9 +40,9 @@ Secondary DMS sibling-association claim reproduced on human ProteinGym DMS subst
 ## Issues
 
 - The paper's full 51,200-token grid and ESM-2/GO experiments are larger than the compact reproduction. Current results focus on clinical substitutions, DMS substitutions, vocabulary structure, and a small fresh PUMA training run.
-- The official compact UniRef50-human FASTA and 6,400-token vocabularies are tracked under `method/PUMA_official/RSRC`; `scripts/download.sh` fetches external ProteinGym clinical and DMS parquets.
+- The official compact UniRef50-human FASTA, released 6,400-token vocabularies, and released result CSVs are tracked under `method/PUMA_official/RSRC` and `method/PUMA_official/Prog/result_files`; `scripts/download.sh` fetches external ProteinGym clinical and DMS parquets.
 
 ## Deviations from Paper
 
-- The compact benchmark evaluates the released 6,400-token PUMA vocabulary rather than the paper's largest 51,200-token vocabulary. The official repository provides 6,400-token PUMA and BPE vocabularies directly, making this a faithful smaller-scale validation while preserving the paper's algorithm and evaluation metric.
+- The compact benchmark evaluates the released 6,400-token PUMA vocabulary rather than the paper's largest 51,200-token vocabulary. The official repository provides 6,400-token PUMA and BPE vocabularies and matching result CSVs directly, making this a faithful smaller-scale validation while preserving the paper's algorithm and evaluation metric.
 - The submitted job trains a smaller fresh PUMA vocabulary only to verify the mutation-aware merge procedure runs end to end. The clinical reproduction scores are computed from the official 6,400-token PUMA/BPE vocabularies and the downloaded ProteinGym clinical substitutions.
