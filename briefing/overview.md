@@ -1,14 +1,16 @@
 # Overview
 
-- **Paper ID:** <!-- e.g. 1706.03762 -->
-- **Title:** <!-- e.g. Attention Is All You Need -->
-- **Domain:** <!-- e.g. Computer Vision / Object Detection -->
-- **TL;DR:** <!-- One sentence: what this paper does and why it matters -->
+- **Paper ID:** 2503.08838
+- **Title:** PUMA: Discovery of Protein Units via Mutation-Aware Merging
+- **Domain:** Computational Biology / Protein Sequence Tokenization
+- **TL;DR:** PUMA extends BPE for proteins by adding substitution-matrix-guided mutational variants during merging, producing a vocabulary plus a biologically meaningful genealogy.
 
 ## Short Summary
 
-<!-- 3-5 sentences covering the problem, approach, and main findings -->
+The paper addresses how to discover contiguous protein sequence units that act like words in the language of life. PUMA keeps the frequency-based core of BPE but explicitly searches for plausible amino-acid substitution variants of each newly merged unit and records their genealogical relationships. The authors validate the resulting families using clinical variants, deep mutational scanning, ESM-2 masked-token preferences, and Gene Ontology topic modeling.
 
 ## Key Results
 
-<!-- 2-3 bullet points: main findings or numbers in bullet points -->
+- On ProteinGym ClinVar substitutions, PUMA(BLOSUM62, 0.7, 0.05) at 6,400 tokens has a benign SAME sibling rate of 0.158 versus 0.074 for pathogenic variants.
+- The frequency-only BPE baseline has no genealogy and therefore zero SAME sibling rate under this metric.
+- The reproduced benchmark focuses on the clinical-substitution validation and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.

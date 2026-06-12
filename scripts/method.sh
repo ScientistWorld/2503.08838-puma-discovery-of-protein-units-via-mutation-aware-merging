@@ -1,14 +1,17 @@
 #!/bin/bash
-# Run the paper's proposed method.
-#
-# This script trains/runs the paper's method using code in method/.
-#
-# Usage:
-#   bash scripts/method.sh
+# Run the paper's proposed PUMA method and score it.
 
-set -e
+set -euo pipefail
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+mkdir -p outputs/puma_reproduction checkpoints
+
+python method/run_puma.py \
+  --train-small \
+  --train-sequences "${PUMA_TRAIN_SEQUENCES:-1200}" \
+  --train-vocab-size "${PUMA_TRAIN_VOCAB_SIZE:-900}" \
+  --max-per-label "${PUMA_MAX_PER_LABEL:-4000}" \
+  --output outputs/puma_reproduction/raw_results.json
+
+bash scripts/evaluate.sh outputs/puma_reproduction/raw_results.json

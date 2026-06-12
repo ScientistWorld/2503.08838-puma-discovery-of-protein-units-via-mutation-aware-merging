@@ -1,15 +1,15 @@
 # Evaluation
 
-How success is measured. Describe only the metrics, targets, and evaluation procedure — do NOT describe the paper's method or how they achieved these results. Think of this as a general evaluation protocal for other scientists trying to solve the same problem, where they should not see this paper's solution.
-
 ## Metrics
 
-<!-- What metrics are used? How are they computed? What does higher/lower mean? -->
+The primary metric is `benign_pathogenic_gap`: the SAME sibling rate for benign clinical substitutions minus the SAME sibling rate for pathogenic substitutions. SAME sibling rate is computed only for point mutations where the original and mutated full sequence have identical token boundaries; among those SAME cases, it is the fraction where the original and mutated tokens at the mutation site belong to the same unit family.
+
+The evaluation also reports the benign and pathogenic SAME sibling rates separately, SAME boundary rates (`benign_same_idx`, `pathogenic_same_idx`), vocabulary size, and family coverage. Family coverage is a constraint metric: a method should produce a meaningful genealogy rather than only a flat vocabulary.
 
 ## Baselines and Targets
 
-<!-- What performance levels exist as reference points? Include the paper's reported numbers as targets, and any standard baselines. A scientist agent should know what "good" looks like. -->
+The baseline is frequency-only BPE at the same 6,400-token vocabulary size. The target is the paper's PUMA configuration trained on UniRef50-human with BLOSUM62, alignment cutoff 0.7, mutation length range 3-12, frequency cutoff 0.05, and vocabulary size 6,400.
 
 ## Evaluation Protocol
 
-<!-- How should evaluation be run? What data split, what conditions? Any important details about how to compare fairly (e.g., fixed seeds, specific test sets, averaging over runs). -->
+The compact reproduction uses ProteinGym clinical substitutions from ClinVar. The method writes raw tokenization and family-count artifacts to `outputs/puma_reproduction/raw_results.json`; `scripts/evaluate.sh` reads only that artifact and writes `scoring/scores.json`. The evaluator does not import from `method/`, so a future method can be scored by writing the same raw artifact schema.
