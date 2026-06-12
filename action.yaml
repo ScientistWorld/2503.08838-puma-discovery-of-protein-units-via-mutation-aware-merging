@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: secondary_claims
-notes: "CPU test job to verify the independent evaluator recomputes clinical, DMS, and vocabulary-structure scores from tokenizer/vocabulary artifacts instead of trusting method-side counters."
+milestone: core_claim_plus
+notes: "CPU test job to verify the independent evaluator recomputes clinical, DMS, and vocabulary-structure scores from tokenizer/vocabulary artifacts. Passing this job should restore secondary_claims."
