@@ -36,8 +36,8 @@
 ## Milestones
 - [x] `method_runs`
 - [x] `core_claim`
-- [ ] `core_claim_plus`
-- [ ] `secondary_claims`
+- [x] `core_claim_plus`
+- [x] `secondary_claims`
 - [ ] `majority`
 - [ ] `near_complete`
 - [ ] `full`

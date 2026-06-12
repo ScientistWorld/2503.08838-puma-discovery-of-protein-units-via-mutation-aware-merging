@@ -7,7 +7,7 @@
 - `scripts/download.sh` fetches the 9 MB ProteinGym clinical substitutions parquet from a verified Hugging Face URL.
 - `method/run_puma.py` evaluates SAME sibling rates from method artifacts and optionally trains a small fresh PUMA vocabulary to exercise the actual mutation-aware merge algorithm.
 - `eval/evaluate_puma.py` reads raw method artifacts and writes `scoring/scores.json` without importing from `method/`.
-- The CPU container smoke job completed successfully and `python validate.py --compare` passes.
+- The CPU container smoke job and expanded scoring rerun completed successfully; `python validate.py --compare` passes.
 
 ## Results
 
@@ -18,10 +18,16 @@ Core claim reproduced on the compact 6,400-token clinical validation:
 - BPE baseline SAME sibling rate: 0.0 reproduced for both labels, matching the paper's no-genealogy baseline.
 - PUMA family coverage at 6,400 units: 0.94125 reproduced.
 
+Secondary vocabulary-structure claim reproduced at the same 6,400-token budget:
+- PUMA family coverage: 0.94125 reproduced vs. 0.94125 reference.
+- PUMA mutated vocabulary fraction: 0.83719 reproduced vs. 0.83719 reference.
+- PUMA parent vocabulary fraction: 0.10406 reproduced vs. 0.10406 reference.
+- BPE family coverage and family fractions: 0.0 reproduced, as expected for a flat baseline vocabulary.
+
 ## Remaining
 
-- Rerun the expanded scoring suite in the compute container after adding the vocabulary-structure experiment to `scores.json`.
 - Higher milestones would require adding more paper settings, such as DMS assays, ESM-2 preference scoring, GO topic analysis, or larger vocabulary sizes.
+- A public ProteinGym DMS substitutions release exists, but the aggregate is multi-gigabyte scale; it was left out of this compact gym to keep the environment lightweight and reproducible.
 
 ## Issues
 

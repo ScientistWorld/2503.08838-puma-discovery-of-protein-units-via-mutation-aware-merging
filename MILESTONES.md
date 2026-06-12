@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: secondary_claims**
 
 ## Progress Log
 
@@ -17,5 +17,10 @@
 - PUMA reproduced a benign-pathogenic SAME sibling gap of 0.0876 versus the paper's 0.0835; the BPE baseline remained at 0.0 because it has no mutation genealogy.
 - Expanded scoring now also records vocabulary-family structure at the fixed 6,400-unit budget.
 
+### [2026-06-12 14:00] - secondary_claims
+- Expanded scoring suite reran successfully inside the compute container.
+- The vocabulary-structure experiment reproduced the released 6,400-token PUMA family coverage of 0.94125, mutated vocabulary fraction of 0.83719, and parent vocabulary fraction of 0.10406.
+- `python validate.py --compare` passed with clinical and vocabulary-structure experiments, import separation, artifact-based evaluation, and shared-path checks.
+
 ## Stop Justification
-- Not stopped. A CPU job is being submitted to rerun the expanded scoring suite in the container.
+- Stopping at `secondary_claims`: the compact environment is packaged and validated end to end. Higher milestones require larger paper settings such as DMS assays, ESM-2 preference scoring, GO topic analysis, or larger vocabulary grids.
