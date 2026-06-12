@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: secondary_claims**
 
 ## Progress Log
 
@@ -14,5 +14,10 @@
 - The method implementation remains a real PUMA reproduction using the official mutation-aware merge code and released PUMA/BPE vocabulary artifacts.
 - The evaluator has been made independent of method-side counters; a CPU test job is queued to verify the regenerated clinical, DMS, and vocabulary-structure scores before restoring `secondary_claims`.
 
+### [2026-06-12 14:34] - secondary_claims
+- CPU verification job `083b2b54-456` completed successfully with exit code 0.
+- `scripts/reproduce.sh` regenerated raw method artifacts and `scoring/scores.json` through the independent evaluator.
+- `python validate.py --compare` passed, confirming reproduced clinical, DMS, and vocabulary-structure metrics plus method/eval separation checks.
+
 ## Stop Justification
-- Not stopping; independent evaluator verification is queued before restoring `secondary_claims`.
+- Completed at milestone `secondary_claims`. Higher milestones would require substantially broader paper coverage such as ESM-2 preference scoring, GO analysis, more vocabulary sizes, or the full hyperparameter grid.

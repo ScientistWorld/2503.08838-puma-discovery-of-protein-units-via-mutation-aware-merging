@@ -7,7 +7,7 @@
 - `scripts/download.sh` fetches the ProteinGym clinical substitutions parquet and five DMS substitution parquet shards from verified Hugging Face URLs.
 - `method/run_puma.py` writes method artifacts and optionally trains a small fresh PUMA vocabulary to exercise the actual mutation-aware merge algorithm.
 - `eval/evaluate_puma.py` independently recomputes clinical, DMS, and vocabulary-structure scores from raw artifacts and writes `scoring/scores.json` without importing from `method/`.
-- Previous CPU container smoke jobs and expanded scoring reruns completed successfully; `python validate.py --compare` passes for the existing scores.
+- CPU verification job `083b2b54-456` completed successfully after the independent evaluator refactor; `python validate.py --compare` passes.
 - Continuation audit confirmed the implementation uses the official PUMA mutation-aware merge code and released PUMA/BPE artifacts rather than a surrogate.
 - `baseline/run_bpe.py` now writes a BPE-only raw artifact without delegating to the combined PUMA method runner.
 - DMS sibling-association scoring has been added as an additional secondary validation target and was reproduced in CPU job `7d8d021d-1ba`.
@@ -39,7 +39,6 @@ Secondary DMS sibling-association claim reproduced on human ProteinGym DMS subst
 
 ## Issues
 
-- The independent evaluator refactor still needs a fresh compute-node verification run before the reset milestone can be restored to `secondary_claims`.
 - The paper's full 51,200-token grid and ESM-2/GO experiments are larger than the compact reproduction. Current results focus on clinical substitutions, DMS substitutions, vocabulary structure, and a small fresh PUMA training run.
 - The official compact UniRef50-human FASTA, released 6,400-token vocabularies, and released result CSVs are tracked under `method/PUMA_official/RSRC` and `method/PUMA_official/Prog/result_files`; `scripts/download.sh` fetches external ProteinGym clinical and DMS parquets.
 

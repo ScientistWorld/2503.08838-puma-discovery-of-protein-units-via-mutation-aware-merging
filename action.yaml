@@ -1,8 +1,6 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
-gpus: 0
-test: true
-milestone: core_claim_plus
-notes: "CPU test job to verify the independent evaluator recomputes clinical, DMS, and vocabulary-structure scores from tokenizer/vocabulary artifacts. Passing this job should restore secondary_claims."
+action: done
+milestone: secondary_claims
+notes: "CPU verification job 083b2b54-456 passed. The independent evaluator regenerated clinical, DMS, and vocabulary-structure scores from artifacts, and validate.py --compare passed."
