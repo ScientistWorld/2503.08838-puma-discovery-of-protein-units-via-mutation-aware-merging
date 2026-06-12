@@ -57,6 +57,8 @@ The primary metric is `benign_pathogenic_gap`: the SAME sibling rate for benign 
 
 The evaluation also reports the benign and pathogenic SAME sibling rates separately, SAME boundary rates (`benign_same_idx`, `pathogenic_same_idx`), vocabulary size, and family coverage. Family coverage is a constraint metric: a method should produce a meaningful genealogy rather than only a flat vocabulary.
 
+A second biological validation uses human ProteinGym deep mutational scanning assays. It reports the SAME sibling-rate gap between positive/high-fitness and negative/low-fitness substitutions with the same unchanged-boundary filter.
+
 A secondary vocabulary-structure experiment reports `family_coverage`, `mutated_vocab_fraction`, `parent_vocab_fraction`, and `vocab_size` at the same fixed vocabulary budget. This prevents future systems from improving the clinical metric by discarding the family structure that the task is meant to evaluate.
 
 ## Baselines and Targets
@@ -99,12 +101,44 @@ The compact reproduction uses ProteinGym clinical substitutions from ClinVar. Th
 
 </details>
 
+### Iteration 2: gpt-5.5
+- **Milestone**: `secondary_claims` | **Status**: done
+- **Working time**: 10m | **GPU**: 0.0h
+- **Jobs**: 3 total (3 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-12 00:00] - method_runs
+- Vendored the official PUMA implementation and released UniRef50-human 6,400-token vocabularies.
+- Confirmed the mutation-aware merge implementation can train a small fresh PUMA vocabulary end to end.
+
+### [2026-06-12 00:00] - core_claim
+- Reproduced the clinical SAME sibling association on ProteinGym ClinVar substitutions.
+- PUMA shows a benign-pathogenic SAME sibling gap while frequency-only BPE has no sibling genealogy.
+
+### [2026-06-12 00:00] - core_claim_plus
+- Added the vocabulary-structure experiment to verify non-trivial mutation-linked family coverage at the same fixed vocabulary budget.
+- `python validate.py --compare` passes with clean method/eval separation.
+
+### [2026-06-12 13:47] - secondary_claims
+- Audited method fidelity, evaluation independence, scripts, and documentation.
+- Restored the `secondary_claims` milestone because the vocabulary-structure reproduction covers a secondary paper claim in addition to the core clinical association.
+- Cleaned baseline and documentation inconsistencies found during the continuation audit.
+
+### [2026-06-12 14:14] - secondary_claims
+- CPU job `7d8d021d-1ba` completed successfully.
+- Added and reproduced the human ProteinGym DMS SAME sibling association: PUMA positive-negative gap `0.02803`, matching the official 6,400-token reference.
+- `python validate.py --compare` passed for clinical, DMS, and vocabulary-structure experiments.
+
+</details>
+
 
 ---
 
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: secondary_claims**
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Completed at milestone `secondary_claims`.
