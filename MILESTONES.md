@@ -21,5 +21,10 @@
 - Restored the `secondary_claims` milestone because the vocabulary-structure reproduction covers a secondary paper claim in addition to the core clinical association.
 - Cleaned baseline and documentation inconsistencies found during the continuation audit.
 
+### [2026-06-12 14:14] - secondary_claims
+- CPU job `7d8d021d-1ba` completed successfully.
+- Added and reproduced the human ProteinGym DMS SAME sibling association: PUMA positive-negative gap `0.02803`, matching the official 6,400-token reference.
+- `python validate.py --compare` passed for clinical, DMS, and vocabulary-structure experiments.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.

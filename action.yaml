@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: false
 milestone: secondary_claims
-notes: "CPU job to compute added DMS SAME sibling experiment from downloaded ProteinGym DMS parquets, then validate all three scoring experiments."
+notes: "Expanded PUMA reproduction validated: clinical association, DMS association, and vocabulary structure all pass with artifact-based evaluation."
