@@ -12,8 +12,10 @@ The paper addresses how to discover contiguous protein sequence units that act l
 ## Key Results
 
 - On ProteinGym ClinVar substitutions, PUMA(BLOSUM62, 0.7, 0.05) at 6,400 tokens has a benign SAME sibling rate of 0.158 versus 0.074 for pathogenic variants.
+- On human ProteinGym DMS substitutions, the same compact PUMA setting has a positive SAME sibling rate of 0.075 versus 0.047 for negative variants.
+- The released 6,400-token PUMA vocabulary has 94.1% family coverage, while the frequency-only BPE baseline has no genealogy.
 - The frequency-only BPE baseline has no genealogy and therefore zero SAME sibling rate under this metric.
-- The reproduced benchmark focuses on the clinical-substitution validation and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.
+- The reproduced benchmark focuses on clinical, DMS, and vocabulary-structure validations and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.
 
 ---
 
@@ -133,12 +135,37 @@ The compact reproduction uses ProteinGym clinical substitutions from ClinVar. Th
 
 </details>
 
+### Iteration 3: gpt-5.5
+- **Milestone**: `secondary_claims` | **Status**: done
+- **Working time**: 8m | **GPU**: 0.0h
+- **Jobs**: 4 total (4 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-12 14:21] - secondary_claims
+- Reproduced the core clinical SAME sibling-rate association for PUMA versus BPE on ProteinGym ClinVar substitutions.
+- Reproduced secondary DMS sibling-association and vocabulary-structure targets at the compact 6,400-token setting.
+- Verified the implementation runs the official mutation-aware PUMA merge code for a small fresh vocabulary and scores released PUMA/BPE vocabularies through a method-independent evaluator.
+
+### [2026-06-12 14:25] - core_claim_plus
+- Continuation reset starts this audit one level below the previous `secondary_claims` claim.
+- The method implementation remains a real PUMA reproduction using the official mutation-aware merge code and released PUMA/BPE vocabulary artifacts.
+- The evaluator has been made independent of method-side counters; a CPU test job is queued to verify the regenerated clinical, DMS, and vocabulary-structure scores before restoring `secondary_claims`.
+
+### [2026-06-12 14:34] - secondary_claims
+- CPU verification job `083b2b54-456` completed successfully with exit code 0.
+- `scripts/reproduce.sh` regenerated raw method artifacts and `scoring/scores.json` through the independent evaluator.
+- `python validate.py --compare` passed, confirming reproduced clinical, DMS, and vocabulary-structure metrics plus method/eval separation checks.
+
+</details>
+
 
 ---
 
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: secondary_claims**
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Completed at milestone `secondary_claims`.

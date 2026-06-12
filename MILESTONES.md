@@ -20,4 +20,4 @@
 - `python validate.py --compare` passed, confirming reproduced clinical, DMS, and vocabulary-structure metrics plus method/eval separation checks.
 
 ## Stop Justification
-- Completed at milestone `secondary_claims`. Higher milestones would require substantially broader paper coverage such as ESM-2 preference scoring, GO analysis, more vocabulary sizes, or the full hyperparameter grid.
+- Completed at milestone `secondary_claims`.
