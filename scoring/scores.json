@@ -22,6 +22,28 @@
         }
       }
     },
+    "dms_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "positive_same_sibling_rate": 0.0753931013349166,
+          "negative_same_sibling_rate": 0.04736253684317512,
+          "positive_negative_gap": 0.028030564491741482,
+          "positive_same_idx": 0.5517711459610264,
+          "negative_same_idx": 0.535739010711202,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400.0
+        },
+        "bpe_official_6400": {
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "positive_same_idx": 0.5634960054106607,
+          "negative_same_idx": 0.5522064142753798,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0
+        }
+      }
+    },
     "vocabulary_structure": {
       "results": {
         "puma_official_6400": {
