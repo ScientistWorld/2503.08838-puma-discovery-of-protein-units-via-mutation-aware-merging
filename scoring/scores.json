@@ -1,0 +1,26 @@
+{
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "benign_same_sibling_rate": 0.16476069462092333,
+          "pathogenic_same_sibling_rate": 0.07720588235294118,
+          "benign_pathogenic_gap": 0.08755481226798215,
+          "benign_same_idx": 0.59025,
+          "pathogenic_same_idx": 0.544,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400.0
+        },
+        "bpe_official_6400": {
+          "benign_same_sibling_rate": 0.0,
+          "pathogenic_same_sibling_rate": 0.0,
+          "benign_pathogenic_gap": 0.0,
+          "benign_same_idx": 0.5755,
+          "pathogenic_same_idx": 0.5725,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0
+        }
+      }
+    }
+  }
+}
