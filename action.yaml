@@ -1,5 +1,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: none
-notes: "CPU smoke job: install dependencies, run compact PUMA training/evaluation on ProteinGym clinical substitutions, validate scores."
+milestone: core_claim
+notes: "CPU rerun of the compact PUMA reproduction with expanded clinical and vocabulary-structure scoring."

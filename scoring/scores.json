@@ -21,6 +21,22 @@
           "vocab_size": 6400.0
         }
       }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "puma_official_6400": {
+          "family_coverage": 0.94125,
+          "mutated_vocab_fraction": 0.8371875,
+          "parent_vocab_fraction": 0.1040625,
+          "vocab_size": 6400.0
+        },
+        "bpe_official_6400": {
+          "family_coverage": 0.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
+          "vocab_size": 6400.0
+        }
+      }
     }
   }
 }

@@ -6,6 +6,8 @@ The primary metric is `benign_pathogenic_gap`: the SAME sibling rate for benign 
 
 The evaluation also reports the benign and pathogenic SAME sibling rates separately, SAME boundary rates (`benign_same_idx`, `pathogenic_same_idx`), vocabulary size, and family coverage. Family coverage is a constraint metric: a method should produce a meaningful genealogy rather than only a flat vocabulary.
 
+A secondary vocabulary-structure experiment reports `family_coverage`, `mutated_vocab_fraction`, `parent_vocab_fraction`, and `vocab_size` at the same fixed vocabulary budget. This prevents future systems from improving the clinical metric by discarding the family structure that the task is meant to evaluate.
+
 ## Baselines and Targets
 
 The baseline is frequency-only BPE at the same 6,400-token vocabulary size. The target is the paper's PUMA configuration trained on UniRef50-human with BLOSUM62, alignment cutoff 0.7, mutation length range 3-12, frequency cutoff 0.05, and vocabulary size 6,400.

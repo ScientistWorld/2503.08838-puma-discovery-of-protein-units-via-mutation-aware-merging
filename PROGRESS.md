@@ -7,25 +7,25 @@
 - `scripts/download.sh` fetches the 9 MB ProteinGym clinical substitutions parquet from a verified Hugging Face URL.
 - `method/run_puma.py` evaluates SAME sibling rates from method artifacts and optionally trains a small fresh PUMA vocabulary to exercise the actual mutation-aware merge algorithm.
 - `eval/evaluate_puma.py` reads raw method artifacts and writes `scoring/scores.json` without importing from `method/`.
+- The CPU container smoke job completed successfully and `python validate.py --compare` passes.
 
 ## Results
 
-No reproduced scores yet. A CPU job is being submitted to install dependencies, run compact PUMA training/evaluation, and write `scoring/scores.json`.
-
-Paper/reference targets for the compact 6,400-token ClinVar validation:
-- PUMA benign SAME sibling rate: 0.1579
-- PUMA pathogenic SAME sibling rate: 0.0744
-- BPE SAME sibling rate: 0.0 because BPE has no genealogy
+Core claim reproduced on the compact 6,400-token clinical validation:
+- PUMA benign SAME sibling rate: 0.1648 reproduced vs. 0.1579 paper.
+- PUMA pathogenic SAME sibling rate: 0.0772 reproduced vs. 0.0744 paper.
+- PUMA benign-pathogenic gap: 0.0876 reproduced vs. 0.0835 paper.
+- BPE baseline SAME sibling rate: 0.0 reproduced for both labels, matching the paper's no-genealogy baseline.
+- PUMA family coverage at 6,400 units: 0.94125 reproduced.
 
 ## Remaining
 
-- Run `scripts/method.sh` in the compute container.
-- Inspect `scoring/scores.json` and compare with `scoring/reference.json`.
-- If the reproduced clinical gap supports the paper's claim, advance to `core_claim`; otherwise diagnose counts, preprocessing, or tokenization mismatches and resubmit.
+- Rerun the expanded scoring suite in the compute container after adding the vocabulary-structure experiment to `scores.json`.
+- Higher milestones would require adding more paper settings, such as DMS assays, ESM-2 preference scoring, GO topic analysis, or larger vocabulary sizes.
 
 ## Issues
 
-- The paper's full 51,200-token grid and ESM-2/GO experiments are larger than the minimum core reproduction. This first job focuses on the clinical substitution validation and a small fresh PUMA training run.
+- The paper's full 51,200-token grid and ESM-2/GO experiments are larger than the compact core reproduction. Current results focus on the clinical substitution validation, vocabulary structure, and a small fresh PUMA training run.
 
 ## Deviations from Paper
 

@@ -2,7 +2,7 @@
   "experiments": {
     "clinical_sibling_association": {
       "description": "ProteinGym ClinVar single-substitution validation: benign variants should retain within-family unit substitutions more often than pathogenic variants.",
-      "weight": 1.0,
+      "weight": 0.8,
       "primary_metric": "benign_pathogenic_gap",
       "metrics": {
         "benign_same_sibling_rate": {"higher_is_better": true, "coefficient": 1.0},
@@ -32,6 +32,33 @@
           "benign_same_idx": 0.5820288345754548,
           "pathogenic_same_idx": 0.57034375,
           "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "description": "Vocabulary-level structure at 6400 units: the learned vocabulary should allocate most units to mutation-linked families while preserving the fixed vocabulary budget.",
+      "weight": 0.2,
+      "primary_metric": "family_coverage",
+      "metrics": {
+        "family_coverage": {"higher_is_better": true, "coefficient": 1.0},
+        "mutated_vocab_fraction": {"higher_is_better": true, "coefficient": 0.7},
+        "parent_vocab_fraction": {"higher_is_better": true, "coefficient": 0.3},
+        "vocab_size": {"higher_is_better": false, "coefficient": -0.1}
+      },
+      "results": {
+        "puma_official_6400": {
+          "type": "proposed",
+          "family_coverage": 0.94125,
+          "mutated_vocab_fraction": 0.8371875,
+          "parent_vocab_fraction": 0.1040625,
+          "vocab_size": 6400
+        },
+        "bpe_official_6400": {
+          "type": "baseline",
+          "family_coverage": 0.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
           "vocab_size": 6400
         }
       }
