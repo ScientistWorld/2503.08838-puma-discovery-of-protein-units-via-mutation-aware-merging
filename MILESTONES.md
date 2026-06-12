@@ -23,4 +23,4 @@
 - `python validate.py --compare` passed with clinical and vocabulary-structure experiments, import separation, artifact-based evaluation, and shared-path checks.
 
 ## Stop Justification
-- Stopping at `secondary_claims`: the compact environment is packaged and validated end to end. Higher milestones require larger paper settings such as DMS assays, ESM-2 preference scoring, GO topic analysis, or larger vocabulary grids.
+- Completed at milestone `secondary_claims`.

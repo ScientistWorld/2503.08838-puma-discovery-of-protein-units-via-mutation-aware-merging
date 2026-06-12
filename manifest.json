@@ -1,0 +1,130 @@
+{
+  "paper": {
+    "arxiv_id": "2503.08838",
+    "title": "PUMA: Discovery of Protein Units via Mutation-Aware Merging",
+    "date": null,
+    "topics": null
+  },
+  "reproduction": {
+    "milestone": "secondary_claims",
+    "status": "done",
+    "error": null,
+    "scaffold": "codex",
+    "model": "gpt-5.5",
+    "profile": "gpt-5.5-medium",
+    "effort": "medium",
+    "gpu_hours_used": 0.0,
+    "current_iteration_gpu_budget": 30,
+    "current_iteration_gpu_hours_used": 0.0,
+    "total_gpu_hours_used": 0.0,
+    "current_iteration_cpu_hours_used": 0.029,
+    "total_cpu_hours_used": 0.029,
+    "gpu_budget": 30,
+    "duration_sec": 1124.4,
+    "cost_usd": null,
+    "input_tokens": 4408227,
+    "output_tokens": 24911,
+    "cached_input_tokens": 4117248,
+    "cache_creation_tokens": null,
+    "reasoning_tokens": 0,
+    "total_input_tokens": 4408227,
+    "num_turns": 110,
+    "duration_api_ms": null,
+    "num_runs": 1,
+    "iteration_count": 0,
+    "workflow": "standard",
+    "workflow_step": 0,
+    "total_gpu_jobs": 2,
+    "time_breakdown": {
+      "working": 852.0812468528748,
+      "building": 5.650994062423706,
+      "installing": 34.041016578674316,
+      "waiting": 110.21887612342834
+    }
+  },
+  "agents": [
+    {
+      "scaffold": "codex",
+      "model": "gpt-5.5",
+      "profile": "gpt-5.5-medium",
+      "effort": "medium",
+      "role": "reproducer",
+      "is_iteration": false,
+      "iteration": 1,
+      "workflow": "standard",
+      "workflow_step": 0,
+      "started_at": 1781271734.675165,
+      "finished_at": 1781272859.0839655,
+      "duration_sec": 1124.4,
+      "blocked_sec": 0.0,
+      "status": "done",
+      "error": null,
+      "milestone": "secondary_claims",
+      "gpu_budget": 30,
+      "gpu_hours_used": 0.0,
+      "total_gpu_hours_used": 0.0,
+      "cpu_hours_used": 0.029,
+      "time_breakdown": {
+        "working": 852.0812468528748,
+        "building": 5.650994062423706,
+        "installing": 34.041016578674316,
+        "waiting": 110.21887612342834
+      },
+      "cost_usd": null,
+      "input_tokens": 4408227,
+      "output_tokens": 24911,
+      "cached_input_tokens": 4117248,
+      "cache_creation_tokens": null,
+      "reasoning_tokens": 0,
+      "total_input_tokens": 4408227,
+      "num_turns": 110,
+      "duration_api_ms": null,
+      "tool_uses": {
+        "shell": 93,
+        "file_edit": 17
+      },
+      "gpu_jobs": [
+        {
+          "run_id": "6d23f8f3-1cd",
+          "command": "bash /home/user/scripts/run.sh",
+          "num_gpus": 0,
+          "num_cpus": 1,
+          "resource": "gpu-cpu",
+          "hive_job_id": "9ab543f5",
+          "status": "completed",
+          "returncode": 0,
+          "duration_sec": 46.8,
+          "submitted_at": 1781272331.3174188,
+          "started_at": 1781272333.1256435,
+          "completed_at": 1781272379.9376762
+        },
+        {
+          "run_id": "9787ebdd-a21",
+          "command": "bash /home/user/scripts/run.sh",
+          "num_gpus": 0,
+          "num_cpus": 1,
+          "resource": "gpu-cpu",
+          "hive_job_id": "dddca3af",
+          "status": "completed",
+          "returncode": 0,
+          "duration_sec": 57.8,
+          "submitted_at": 1781272681.3074014,
+          "started_at": 1781272683.050002,
+          "completed_at": 1781272740.8652654
+        }
+      ],
+      "progress_log": "### [2026-06-12 13:55] - none\n- Read the paper and identified PUMA as a mutation-aware BPE algorithm for protein-unit discovery.\n- Cloned the official PUMA repository and inspected the released training, vocabulary, and validation code.\n- Downloaded the public ProteinGym clinical substitutions split used for the paper's ClinVar-style validation.\n- Implemented method and evaluation wrappers; the compute job will test whether the method executes end to end.\n\n### [2026-06-12 13:56] - core_claim\n- CPU smoke job completed successfully in the container.\n- The actual PUMA mutation-aware merge code ran end to end on a compact training subset and wrote a fresh small vocabulary checkpoint.\n- The released 6,400-token PUMA vocabulary reproduced the paper's clinical sibling-association claim on 4,000 benign and 4,000 pathogenic ProteinGym variants.\n- PUMA reproduced a benign-pathogenic SAME sibling gap of 0.0876 versus the paper's 0.0835; the BPE baseline remained at 0.0 because it has no mutation genealogy.\n- Expanded scoring now also records vocabulary-family structure at the fixed 6,400-unit budget.\n\n### [2026-06-12 14:00] - secondary_claims\n- Expanded scoring suite reran successfully inside the compute container.\n- The vocabulary-structure experiment reproduced the released 6,400-token PUMA family coverage of 0.94125, mutated vocabulary fraction of 0.83719, and parent vocabulary fraction of 0.10406.\n- `python validate.py --compare` passed with clinical and vocabulary-structure experiments, import separation, artifact-based evaluation, and shared-path checks."
+    }
+  ],
+  "components": {
+    "has_container": true,
+    "has_method_code": true,
+    "has_evaluation": true,
+    "has_download_script": true,
+    "has_reproduce_script": true,
+    "has_method_script": true,
+    "has_baseline": true,
+    "has_reference": true,
+    "has_data": true
+  }
+}
