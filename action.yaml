@@ -3,4 +3,4 @@ action: submit
 gpus: 0
 test: false
 milestone: secondary_claims
-notes: "CPU post-hoc scoring rerun after replacing raw vocab-size reward with normalized fixed-budget error."
+notes: "CPU post-hoc scoring rerun after making vocabulary_structure.family_coverage slice-observed while preserving global coverage as an audit metric."

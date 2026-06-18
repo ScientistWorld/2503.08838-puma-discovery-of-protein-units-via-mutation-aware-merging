@@ -294,8 +294,8 @@ def dms_metric_block(scored: dict[str, Any]) -> dict[str, float]:
 def structure_metric_block(scored: dict[str, Any]) -> dict[str, float]:
     vocab_size = float(scored["vocab_size"])
     return {
-        "family_coverage": float(scored["family_coverage"]),
-        "observed_family_coverage": float(scored["observed_family_coverage"]),
+        "family_coverage": float(scored["observed_family_coverage"]),
+        "global_family_coverage": float(scored["family_coverage"]),
         "observed_token_count": float(scored["observed_token_count"]),
         "mutated_vocab_fraction": float(scored["mutated_count"]) / vocab_size,
         "parent_vocab_fraction": float(scored["parent_count"]) / vocab_size,

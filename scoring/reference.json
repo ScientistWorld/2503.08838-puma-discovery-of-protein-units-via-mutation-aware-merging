@@ -157,22 +157,22 @@
     "vocabulary_structure": {
       "description": "Vocabulary-level structure at 6400 units: the learned vocabulary should allocate most units to mutation-linked families while preserving the fixed vocabulary budget.",
       "weight": 0.15,
-      "primary_metric": "observed_family_coverage",
+      "primary_metric": "family_coverage",
       "metrics": {
-        "observed_family_coverage": {
+        "family_coverage": {
           "higher_is_better": true,
           "coefficient": 1.0,
           "description": "Fraction of distinct tokens observed on the slice that participate in explicit parent or mutated-family structure."
+        },
+        "global_family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Fraction of all vocabulary entries participating in explicit parent or mutated-family structure."
         },
         "observed_token_count": {
           "higher_is_better": true,
           "coefficient": 0.0,
           "description": "Number of distinct tokens observed while scoring the slice, reported for auditability."
-        },
-        "family_coverage": {
-          "higher_is_better": true,
-          "coefficient": 0.6,
-          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
         },
         "mutated_vocab_fraction": {
           "higher_is_better": true,
