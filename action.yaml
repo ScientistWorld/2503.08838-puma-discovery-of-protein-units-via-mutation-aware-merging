@@ -1,9 +1,6 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
+# This iteration runs train/test evaluation on the compute node.
+action: submit
 gpus: 0
 test: false
 milestone: secondary_claims
-notes: "Improvements: added enrichment, boundary-coverage, family-shape, and slice-metadata checks. Notes: see DESIGN_NOTES.md."
+notes: "CPU post-hoc scoring: run evaluate_train.sh and evaluate_test.sh on outputs/puma_reproduction/raw_results.json."
