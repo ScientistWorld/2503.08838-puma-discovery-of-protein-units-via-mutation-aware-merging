@@ -7,31 +7,48 @@
       "metrics": {
         "benign_same_sibling_rate": {
           "higher_is_better": true,
-          "coefficient": 1.0
+          "coefficient": 1.0,
+          "description": "Rate at which benign substitutions keep the mutated unit in the same discovered family when token boundaries are unchanged."
         },
         "pathogenic_same_sibling_rate": {
           "higher_is_better": false,
-          "coefficient": -0.8
+          "coefficient": -0.8,
+          "description": "Rate at which pathogenic substitutions keep the mutated unit in the same discovered family; lower values preserve label separation."
         },
         "benign_pathogenic_gap": {
           "higher_is_better": true,
-          "coefficient": 1.5
+          "coefficient": 1.5,
+          "description": "Difference between benign and pathogenic same-family substitution rates."
+        },
+        "benign_pathogenic_log_ratio": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Log enrichment of benign over pathogenic same-family substitution rates, discouraging uniformly inflated sibling rates."
         },
         "benign_same_idx": {
           "higher_is_better": true,
-          "coefficient": 0.2
+          "coefficient": 0.2,
+          "description": "Fraction of benign substitutions whose token boundaries remain comparable before and after mutation."
         },
         "pathogenic_same_idx": {
           "higher_is_better": true,
-          "coefficient": 0.1
+          "coefficient": 0.1,
+          "description": "Fraction of pathogenic substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "minimum_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Lower of the benign and pathogenic boundary-preservation rates, penalizing methods that make one label mostly unscorable."
         },
         "family_coverage": {
           "higher_is_better": true,
-          "coefficient": 0.4
+          "coefficient": 0.4,
+          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
         },
         "vocab_size": {
           "higher_is_better": false,
-          "coefficient": -0.1
+          "coefficient": -0.1,
+          "description": "Vocabulary size penalty to discourage gains from expanding the token budget."
         }
       },
       "results": {
@@ -64,31 +81,48 @@
       "metrics": {
         "positive_same_sibling_rate": {
           "higher_is_better": true,
-          "coefficient": 1.0
+          "coefficient": 1.0,
+          "description": "Rate at which positive or high-fitness DMS substitutions keep the mutated unit in the same discovered family when token boundaries are unchanged."
         },
         "negative_same_sibling_rate": {
           "higher_is_better": false,
-          "coefficient": -0.8
+          "coefficient": -0.8,
+          "description": "Rate at which negative or low-fitness DMS substitutions keep the mutated unit in the same discovered family; lower values preserve fitness-bin separation."
         },
         "positive_negative_gap": {
           "higher_is_better": true,
-          "coefficient": 1.5
+          "coefficient": 1.5,
+          "description": "Difference between positive and negative DMS same-family substitution rates."
+        },
+        "positive_negative_log_ratio": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Log enrichment of positive over negative DMS same-family substitution rates, discouraging uniformly inflated sibling rates."
         },
         "positive_same_idx": {
           "higher_is_better": true,
-          "coefficient": 0.2
+          "coefficient": 0.2,
+          "description": "Fraction of positive DMS substitutions whose token boundaries remain comparable before and after mutation."
         },
         "negative_same_idx": {
           "higher_is_better": true,
-          "coefficient": 0.1
+          "coefficient": 0.1,
+          "description": "Fraction of negative DMS substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "minimum_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Lower of the positive and negative boundary-preservation rates, penalizing methods that make one fitness bin mostly unscorable."
         },
         "family_coverage": {
           "higher_is_better": true,
-          "coefficient": 0.4
+          "coefficient": 0.4,
+          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
         },
         "vocab_size": {
           "higher_is_better": false,
-          "coefficient": -0.1
+          "coefficient": -0.1,
+          "description": "Vocabulary size penalty to discourage gains from expanding the token budget."
         }
       },
       "results": {
@@ -117,19 +151,38 @@
       "metrics": {
         "family_coverage": {
           "higher_is_better": true,
-          "coefficient": 1.0
+          "coefficient": 1.0,
+          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
         },
         "mutated_vocab_fraction": {
           "higher_is_better": true,
-          "coefficient": 0.7
+          "coefficient": 0.7,
+          "description": "Fraction of vocabulary entries recorded as mutation-derived family members."
         },
         "parent_vocab_fraction": {
           "higher_is_better": true,
-          "coefficient": 0.3
+          "coefficient": 0.3,
+          "description": "Fraction of vocabulary entries recorded as family parents."
+        },
+        "family_count": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Number of multi-member families, discouraging a trivial genealogy with only one or a few giant families."
+        },
+        "mean_family_size": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Average size of multi-member families, rewarding non-trivial family expansion across the vocabulary."
+        },
+        "largest_family_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Fraction of the vocabulary occupied by the largest family, penalizing collapsed all-in-one genealogies."
         },
         "vocab_size": {
           "higher_is_better": false,
-          "coefficient": -0.1
+          "coefficient": -0.1,
+          "description": "Vocabulary size penalty to discourage gains from expanding the token budget."
         }
       },
       "results": {
