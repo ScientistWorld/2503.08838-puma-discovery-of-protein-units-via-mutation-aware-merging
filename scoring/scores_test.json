@@ -65,7 +65,7 @@
       "results": {
         "bpe_official_6400": {
           "family_coverage": 0.0,
-          "observed_family_coverage": 0.0,
+          "global_family_coverage": 0.0,
           "observed_token_count": 6375.0,
           "mutated_vocab_fraction": 0.0,
           "parent_vocab_fraction": 0.0,
@@ -76,8 +76,8 @@
           "vocab_budget_error": 0.0
         },
         "puma_official_6400": {
-          "family_coverage": 0.94125,
-          "observed_family_coverage": 0.9413634196726521,
+          "family_coverage": 0.9413634196726521,
+          "global_family_coverage": 0.94125,
           "observed_token_count": 6293.0,
           "mutated_vocab_fraction": 0.8371875,
           "parent_vocab_fraction": 0.1040625,
