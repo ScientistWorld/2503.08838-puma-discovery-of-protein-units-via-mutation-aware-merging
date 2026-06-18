@@ -15,7 +15,8 @@
           "pathogenic_same_idx": 0.5755,
           "minimum_same_idx": 0.5755,
           "family_coverage": 0.0,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         },
         "puma_official_6400": {
           "benign_same_sibling_rate": 0.15926236378876782,
@@ -26,7 +27,8 @@
           "pathogenic_same_idx": 0.547,
           "minimum_same_idx": 0.547,
           "family_coverage": 0.94125,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         }
       }
     },
@@ -41,7 +43,8 @@
           "negative_same_idx": 0.5521710045271395,
           "minimum_same_idx": 0.5521710045271395,
           "family_coverage": 0.0,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         },
         "puma_official_6400": {
           "positive_same_sibling_rate": 0.0756668897600153,
@@ -52,7 +55,8 @@
           "negative_same_idx": 0.5338446459963596,
           "minimum_same_idx": 0.5338446459963596,
           "family_coverage": 0.94125,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         }
       }
     },
@@ -60,21 +64,27 @@
       "results": {
         "bpe_official_6400": {
           "family_coverage": 0.0,
+          "observed_family_coverage": 0.0,
+          "observed_token_count": 6370.0,
           "mutated_vocab_fraction": 0.0,
           "parent_vocab_fraction": 0.0,
           "family_count": 0.0,
           "mean_family_size": 0.0,
           "largest_family_fraction": 0.0,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         },
         "puma_official_6400": {
           "family_coverage": 0.94125,
+          "observed_family_coverage": 0.9413541004450096,
+          "observed_token_count": 6292.0,
           "mutated_vocab_fraction": 0.8371875,
           "parent_vocab_fraction": 0.1040625,
           "family_count": 666.0,
           "mean_family_size": 9.045045045045045,
           "largest_family_fraction": 0.00703125,
-          "vocab_size": 6400.0
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
         }
       }
     }
