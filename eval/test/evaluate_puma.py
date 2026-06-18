@@ -23,6 +23,7 @@ from tokenizers import Tokenizer
 
 ROOT = Path(__file__).resolve().parents[2]
 SLICE_NAME = "test"
+TARGET_VOCAB_SIZE = 6400.0
 
 
 def resolve_workspace_path(path_value: str | Path) -> Path:
@@ -180,6 +181,7 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
     label_counts: Counter[str] = Counter()
     same_counts: Counter[str] = Counter()
     sibling_counts: Counter[str] = Counter()
+    observed_tokens: set[str] = set()
     usable = 0
 
     for row in variants.itertuples(index=False):
@@ -193,6 +195,8 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
         usable += 1
         original = tokenizer.encode(row.target_seq)
         mutated = tokenizer.encode(row.mutated_sequence)
+        observed_tokens.update(original.tokens)
+        observed_tokens.update(mutated.tokens)
         if original.offsets != mutated.offsets:
             continue
         same_counts[label] += 1
@@ -223,12 +227,19 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
     vocab_size = len(vocab)
     parent_count = sum("is_parent" in entry for entry in vocab.values())
     mutated_count = sum("parent" in entry for entry in vocab.values())
+    observed_family_tokens = sum(
+        1
+        for token in observed_tokens
+        if token in vocab and ("is_parent" in vocab[token] or "parent" in vocab[token])
+    )
     return {
         "labels": labels,
         "vocab_size": float(vocab_size),
         "parent_count": parent_count,
         "mutated_count": mutated_count,
         "family_coverage": (parent_count + mutated_count) / vocab_size,
+        "observed_family_coverage": observed_family_tokens / len(observed_tokens) if observed_tokens else 0.0,
+        "observed_token_count": float(len(observed_tokens)),
         "usable_variant_count": usable,
         **family_stats,
     }
@@ -253,6 +264,7 @@ def clinical_metric_block(scored: dict[str, Any]) -> dict[str, float]:
         "minimum_same_idx": min(float(benign["same_idx"]), float(pathogenic["same_idx"])),
         "family_coverage": float(scored["family_coverage"]),
         "vocab_size": float(scored["vocab_size"]),
+        "vocab_budget_error": abs(float(scored["vocab_size"]) - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 
@@ -275,6 +287,7 @@ def dms_metric_block(scored: dict[str, Any]) -> dict[str, float]:
         "minimum_same_idx": min(float(positive["same_idx"]), float(negative["same_idx"])),
         "family_coverage": float(scored["family_coverage"]),
         "vocab_size": float(scored["vocab_size"]),
+        "vocab_budget_error": abs(float(scored["vocab_size"]) - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 
@@ -282,12 +295,15 @@ def structure_metric_block(scored: dict[str, Any]) -> dict[str, float]:
     vocab_size = float(scored["vocab_size"])
     return {
         "family_coverage": float(scored["family_coverage"]),
+        "observed_family_coverage": float(scored["observed_family_coverage"]),
+        "observed_token_count": float(scored["observed_token_count"]),
         "mutated_vocab_fraction": float(scored["mutated_count"]) / vocab_size,
         "parent_vocab_fraction": float(scored["parent_count"]) / vocab_size,
         "family_count": float(scored["family_count"]),
         "mean_family_size": float(scored["mean_family_size"]),
         "largest_family_fraction": float(scored["largest_family_fraction"]),
         "vocab_size": vocab_size,
+        "vocab_budget_error": abs(vocab_size - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 

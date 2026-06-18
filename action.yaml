@@ -3,4 +3,4 @@ action: submit
 gpus: 0
 test: false
 milestone: secondary_claims
-notes: "CPU post-hoc scoring: run evaluate_train.sh and evaluate_test.sh on outputs/puma_reproduction/raw_results.json."
+notes: "CPU post-hoc scoring rerun after replacing raw vocab-size reward with normalized fixed-budget error."
