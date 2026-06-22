@@ -6,7 +6,8 @@
 
 set -euo pipefail
 
-cd /home/user
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
 mkdir -p data/downloads/proteingym_clinical_substitutions
 mkdir -p data/downloads/proteingym_dms_substitutions
@@ -14,7 +15,9 @@ mkdir -p data/downloads/proteingym_dms_substitutions
 if [ ! -e data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet ]; then
   curl -L --fail \
     https://huggingface.co/datasets/OATML-Markslab/ProteinGym_v1/resolve/main/clinical_substitutions/train-00000-of-00001.parquet \
-    -o data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet
+    -o data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet.tmp
+  mv data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet.tmp \
+    data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet
 fi
 
 for shard in 0 1 2 3 4; do
@@ -22,6 +25,8 @@ for shard in 0 1 2 3 4; do
   if [ ! -e "data/downloads/proteingym_dms_substitutions/$file" ]; then
     curl -L --fail \
       "https://huggingface.co/datasets/OATML-Markslab/ProteinGym_v1/resolve/main/DMS_substitutions/$file" \
-      -o "data/downloads/proteingym_dms_substitutions/$file"
+      -o "data/downloads/proteingym_dms_substitutions/$file.tmp"
+    mv "data/downloads/proteingym_dms_substitutions/$file.tmp" \
+      "data/downloads/proteingym_dms_substitutions/$file"
   fi
 done

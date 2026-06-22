@@ -6,7 +6,8 @@
 
 set -euo pipefail
 
-cd /home/user
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
 RAW_PATH="${1:-outputs/puma_reproduction/raw_results.json}"
 python eval/test/evaluate_puma.py \

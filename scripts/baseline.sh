@@ -3,7 +3,8 @@
 
 set -euo pipefail
 
-cd /home/user
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
 mkdir -p outputs/bpe_baseline
 python baseline/run_bpe.py

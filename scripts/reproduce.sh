@@ -4,7 +4,8 @@
 
 set -euo pipefail
 
-cd /home/user
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
 if [ ! -e data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet ]; then
   echo "Missing ProteinGym clinical parquet. Run bash scripts/download.sh before reproduce.sh." >&2
