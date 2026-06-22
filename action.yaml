@@ -1,3 +1,4 @@
 action: done
 gpus: 0
-notes: "Deterministic label-stratified even/odd split; 60 train metric values and 60 test metric values; PUMA primary gaps train/test: clinical 0.0733/0.1020, DMS 0.0283/0.0277; structural vocabulary metrics are intentionally mostly artifact-level constants."
+milestone: secondary_claims
+notes: "Validated reproduction exceeds core_claim: PUMA clinical benign-pathogenic sibling gap 0.0876 vs BPE 0.0, DMS positive-negative gap 0.0280 vs BPE 0.0, and family coverage constraint 0.94125 at 6400 tokens; validate.py --compare passes, including train/test split checks."
