@@ -1,3 +1,5 @@
-action: done
+action: submit
+gpus: 0
+test: true
 milestone: secondary_claims
-notes: "Final verification passed after method-agnostic documentation cleanup and data separation fixes."
+notes: "CPU test verification after tightening eval/evaluate_puma.py to emit all reference-declared benefit and constraint metrics."

@@ -29,5 +29,10 @@
 - Removed method-specific details from the method-agnostic evaluation briefing and moved the benchmark FASTA reference to tracked `data/uniref50_human.fasta`.
 - Verified download URLs, shell scripts, Python syntax, method/eval separation, and train/test score wiring.
 
+### [2026-06-22 22:32] - secondary_claims
+- Tightened the default method-independent evaluator so `scripts/evaluate.sh` emits all benefit and constraint metrics declared in `scoring/reference.json`, matching the richer train/test evaluators.
+- Local `python -m py_compile ...` and `python validate.py --compare` passed; direct local evaluator execution is deferred to the packaged CPU test job because the login-node Python environment lacks declared container dependencies.
+- Submitting a CPU test job to regenerate method artifacts, default/train/test scores, and validation output inside the reproducible container.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.

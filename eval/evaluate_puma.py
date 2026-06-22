@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 from collections import Counter
 from pathlib import Path
@@ -20,6 +21,7 @@ import pandas as pd
 from tokenizers import Tokenizer
 
 ROOT = Path(__file__).resolve().parents[1]
+TARGET_VOCAB_SIZE = 6400.0
 
 
 def resolve_workspace_path(path_value: str | Path) -> Path:
@@ -113,6 +115,31 @@ def build_family_dictionary(vocab: dict[str, dict[str, Any]]) -> dict[str, list[
     return families
 
 
+def family_statistics(vocab: dict[str, dict[str, Any]]) -> dict[str, float]:
+    parent_to_members: dict[str, set[str]] = {}
+    for token, entry in vocab.items():
+        if "is_parent" in entry:
+            parent_to_members.setdefault(token, {token})
+    for token, entry in vocab.items():
+        parent = entry.get("parent")
+        if parent is not None:
+            parent_to_members.setdefault(parent, {parent}).add(token)
+
+    multi_member_sizes = [len(members) for members in parent_to_members.values() if len(members) > 1]
+    if not multi_member_sizes:
+        return {
+            "family_count": 0.0,
+            "mean_family_size": 0.0,
+            "largest_family_fraction": 0.0,
+        }
+
+    return {
+        "family_count": float(len(multi_member_sizes)),
+        "mean_family_size": sum(multi_member_sizes) / len(multi_member_sizes),
+        "largest_family_fraction": max(multi_member_sizes) / len(vocab),
+    }
+
+
 def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dict[str, Any]:
     tokenizer_path = resolve_workspace_path(method_result["tokenizer_path"])
     vocab_path = resolve_workspace_path(method_result["vocab_path"])
@@ -121,10 +148,12 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
     with vocab_path.open() as handle:
         vocab = json.load(handle)
     families = build_family_dictionary(vocab)
+    family_stats = family_statistics(vocab)
 
     label_counts: Counter[str] = Counter()
     same_counts: Counter[str] = Counter()
     sibling_counts: Counter[str] = Counter()
+    observed_tokens: set[str] = set()
     usable = 0
 
     for row in variants.itertuples(index=False):
@@ -138,6 +167,8 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
         usable += 1
         original = tokenizer.encode(row.target_seq)
         mutated = tokenizer.encode(row.mutated_sequence)
+        observed_tokens.update(original.tokens)
+        observed_tokens.update(mutated.tokens)
         if original.offsets != mutated.offsets:
             continue
         same_counts[label] += 1
@@ -168,13 +199,21 @@ def score_artifact(method_result: dict[str, Any], variants: pd.DataFrame) -> dic
     vocab_size = len(vocab)
     parent_count = sum("is_parent" in entry for entry in vocab.values())
     mutated_count = sum("parent" in entry for entry in vocab.values())
+    observed_family_tokens = sum(
+        1
+        for token in observed_tokens
+        if token in vocab and ("is_parent" in vocab[token] or "parent" in vocab[token])
+    )
     return {
         "labels": labels,
         "vocab_size": float(vocab_size),
         "parent_count": parent_count,
         "mutated_count": mutated_count,
         "family_coverage": (parent_count + mutated_count) / vocab_size,
+        "observed_family_coverage": observed_family_tokens / len(observed_tokens) if observed_tokens else 0.0,
+        "observed_token_count": float(len(observed_tokens)),
         "usable_variant_count": usable,
+        **family_stats,
     }
 
 
@@ -186,14 +225,18 @@ def clinical_metric_block(scored: dict[str, Any]) -> dict[str, float]:
         raise ValueError(f"Expected benign/pathogenic labels, got {sorted(labels)}")
     benign_rate = float(benign["same_sibling_rate"])
     pathogenic_rate = float(pathogenic["same_sibling_rate"])
+    eps = 1e-9
     return {
         "benign_same_sibling_rate": benign_rate,
         "pathogenic_same_sibling_rate": pathogenic_rate,
         "benign_pathogenic_gap": benign_rate - pathogenic_rate,
+        "benign_pathogenic_log_ratio": math.log((benign_rate + eps) / (pathogenic_rate + eps)),
         "benign_same_idx": float(benign["same_idx"]),
         "pathogenic_same_idx": float(pathogenic["same_idx"]),
+        "minimum_same_idx": min(float(benign["same_idx"]), float(pathogenic["same_idx"])),
         "family_coverage": float(scored["family_coverage"]),
         "vocab_size": float(scored["vocab_size"]),
+        "vocab_budget_error": abs(float(scored["vocab_size"]) - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 
@@ -205,24 +248,34 @@ def dms_metric_block(scored: dict[str, Any]) -> dict[str, float]:
         raise ValueError(f"Expected Positive/Negative DMS labels, got {sorted(labels)}")
     positive_rate = float(positive["same_sibling_rate"])
     negative_rate = float(negative["same_sibling_rate"])
+    eps = 1e-9
     return {
         "positive_same_sibling_rate": positive_rate,
         "negative_same_sibling_rate": negative_rate,
         "positive_negative_gap": positive_rate - negative_rate,
+        "positive_negative_log_ratio": math.log((positive_rate + eps) / (negative_rate + eps)),
         "positive_same_idx": float(positive["same_idx"]),
         "negative_same_idx": float(negative["same_idx"]),
+        "minimum_same_idx": min(float(positive["same_idx"]), float(negative["same_idx"])),
         "family_coverage": float(scored["family_coverage"]),
         "vocab_size": float(scored["vocab_size"]),
+        "vocab_budget_error": abs(float(scored["vocab_size"]) - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 
 def structure_metric_block(scored: dict[str, Any]) -> dict[str, float]:
     vocab_size = float(scored["vocab_size"])
     return {
-        "family_coverage": float(scored["family_coverage"]),
+        "family_coverage": float(scored["observed_family_coverage"]),
+        "global_family_coverage": float(scored["family_coverage"]),
+        "observed_token_count": float(scored["observed_token_count"]),
         "mutated_vocab_fraction": float(scored["mutated_count"]) / vocab_size,
         "parent_vocab_fraction": float(scored["parent_count"]) / vocab_size,
+        "family_count": float(scored["family_count"]),
+        "mean_family_size": float(scored["mean_family_size"]),
+        "largest_family_fraction": float(scored["largest_family_fraction"]),
         "vocab_size": vocab_size,
+        "vocab_budget_error": abs(vocab_size - TARGET_VOCAB_SIZE) / TARGET_VOCAB_SIZE,
     }
 
 
