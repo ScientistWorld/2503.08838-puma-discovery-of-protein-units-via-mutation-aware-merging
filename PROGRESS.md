@@ -14,6 +14,7 @@
 - `scripts/run.sh` now regenerates method artifacts before scoring, so submitted verification jobs do not depend on ignored `outputs/` files.
 - Final verification copied the UniRef50-human FASTA into tracked `data/uniref50_human.fasta`, so from-scratch agents can access benchmark data without depending on `method/`.
 - 2026-06-22 audit tightened the default evaluator so `scripts/evaluate.sh` reports the same log-ratio, minimum SAME-index, vocabulary-budget, observed-token, and family-size constraint metrics declared in `scoring/reference.json`.
+- `scripts/run.sh` now preflights all five ProteinGym DMS shards before starting Python evaluation, so partial downloads fail immediately with a clear message.
 
 ## Results
 
@@ -47,6 +48,7 @@ Secondary DMS sibling-association claim reproduced on human ProteinGym DMS subst
 - A 2026-06-22 audit found that the previous `scripts/run.sh` assumed `outputs/puma_reproduction/raw_results.json` already existed even though `outputs/` is gitignored. This was fixed by making `scripts/run.sh` call `scripts/method.sh` before evaluation.
 - A final 2026-06-22 verification found method details in `briefing/evaluation.md` and a problem-data path pointing into `method/`; both were corrected.
 - The login-node Python environment does not have the packaged dependencies such as `pandas`, so local evaluator execution is intentionally skipped; the CPU test job validates inside the declared container environment.
+- A background integrity audit noted that the scored reproduction uses official released 6,400-token vocabularies while the submitted run trains only a smaller fresh vocabulary as an algorithm sanity check. This remains a documented scale deviation, not an algorithm substitution.
 
 ## Deviations from Paper
 

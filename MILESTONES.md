@@ -32,6 +32,7 @@
 ### [2026-06-22 22:32] - secondary_claims
 - Tightened the default method-independent evaluator so `scripts/evaluate.sh` emits all benefit and constraint metrics declared in `scoring/reference.json`, matching the richer train/test evaluators.
 - Local `python -m py_compile ...` and `python validate.py --compare` passed; direct local evaluator execution is deferred to the packaged CPU test job because the login-node Python environment lacks declared container dependencies.
+- Added explicit DMS shard preflight checks to `scripts/run.sh` after background audit found that partial downloads would otherwise fail later inside Python.
 - Submitting a CPU test job to regenerate method artifacts, default/train/test scores, and validation output inside the reproducible container.
 
 ## Stop Justification

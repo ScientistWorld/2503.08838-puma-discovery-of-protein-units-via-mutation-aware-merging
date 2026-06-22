@@ -14,6 +14,13 @@ if [ ! -e data/uniref50_human.fasta ]; then
   echo "Missing tracked UniRef50-human FASTA at data/uniref50_human.fasta." >&2
   exit 1
 fi
+for shard in 0 1 2 3 4; do
+  file=$(printf "data/downloads/proteingym_dms_substitutions/train-%05d-of-00005.parquet" "$shard")
+  if [ ! -e "$file" ]; then
+    echo "Missing ProteinGym DMS shard $file. Run scripts/download.sh on an internet-enabled node before submitting." >&2
+    exit 1
+  fi
+done
 
 bash scripts/method.sh
 bash scripts/evaluate_train.sh outputs/puma_reproduction/raw_results.json
