@@ -24,5 +24,10 @@
 - Updated `scripts/run.sh` to regenerate raw PUMA artifacts before scoring train/test slices, removing dependence on ignored `outputs/` state.
 - Submitting a CPU test verification job for the refreshed end-to-end job wrapper.
 
+### [2026-06-22 22:28] - secondary_claims
+- Final verification confirmed the reproduced clinical, DMS, and vocabulary-structure scores are plausible and pass `python validate.py --compare`.
+- Removed method-specific details from the method-agnostic evaluation briefing and moved the benchmark FASTA reference to tracked `data/uniref50_human.fasta`.
+- Verified download URLs, shell scripts, Python syntax, method/eval separation, and train/test score wiring.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.

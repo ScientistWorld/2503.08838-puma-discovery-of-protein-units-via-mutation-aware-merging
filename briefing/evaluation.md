@@ -12,8 +12,8 @@ A secondary vocabulary-structure experiment reports `family_coverage`, `mutated_
 
 ## Baselines and Targets
 
-The baseline is frequency-only BPE at the same 6,400-token vocabulary size. The target is the paper's PUMA configuration trained on UniRef50-human with BLOSUM62, alignment cutoff 0.7, mutation length range 3-12, frequency cutoff 0.05, and vocabulary size 6,400.
+Scores are reported at a fixed 6,400-token vocabulary budget. `scoring/reference.json` records the published comparison groups and the compact reproduced reference systems. The evaluator accepts any method that emits the required raw artifact schema; it does not require a particular tokenization algorithm.
 
 ## Evaluation Protocol
 
-The compact reproduction uses ProteinGym clinical substitutions from ClinVar. The method writes raw tokenization and family-count artifacts to `outputs/puma_reproduction/raw_results.json`; `scripts/evaluate.sh` reads only that artifact and writes `scoring/scores.json`. The evaluator does not import from `method/`, so a future method can be scored by writing the same raw artifact schema.
+The compact reproduction uses ProteinGym clinical substitutions from ClinVar and human ProteinGym DMS substitutions. A candidate method writes raw tokenization and family-count artifacts to `outputs/puma_reproduction/raw_results.json`; `scripts/evaluate.sh` reads only that artifact and writes `scoring/scores.json`. The evaluator does not import from `method/`, so a future method can be scored by writing the same raw artifact schema.

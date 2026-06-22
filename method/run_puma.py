@@ -52,7 +52,7 @@ def read_fasta_sequences(path: Path, limit: int | None = None) -> list[str]:
 
 
 def train_small_vocab(output_dir: Path, n_sequences: int, vocab_size: int) -> dict[str, object]:
-    fasta_path = ROOT / "method" / "PUMA_official" / "RSRC" / "dataset" / "uniref_50.fasta"
+    fasta_path = ROOT / "data" / "uniref50_human.fasta"
     sequences = read_fasta_sequences(fasta_path, limit=n_sequences)
     matrix = substitution_matrices.load("BLOSUM62")
     output_dir.mkdir(parents=True, exist_ok=True)

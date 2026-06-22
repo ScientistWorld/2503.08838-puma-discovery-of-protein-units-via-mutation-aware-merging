@@ -10,7 +10,7 @@ The contribution space is mutation-aware protein-unit discovery with an explicit
 
 ## Approach Scope
 
-In-bounds work may modify substitution scoring, candidate search, merge ordering, frequency thresholds, genealogy construction, or family post-processing. It may also introduce additional biologically motivated constraints if they operate within the same protein-unit discovery problem.
+In-bounds work may modify how sequence units are proposed, scored, accepted, organized into families, or post-processed. It may also introduce additional biologically motivated constraints if they operate within the same protein-unit discovery problem.
 
 ## Out of Bounds
 

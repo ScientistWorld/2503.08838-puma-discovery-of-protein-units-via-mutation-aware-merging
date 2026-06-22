@@ -10,6 +10,10 @@ if [ ! -e data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.
   echo "Missing ProteinGym clinical data. Run scripts/download.sh on an internet-enabled node before submitting." >&2
   exit 1
 fi
+if [ ! -e data/uniref50_human.fasta ]; then
+  echo "Missing tracked UniRef50-human FASTA at data/uniref50_human.fasta." >&2
+  exit 1
+fi
 
 bash scripts/method.sh
 bash scripts/evaluate_train.sh outputs/puma_reproduction/raw_results.json

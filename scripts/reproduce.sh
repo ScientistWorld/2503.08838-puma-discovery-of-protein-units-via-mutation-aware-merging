@@ -11,6 +11,10 @@ if [ ! -e data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.
   echo "Missing ProteinGym clinical parquet. Run bash scripts/download.sh before reproduce.sh." >&2
   exit 1
 fi
+if [ ! -e data/uniref50_human.fasta ]; then
+  echo "Missing tracked UniRef50-human FASTA at data/uniref50_human.fasta." >&2
+  exit 1
+fi
 for shard in 0 1 2 3 4; do
   file=$(printf "data/downloads/proteingym_dms_substitutions/train-%05d-of-00005.parquet" "$shard")
   if [ ! -e "$file" ]; then

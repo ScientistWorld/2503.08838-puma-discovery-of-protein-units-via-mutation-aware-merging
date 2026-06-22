@@ -2,7 +2,7 @@
 
 ## Data
 
-Use the provided ProteinGym clinical substitutions parquet at `data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet` and the released UniRef50-human FASTA in `method/PUMA_official/RSRC/dataset/uniref_50.fasta`. Do not add external clinical-variant datasets for scoring this benchmark; doing so changes the evaluation population rather than improving the method.
+Use the provided ProteinGym clinical substitutions parquet at `data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet`, the ProteinGym DMS parquet shards in `data/downloads/proteingym_dms_substitutions/`, and the released UniRef50-human FASTA at `data/uniref50_human.fasta`. Do not add external clinical-variant datasets for scoring this benchmark; doing so changes the evaluation population rather than improving the method.
 
 ## Vocabulary Scale
 

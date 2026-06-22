@@ -12,6 +12,7 @@
 - `baseline/run_bpe.py` now writes a BPE-only raw artifact without delegating to the combined PUMA method runner.
 - DMS sibling-association scoring has been added as an additional secondary validation target and was reproduced in CPU job `7d8d021d-1ba`.
 - `scripts/run.sh` now regenerates method artifacts before scoring, so submitted verification jobs do not depend on ignored `outputs/` files.
+- Final verification copied the UniRef50-human FASTA into tracked `data/uniref50_human.fasta`, so from-scratch agents can access benchmark data without depending on `method/`.
 
 ## Results
 
@@ -41,8 +42,9 @@ Secondary DMS sibling-association claim reproduced on human ProteinGym DMS subst
 ## Issues
 
 - The paper's full 51,200-token grid and ESM-2/GO experiments are larger than the compact reproduction. Current results focus on clinical substitutions, DMS substitutions, vocabulary structure, and a small fresh PUMA training run.
-- The official compact UniRef50-human FASTA, released 6,400-token vocabularies, and released result CSVs are tracked under `method/PUMA_official/RSRC` and `method/PUMA_official/Prog/result_files`; `scripts/download.sh` fetches external ProteinGym clinical and DMS parquets.
+- The official released 6,400-token vocabularies and released result CSVs remain under `method/PUMA_official/RSRC` and `method/PUMA_official/Prog/result_files`; the compact UniRef50-human FASTA used as benchmark data is also tracked at `data/uniref50_human.fasta`. `scripts/download.sh` fetches external ProteinGym clinical and DMS parquets.
 - A 2026-06-22 audit found that the previous `scripts/run.sh` assumed `outputs/puma_reproduction/raw_results.json` already existed even though `outputs/` is gitignored. This was fixed by making `scripts/run.sh` call `scripts/method.sh` before evaluation.
+- A final 2026-06-22 verification found method details in `briefing/evaluation.md` and a problem-data path pointing into `method/`; both were corrected.
 
 ## Deviations from Paper
 
