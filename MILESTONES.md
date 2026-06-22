@@ -35,5 +35,10 @@
 - Added explicit DMS shard preflight checks to `scripts/run.sh` after background audit found that partial downloads would otherwise fail later inside Python.
 - Submitting a CPU test job to regenerate method artifacts, default/train/test scores, and validation output inside the reproducible container.
 
+### [2026-06-22 22:48] - secondary_claims
+- CPU verification job `adc14804-28b` completed successfully with exit code 0.
+- The job regenerated raw method artifacts plus `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json` inside the packaged container.
+- `python validate.py --compare` passed after regeneration, including method/eval separation, shared-path portability, train/test independence, and method-key consistency checks.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.
