@@ -1,6 +1,3 @@
-# This iteration runs train/test evaluation on the compute node.
-action: submit
+action: done
 gpus: 0
-test: false
-milestone: secondary_claims
-notes: "CPU post-hoc scoring rerun after making vocabulary_structure.family_coverage slice-observed while preserving global coverage as an audit metric."
+notes: "Deterministic label-stratified even/odd split; 60 train metric values and 60 test metric values; PUMA primary gaps train/test: clinical 0.0733/0.1020, DMS 0.0283/0.0277; structural vocabulary metrics are intentionally mostly artifact-level constants."
