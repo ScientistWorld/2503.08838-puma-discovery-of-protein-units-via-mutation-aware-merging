@@ -1,4 +1,5 @@
-action: done
+action: submit
 gpus: 0
+test: true
 milestone: secondary_claims
-notes: "Packaging audit complete: download URLs resolve, scripts no longer hard-code /home/user, and downloads write through temp files."
+notes: "CPU test verification after making scripts/run.sh self-contained: regenerate PUMA artifacts, evaluate standard/train/test scores, and run validate.py --compare."

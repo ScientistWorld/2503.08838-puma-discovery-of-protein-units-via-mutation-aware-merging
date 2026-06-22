@@ -19,5 +19,10 @@
 - `scripts/reproduce.sh` regenerated raw method artifacts and `scoring/scores.json` through the independent evaluator.
 - `python validate.py --compare` passed, confirming reproduced clinical, DMS, and vocabulary-structure metrics plus method/eval separation checks.
 
+### [2026-06-22 22:24] - secondary_claims
+- Audited the resumed workspace and confirmed `python validate.py --compare` still passes.
+- Updated `scripts/run.sh` to regenerate raw PUMA artifacts before scoring train/test slices, removing dependence on ignored `outputs/` state.
+- Submitting a CPU test verification job for the refreshed end-to-end job wrapper.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.
