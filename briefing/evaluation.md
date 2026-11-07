@@ -13,11 +13,22 @@ A method writes one directory per system under `outputs/<method_name>/` with two
 
 A submission is scored as failed — the worst value on every scored metric (`gap = -1`, `compression_vs_bpe = 0`) and `valid = 0` — if any of these fail:
 
-- at most **6,400** vocabulary units; `vocab.json` units equal the tokenizer's units; units are uppercase residue strings;
+- at most **6,400** vocabulary units; `vocab.json` units equal the tokenizer's units; units are uppercase residue strings; Unigram scores are finite;
 - every parent link points to an existing unit of the same length;
 - segmentation is **lossless**: on every scored wild-type and mutated sequence the units concatenate back to the sequence;
 - the segmentation is a real unit vocabulary: at least **2.0 residues per unit** on average and at least **3,200 distinct units** used on the scored proteins;
+- **granularity is not sacrificed**: residues per unit on the scored proteins are at least **0.95×** those of the frequency-only baseline (`compression_vs_bpe ≥ 0.95` before capping);
 - for each label, at least **20%** of variants leave every unit boundary unchanged.
+
+## Both biological tasks must be solved
+
+A valid submission *solves* the two biological tasks when its benign−pathogenic gap is at least **0.04** and its positive−negative gap is at least **0.014** (about half of the published effect at this vocabulary size). If either gap is below its minimum, `task_solved = 0` and **neither** gap earns credit: each is scored as `min(measured gap, 0)`. With the weights below, a valid submission that solves both tasks always ranks above one that does not, and any valid submission ranks above a failed one:
+
+| Outcome | Rank score S = 0.6·clinical gap + 0.3·DMS gap + 0.1·compression |
+|---|---|
+| constraint violated | −0.9 |
+| valid, a task not solved | ≤ 0.1 |
+| valid, both tasks solved | ≥ 0.6·0.04 + 0.3·0.014 + 0.1·0.95 ≈ 0.123 |
 
 ## Metrics
 
@@ -29,7 +40,7 @@ A submission is scored as failed — the worst value on every scored metric (`ga
 | `dms_sibling_association` | 0.3 | `positive_negative_gap` | positive (high-fitness) minus negative (low-fitness) SAME sibling rate on human DMS variants of held-out protein regions |
 | `vocabulary_structure` | 0.1 | `compression_vs_bpe` | residues per unit on the scored proteins divided by the BPE baseline's, capped at 1 |
 
-All other reported metrics (per-label rates, `*_same_idx`, family coverage and family-shape statistics, vocabulary size, residues per unit, distinct units used, `valid`) have coefficient 0: they are for auditing. The rank of a method is the sum over experiments of weight × coefficient × (metric − reference metric).
+All other reported metrics (per-label rates, `*_same_idx`, family coverage and family-shape statistics, vocabulary size, residues per unit, distinct units used, `task_solved`, `valid`) have coefficient 0: they are for auditing. The rank of a method is the sum over experiments of weight × coefficient × (metric − reference metric).
 
 ## Data and splits
 
@@ -39,4 +50,4 @@ The unlabeled training corpus is `data/uniref50_human.fasta` (human UniRef50 rep
 
 ## Baselines and targets
 
-`bpe_6400` is a frequency-only 6,400-unit vocabulary without families (sibling gaps 0, compression ratio 1 by definition). `scoring/reference.json` lists the published numbers; `scoring/scores_train.json` and `scoring/scores_test.json` hold the reproduced reference.
+`bpe_6400` is a frequency-only 6,400-unit vocabulary without families: its sibling gaps are 0, so it does not solve the biological tasks (`task_solved = 0`, S = 0.1 from its compression ratio of 1 by definition). `scoring/reference.json` lists the published numbers; `scoring/scores_train.json` and `scoring/scores_test.json` hold the reproduced reference.

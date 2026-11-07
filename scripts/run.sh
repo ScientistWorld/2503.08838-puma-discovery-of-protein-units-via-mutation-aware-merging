@@ -20,4 +20,7 @@ for shard in 0 1 2 3 4; do
   [ -s "$file" ] || { echo "Missing $file. Run scripts/download.sh first." >&2; exit 1; }
 done
 
-bash scripts/reproduce.sh
+# Hardening round 3: retrain the reference from the final code, rescore every
+# saved variant / shortcut artifact with the argument-free evaluators, paired
+# bootstrap noise, then regenerate the reference-only score files and validate.
+python hardening/v3/run_v3.py

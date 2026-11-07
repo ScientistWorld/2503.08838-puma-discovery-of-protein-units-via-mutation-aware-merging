@@ -19,7 +19,7 @@
         "benign_pathogenic_gap": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Benign minus pathogenic SAME sibling rate: how much more often within-family substitutions are benign than pathogenic (bounded in [-1, 1]; a failed submission scores -1)."
+          "description": "Benign minus pathogenic SAME sibling rate: how much more often within-family substitutions are benign than pathogenic (bounded in [-1, 1]). Scored as measured when both biological tasks are solved (see task_solved), otherwise as min(measured, 0); a submission failing a validity constraint scores -1."
         },
         "benign_same_idx": {
           "higher_is_better": true,
@@ -41,10 +41,15 @@
           "coefficient": 0.0,
           "description": "Number of vocabulary units (budget 6,400, enforced as a validity gate). Reported."
         },
+        "task_solved": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "1 if both biological tasks are solved: benign-pathogenic gap >= 0.04 AND positive-negative gap >= 0.014 (about half of the published 6,400-unit effects), else 0. When 0, neither gap earns credit (each is scored as min(measured, 0)), so failing one task cannot be compensated by the other. Reported only."
+        },
         "valid": {
           "higher_is_better": true,
           "coefficient": 0.0,
-          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, units at most 5% shorter than the frequency-only baseline's (compression_vs_bpe >= 0.95), >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
         }
       },
       "results": {
@@ -89,7 +94,7 @@
         "positive_negative_gap": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Positive minus negative SAME sibling rate: how much more often within-family substitutions are positive (high-fitness) than negative (low-fitness) (bounded in [-1, 1]; a failed submission scores -1)."
+          "description": "Positive minus negative SAME sibling rate: how much more often within-family substitutions are positive (high-fitness) than negative (low-fitness) (bounded in [-1, 1]). Scored as measured when both biological tasks are solved (see task_solved), otherwise as min(measured, 0); a submission failing a validity constraint scores -1."
         },
         "positive_same_idx": {
           "higher_is_better": true,
@@ -111,10 +116,15 @@
           "coefficient": 0.0,
           "description": "Number of vocabulary units (budget 6,400, enforced as a validity gate). Reported."
         },
+        "task_solved": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "1 if both biological tasks are solved: benign-pathogenic gap >= 0.04 AND positive-negative gap >= 0.014 (about half of the published 6,400-unit effects), else 0. When 0, neither gap earns credit (each is scored as min(measured, 0)), so failing one task cannot be compensated by the other. Reported only."
+        },
         "valid": {
           "higher_is_better": true,
           "coefficient": 0.0,
-          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, units at most 5% shorter than the frequency-only baseline's (compression_vs_bpe >= 0.95), >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
         }
       },
       "results": {
@@ -137,7 +147,7 @@
       }
     },
     "vocabulary_structure": {
-      "description": "Constraint side: the vocabulary must stay a genuine 6,400-unit segmentation. Units used on the scored proteins should be as long as frequency-only BPE units (the paper reports nearly identical observed unit lengths), while families are explicit and valid.",
+      "description": "Constraint side: the vocabulary must stay a genuine 6,400-unit segmentation. Units used on the scored proteins should be as long as frequency-only BPE units (the paper reports nearly identical observed unit lengths; units more than 5% shorter fail the run), while families are explicit and valid.",
       "note": "compression_vs_bpe and residues_per_token paper values come from the authors' released general_stats.csv (observed unit length on the training corpus at 6,400 units: PUMA 2.3999, BPE 2.4599). family_coverage / fractions are the paper's reported vocabulary statistics.",
       "weight": 0.1,
       "primary_metric": "compression_vs_bpe",
@@ -145,7 +155,7 @@
         "compression_vs_bpe": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Residues per unit on the scored proteins divided by the same quantity for the evaluator's frequency-only BPE baseline, capped at 1: spending vocabulary on variants should not sacrifice segmentation granularity (failed submission: 0)."
+          "description": "Residues per unit on the scored proteins divided by the same quantity for the evaluator's frequency-only BPE baseline, capped at 1: spending vocabulary on variants should not sacrifice segmentation granularity. Below 0.95 the run fails (scored 0)."
         },
         "residues_per_token": {
           "higher_is_better": true,
@@ -195,7 +205,7 @@
         "valid": {
           "higher_is_better": true,
           "coefficient": 0.0,
-          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, units at most 5% shorter than the frequency-only baseline's (compression_vs_bpe >= 0.95), >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
         }
       },
       "results": {

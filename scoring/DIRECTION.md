@@ -10,10 +10,10 @@ Unsupervised discovery of a fixed-size protein-unit vocabulary together with an 
 
 ## What counts as progress
 
-A larger benign-vs-pathogenic and high-vs-low-fitness difference in within-family substitution rates on held-out proteins, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size.
+A larger benign-vs-pathogenic and high-vs-low-fitness difference in within-family substitution rates on held-out proteins, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size. Both differences must clear their minimums (0.04 clinical, 0.014 DMS): trading one task away for the other is not progress, and neither is shortening units by more than 5% relative to the frequency-only vocabulary.
 
 ## Out of Bounds
 
-- Using clinical or DMS labels (including the visible train populations) to build or tune units or families, or reading the hidden test.
+- Using clinical or DMS labels (the visible train populations, or public ProteinGym / ClinVar / DMS downloads) to build or tune units or families, or reading the hidden test.
 - Supervised variant-effect prediction or protein-language-model scoring that bypasses unit discovery.
 - Exceeding the 6,400-unit budget, lossy or near-character-level segmentations, or editing the evaluator.

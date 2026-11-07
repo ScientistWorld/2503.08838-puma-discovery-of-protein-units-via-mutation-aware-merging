@@ -14,6 +14,16 @@ the 6,400-unit budget and every validity threshold. Nothing a method writes
 besides its tokenizer and genealogy is read, and every number is recomputed
 from those two artifacts. A submission that breaks a constraint is scored as
 failed (worst value on every scored metric), never high.
+
+Score tiers (with the weights in ``scoring/reference.json``):
+
+* constraint violated (budget, lossless segmentation, genealogy, granularity,
+  usage, boundary preservation): gaps -1, compression 0  -> rank score -0.9;
+* valid, but a biological task is not solved (a sibling gap below its fixed
+  minimum ``MIN_TASK_GAP``): no credit for either gap (each scored as
+  ``min(measured, 0)``) -> rank score <= 0.1;
+* valid and both tasks solved -> rank score >= 0.6*0.04 + 0.3*0.014 + 0.1*0.95
+  = 0.123, so failing one task can never be bought back with the other.
 """
 
 from __future__ import annotations
@@ -42,6 +52,13 @@ VOCAB_BUDGET = 6400
 MIN_RESIDUES_PER_TOKEN = 2.0
 MIN_OBSERVED_TOKENS = VOCAB_BUDGET // 2
 MIN_SAME_IDX = 0.2
+# Granularity tolerance: units on the scored proteins may be at most 5% shorter
+# than those of the frequency-only baseline (the paper reports observed unit
+# lengths nearly identical to BPE: 2.40 vs 2.46 residues at 6,400 units).
+MIN_COMPRESSION_VS_BPE = 0.95
+# Minimum within-family enrichment for a biological task to count as solved:
+# about half of the published 6,400-unit effect (0.0835 clinical, 0.0280 DMS).
+MIN_TASK_GAP = {"clinical": 0.04, "dms": 0.014}
 ALLOWED_MODELS = ("BPE", "Unigram")
 TOKEN_ALPHABET = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 LABELS = {"clinical": ("benign", "pathogenic"), "dms": ("positive", "negative")}
@@ -99,6 +116,8 @@ def tokenizer_tokens(tok: object) -> list[str]:
             tokens = [e[0] for e in vocab]
             if len(set(tokens)) != len(tokens):
                 errors.append("Unigram vocab contains duplicate tokens")
+            if not all(isinstance(e[1], (int, float)) and not isinstance(e[1], bool) and math.isfinite(e[1]) for e in vocab):
+                errors.append("Unigram scores must be finite numbers")
     if errors:
         raise InvalidSubmission("; ".join(errors))
     return tokens
@@ -248,17 +267,29 @@ def protein_stats(originals: list[dict]) -> dict[str, float]:
     return {"residues_per_token": residues / tokens if tokens else 0.0, "observed_token_count": float(len(used))}
 
 
-def gap_block(prefix: tuple[str, str], counts: dict, struct: dict) -> dict[str, float]:
+def measured_gap(counts: dict, labels: tuple[str, str]) -> float:
+    good, bad = labels
+    return counts[good]["same_sibling_rate"] - counts[bad]["same_sibling_rate"]
+
+
+def gap_block(prefix: tuple[str, str], counts: dict, struct: dict, task_solved: bool) -> dict[str, float]:
+    """Metric block of one biological experiment.
+
+    The scored gap is the measured gap when both biological tasks are solved;
+    otherwise the run earns no credit for it (``min(measured, 0)``).
+    """
     good, bad = prefix
     g, b = counts[good], counts[bad]
+    gap = measured_gap(counts, prefix)
     return {
         f"{good}_same_sibling_rate": g["same_sibling_rate"],
         f"{bad}_same_sibling_rate": b["same_sibling_rate"],
-        f"{good}_{bad}_gap": g["same_sibling_rate"] - b["same_sibling_rate"],
+        f"{good}_{bad}_gap": gap if task_solved else min(gap, 0.0),
         f"{good}_same_idx": g["same_idx"],
         f"{bad}_same_idx": b["same_idx"],
         "family_coverage": struct["family_coverage"],
         "vocab_size": struct["vocab_size"],
+        "task_solved": 1.0 if task_solved else 0.0,
         "valid": 1.0,
     }
 
@@ -282,6 +313,7 @@ def failed_blocks(vocab_size: float) -> dict[str, dict[str, float]]:
             f"{bad}_same_idx": 0.0,
             "family_coverage": 0.0,
             "vocab_size": vocab_size,
+            "task_solved": 0.0,
             "valid": 0.0,
         }
     blocks["vocabulary_structure"] = {
@@ -327,14 +359,21 @@ def score_submission(tok: object, vocab: object, populations: dict, bpe_residues
         for label, c in s["labels"].items():
             if c["same_idx"] < MIN_SAME_IDX:
                 problems.append(f"{name}/{label}: only {c['same_idx']:.3f} of variants keep unit boundaries, below the minimum {MIN_SAME_IDX}")
+    reference_rpt = bpe_residues_per_token if bpe_residues_per_token else prot["residues_per_token"]
+    compression = prot["residues_per_token"] / reference_rpt
+    if compression < MIN_COMPRESSION_VS_BPE:
+        problems.append(f"units are {100 * (1 - compression):.1f}% shorter than the frequency-only baseline's "
+                        f"(compression {compression:.4f} < {MIN_COMPRESSION_VS_BPE}): segmentation granularity sacrificed")
     if problems:
         raise InvalidSubmission("; ".join(problems))
-    reference_rpt = bpe_residues_per_token if bpe_residues_per_token else prot["residues_per_token"]
+    gaps = {name: measured_gap(s["labels"], LABELS[name]) for name, s in scored.items()}
+    unsolved = sorted(name for name, gap in gaps.items() if not gap >= MIN_TASK_GAP[name])
+    task_solved = not unsolved
     blocks = {
-        "clinical_sibling_association": gap_block(LABELS["clinical"], scored["clinical"]["labels"], struct),
-        "dms_sibling_association": gap_block(LABELS["dms"], scored["dms"]["labels"], struct),
+        "clinical_sibling_association": gap_block(LABELS["clinical"], scored["clinical"]["labels"], struct, task_solved),
+        "dms_sibling_association": gap_block(LABELS["dms"], scored["dms"]["labels"], struct, task_solved),
         "vocabulary_structure": {
-            "compression_vs_bpe": min(1.0, prot["residues_per_token"] / reference_rpt),
+            "compression_vs_bpe": min(1.0, compression),
             "residues_per_token": prot["residues_per_token"],
             "observed_token_count": prot["observed_token_count"],
             "family_coverage": struct["family_coverage"],
@@ -349,9 +388,13 @@ def score_submission(tok: object, vocab: object, populations: dict, bpe_residues
     }
     diagnostics = {
         "valid": True,
+        "task_solved": task_solved,
+        "measured_gap": gaps,
+        "unsolved_tasks": [f"{name}: gap {gaps[name]:.4f} < minimum {MIN_TASK_GAP[name]} (no credit for either gap)" for name in unsolved],
         "counts": {name: s["labels"] for name, s in scored.items()},
         "gap_standard_error": {name: gap_standard_error(s["labels"], LABELS[name]) for name, s in scored.items()},
         "residues_per_token": prot["residues_per_token"],
+        "compression_vs_bpe_uncapped": compression,
     }
     return blocks, diagnostics
 
@@ -441,7 +484,8 @@ def main() -> int:
         for exp, block in blocks.items():
             experiments[exp]["results"][name] = block
         validation[name] = {**diag, "directory": str(directory)}
-        print(f"[{name}] scored ({'valid' if diag['valid'] else 'failed'})")
+        status = "failed" if not diag["valid"] else ("valid" if diag["task_solved"] else "valid, task not solved: " + "; ".join(diag["unsolved_tasks"]))
+        print(f"[{name}] scored ({status})")
 
     scores = {
         "_metadata": {
@@ -452,6 +496,8 @@ def main() -> int:
                 "min_residues_per_token": MIN_RESIDUES_PER_TOKEN,
                 "min_observed_tokens": MIN_OBSERVED_TOKENS,
                 "min_same_idx": MIN_SAME_IDX,
+                "min_compression_vs_bpe": MIN_COMPRESSION_VS_BPE,
+                "min_task_gap": MIN_TASK_GAP,
             },
             "baseline": BASELINE_NAME,
         },
