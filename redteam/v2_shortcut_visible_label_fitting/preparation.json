@@ -1,0 +1,37 @@
+{
+  "kind": "shortcut_visible_label_fitting",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7,
+  "shortcut": true,
+  "forbidden_labels": "visible_train",
+  "objective_gain_on_source": 0.36143573825497755,
+  "merges": 4243,
+  "source_counts": {
+    "clinical": {
+      "total": {
+        "pathogenic": 15348,
+        "benign": 14770
+      },
+      "same": {
+        "pathogenic": 8423,
+        "benign": 8761
+      }
+    },
+    "dms": {
+      "total": {
+        "positive": 91963,
+        "negative": 65087
+      },
+      "same": {
+        "positive": 51089,
+        "negative": 34900
+      }
+    }
+  },
+  "tokenizer_unchanged": true,
+  "uses_test_split_rule": false
+}

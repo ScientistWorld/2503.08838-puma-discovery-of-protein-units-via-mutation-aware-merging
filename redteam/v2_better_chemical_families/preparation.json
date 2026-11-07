@@ -1,0 +1,20 @@
+{
+  "kind": "better_chemical_families",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7,
+  "class_rule": [
+    "ILVM",
+    "FYW",
+    "KRH",
+    "DE",
+    "NQ",
+    "STAG",
+    "C",
+    "P"
+  ],
+  "labels_used": false
+}

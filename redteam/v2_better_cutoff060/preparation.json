@@ -1,0 +1,9 @@
+{
+  "kind": "better_cutoff",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.6
+}

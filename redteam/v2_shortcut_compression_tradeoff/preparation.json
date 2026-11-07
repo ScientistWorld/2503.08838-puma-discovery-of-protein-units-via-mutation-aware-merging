@@ -1,0 +1,22 @@
+{
+  "kind": "shortcut_compression_tradeoff",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7,
+  "shortcut": true,
+  "labels_used": false,
+  "units": 3600,
+  "class_rule": [
+    "ILVM",
+    "FYW",
+    "KRH",
+    "DE",
+    "NQ",
+    "STAG",
+    "C",
+    "P"
+  ]
+}

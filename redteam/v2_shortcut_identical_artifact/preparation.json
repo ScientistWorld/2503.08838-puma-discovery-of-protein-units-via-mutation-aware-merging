@@ -1,0 +1,11 @@
+{
+  "kind": "shortcut_identical_artifact",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7,
+  "shortcut": true,
+  "tie_control": true
+}

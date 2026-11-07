@@ -1,0 +1,190 @@
+{
+  "_metadata": {
+    "slice": "train",
+    "populations": {
+      "clinical": {
+        "benign": 14770,
+        "pathogenic": 15348
+      },
+      "dms": {
+        "positive": 91963,
+        "negative": 65087
+      }
+    },
+    "thresholds": {
+      "vocab_budget": 6400,
+      "min_residues_per_token": 2.0,
+      "min_observed_tokens": 3200,
+      "min_same_idx": 0.2
+    },
+    "baseline": "bpe_6400"
+  },
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "bpe_6400": {
+          "benign_same_sibling_rate": 0.0,
+          "pathogenic_same_sibling_rate": 0.0,
+          "benign_pathogenic_gap": 0.0,
+          "benign_same_idx": 0.579891672308734,
+          "pathogenic_same_idx": 0.5645035183737295,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        },
+        "v2_better_chemical_families": {
+          "benign_same_sibling_rate": 0.3916219609633603,
+          "pathogenic_same_sibling_rate": 0.1687047370295619,
+          "benign_pathogenic_gap": 0.22291722393379843,
+          "benign_same_idx": 0.5931618144888287,
+          "pathogenic_same_idx": 0.5488011467292155,
+          "family_coverage": 0.9596875,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "results": {
+        "bpe_6400": {
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "positive_same_idx": 0.5645205136848516,
+          "negative_same_idx": 0.5574231413339069,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        },
+        "v2_better_chemical_families": {
+          "positive_same_sibling_rate": 0.16361643406604162,
+          "negative_same_sibling_rate": 0.09017191977077364,
+          "positive_negative_gap": 0.07344451429526798,
+          "positive_same_idx": 0.5555386405402173,
+          "negative_same_idx": 0.5362053866363483,
+          "family_coverage": 0.9596875,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "bpe_6400": {
+          "compression_vs_bpe": 1.0,
+          "residues_per_token": 2.4554451954476906,
+          "observed_token_count": 6372.0,
+          "family_coverage": 0.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
+          "family_count": 0.0,
+          "mean_family_size": 0.0,
+          "largest_family_fraction": 0.0,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        },
+        "v2_better_chemical_families": {
+          "compression_vs_bpe": 0.9765692460096732,
+          "residues_per_token": 2.397912263136426,
+          "observed_token_count": 6239.0,
+          "family_coverage": 0.9596875,
+          "mutated_vocab_fraction": 0.84703125,
+          "parent_vocab_fraction": 0.11265625,
+          "family_count": 721.0,
+          "mean_family_size": 8.51872399445215,
+          "largest_family_fraction": 0.01109375,
+          "vocab_size": 6400.0,
+          "valid": 1.0
+        }
+      }
+    }
+  },
+  "_validation": {
+    "bpe_6400": {
+      "valid": true,
+      "counts": {
+        "clinical": {
+          "benign": {
+            "variants": 14770,
+            "same": 8565,
+            "sibling": 0,
+            "same_idx": 0.579891672308734,
+            "same_sibling_rate": 0.0
+          },
+          "pathogenic": {
+            "variants": 15348,
+            "same": 8664,
+            "sibling": 0,
+            "same_idx": 0.5645035183737295,
+            "same_sibling_rate": 0.0
+          }
+        },
+        "dms": {
+          "positive": {
+            "variants": 91963,
+            "same": 51915,
+            "sibling": 0,
+            "same_idx": 0.5645205136848516,
+            "same_sibling_rate": 0.0
+          },
+          "negative": {
+            "variants": 65087,
+            "same": 36281,
+            "sibling": 0,
+            "same_idx": 0.5574231413339069,
+            "same_sibling_rate": 0.0
+          }
+        }
+      },
+      "gap_standard_error": {
+        "clinical": 0.0,
+        "dms": 0.0
+      },
+      "residues_per_token": 2.4554451954476906,
+      "source": "fixed baseline owned by the evaluator"
+    },
+    "v2_better_chemical_families": {
+      "valid": true,
+      "counts": {
+        "clinical": {
+          "benign": {
+            "variants": 14770,
+            "same": 8761,
+            "sibling": 3431,
+            "same_idx": 0.5931618144888287,
+            "same_sibling_rate": 0.3916219609633603
+          },
+          "pathogenic": {
+            "variants": 15348,
+            "same": 8423,
+            "sibling": 1421,
+            "same_idx": 0.5488011467292155,
+            "same_sibling_rate": 0.1687047370295619
+          }
+        },
+        "dms": {
+          "positive": {
+            "variants": 91963,
+            "same": 51089,
+            "sibling": 8359,
+            "same_idx": 0.5555386405402173,
+            "same_sibling_rate": 0.16361643406604162
+          },
+          "negative": {
+            "variants": 65087,
+            "same": 34900,
+            "sibling": 3147,
+            "same_idx": 0.5362053866363483,
+            "same_sibling_rate": 0.09017191977077364
+          }
+        }
+      },
+      "gap_standard_error": {
+        "clinical": 0.006621549885461305,
+        "dms": 0.002242615840140829
+      },
+      "residues_per_token": 2.397912263136426,
+      "directory": "/home/user/outputs/v2_better_chemical_families"
+    }
+  }
+}

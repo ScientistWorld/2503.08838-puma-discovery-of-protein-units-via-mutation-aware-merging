@@ -1,0 +1,16 @@
+{
+  "absolute_score": -0.8999999999999999,
+  "reference_score": 0.1573879672336192,
+  "rank_delta": -1.057387967233619,
+  "metrics": {
+    "clinical_sibling_association.benign_pathogenic_gap": -1.0,
+    "dms_sibling_association.positive_negative_gap": -1.0,
+    "vocabulary_structure.compression_vs_bpe": 0.0
+  },
+  "valid": false,
+  "validation": {
+    "valid": false,
+    "errors": "constraint check: segmentation averages 1.000 residues per unit, below the minimum 2.0; only 20 distinct units are used on the scored proteins, below the minimum 3200",
+    "directory": "/home/user/outputs/v2_shortcut_copied_residues"
+  }
+}

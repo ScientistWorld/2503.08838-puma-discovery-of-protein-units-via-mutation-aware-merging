@@ -1,0 +1,39 @@
+{
+  "_metadata": {
+    "success": true,
+    "valid": 1,
+    "elapsed_seconds": -1
+  },
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "v2_shortcut_forged_fields": {
+          "benign_pathogenic_gap": 1e+99,
+          "positive_negative_gap": 1e+99,
+          "compression_vs_bpe": 1e+99,
+          "valid": true
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "results": {
+        "v2_shortcut_forged_fields": {
+          "benign_pathogenic_gap": 1e+99,
+          "positive_negative_gap": 1e+99,
+          "compression_vs_bpe": 1e+99,
+          "valid": true
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "v2_shortcut_forged_fields": {
+          "benign_pathogenic_gap": 1e+99,
+          "positive_negative_gap": 1e+99,
+          "compression_vs_bpe": 1e+99,
+          "valid": true
+        }
+      }
+    }
+  }
+}

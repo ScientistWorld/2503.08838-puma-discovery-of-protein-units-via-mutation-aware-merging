@@ -1,0 +1,54 @@
+{
+  "absolute_score": 0.09776645523552044,
+  "reference_score": 0.1573879672336192,
+  "rank_delta": -0.05962151199809876,
+  "metrics": {
+    "clinical_sibling_association.benign_pathogenic_gap": 0.0,
+    "dms_sibling_association.positive_negative_gap": 0.0,
+    "vocabulary_structure.compression_vs_bpe": 0.9776645523552043
+  },
+  "valid": true,
+  "validation": {
+    "valid": true,
+    "counts": {
+      "clinical": {
+        "benign": {
+          "variants": 15957,
+          "same": 9341,
+          "sibling": 0,
+          "same_idx": 0.5853857241336091,
+          "same_sibling_rate": 0.0
+        },
+        "pathogenic": {
+          "variants": 16652,
+          "same": 9309,
+          "sibling": 0,
+          "same_idx": 0.5590319481143406,
+          "same_sibling_rate": 0.0
+        }
+      },
+      "dms": {
+        "positive": {
+          "variants": 97051,
+          "same": 53007,
+          "sibling": 0,
+          "same_idx": 0.5461767524291352,
+          "same_sibling_rate": 0.0
+        },
+        "negative": {
+          "variants": 63447,
+          "same": 33955,
+          "sibling": 0,
+          "same_idx": 0.5351710876794805,
+          "same_sibling_rate": 0.0
+        }
+      }
+    },
+    "gap_standard_error": {
+      "clinical": 0.0,
+      "dms": 0.0
+    },
+    "residues_per_token": 2.3998180305708643,
+    "directory": "/home/user/outputs/v2_weaker_no_genealogy"
+  }
+}

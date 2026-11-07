@@ -1,0 +1,9 @@
+{
+  "kind": "weaker_no_genealogy",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7
+}

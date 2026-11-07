@@ -1,0 +1,54 @@
+{
+  "absolute_score": 0.24842998343294342,
+  "reference_score": 0.1573879672336192,
+  "rank_delta": 0.09104201619932423,
+  "metrics": {
+    "clinical_sibling_association.benign_pathogenic_gap": 0.22306926661539156,
+    "dms_sibling_association.positive_negative_gap": 0.07332168544859793,
+    "vocabulary_structure.compression_vs_bpe": 0.9259191782912909
+  },
+  "valid": true,
+  "validation": {
+    "valid": true,
+    "counts": {
+      "clinical": {
+        "benign": {
+          "variants": 15957,
+          "same": 9610,
+          "sibling": 3815,
+          "same_idx": 0.6022435294854923,
+          "same_sibling_rate": 0.3969823100936524
+        },
+        "pathogenic": {
+          "variants": 16652,
+          "same": 9499,
+          "sibling": 1652,
+          "same_idx": 0.5704419889502762,
+          "same_sibling_rate": 0.17391304347826086
+        }
+      },
+      "dms": {
+        "positive": {
+          "variants": 97051,
+          "same": 53874,
+          "sibling": 8859,
+          "same_idx": 0.555110199791862,
+          "same_sibling_rate": 0.16443924713219735
+        },
+        "negative": {
+          "variants": 63447,
+          "same": 34450,
+          "sibling": 3139,
+          "same_idx": 0.5429728749980298,
+          "same_sibling_rate": 0.09111756168359941
+        }
+      }
+    },
+    "gap_standard_error": {
+      "clinical": 0.00632729800983515,
+      "dms": 0.0022258255950073857
+    },
+    "residues_per_token": 2.272801579603031,
+    "directory": "/home/user/outputs/v2_shortcut_compression_tradeoff"
+  }
+}

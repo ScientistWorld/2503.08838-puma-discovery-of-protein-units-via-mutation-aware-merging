@@ -1,0 +1,16 @@
+{
+  "absolute_score": -0.8999999999999999,
+  "reference_score": 0.1573879672336192,
+  "rank_delta": -1.057387967233619,
+  "metrics": {
+    "clinical_sibling_association.benign_pathogenic_gap": -1.0,
+    "dms_sibling_association.positive_negative_gap": -1.0,
+    "vocabulary_structure.compression_vs_bpe": 0.0
+  },
+  "valid": false,
+  "validation": {
+    "valid": false,
+    "errors": "constraint check: 12800 invalid genealogy entries, e.g. [\"'A': is_parent must be true when present\", \"'A': parent 'SHORTCUTMISSING' is not a vocabulary unit\", \"'R': is_parent must be true when present\"]",
+    "directory": "/home/user/outputs/v2_shortcut_impossible_values"
+  }
+}

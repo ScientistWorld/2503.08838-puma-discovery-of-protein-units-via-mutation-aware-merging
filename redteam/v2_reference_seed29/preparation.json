@@ -1,0 +1,9 @@
+{
+  "kind": "reference",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 29,
+  "cutoff": 0.7
+}

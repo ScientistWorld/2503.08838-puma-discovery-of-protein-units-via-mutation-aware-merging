@@ -1,0 +1,9 @@
+{
+  "kind": "shortcut_move_baseline",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7
+}

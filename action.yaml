@@ -1,6 +1,4 @@
-# Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends.
-action: done
-milestone: secondary_claims
-notes: "Hardened: trained PUMA reference submitted end to end; eval-owned split/baseline/thresholds with validity gates; bounded rank (clinical 0.6, DMS 0.3, compression 0.1); all REDTEAM shortcuts fail or tie; honest variants rank by their gaps. See HARDENING.md."
+action: submit
+gpus: 0
+test: false
+notes: "Audit hardened gym: 3 full-corpus reference seeds, genuine variants, weak/BPE controls, and 12 shortcut probes; 19 independent no-argument hidden-test runs in one resumable CPU job."

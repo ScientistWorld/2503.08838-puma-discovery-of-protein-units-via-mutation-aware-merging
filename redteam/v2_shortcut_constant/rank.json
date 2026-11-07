@@ -1,0 +1,16 @@
+{
+  "absolute_score": -0.8999999999999999,
+  "reference_score": 0.1573879672336192,
+  "rank_delta": -1.057387967233619,
+  "metrics": {
+    "clinical_sibling_association.benign_pathogenic_gap": -1.0,
+    "dms_sibling_association.positive_negative_gap": -1.0,
+    "vocabulary_structure.compression_vs_bpe": 0.0
+  },
+  "valid": false,
+  "validation": {
+    "valid": false,
+    "errors": "constraint check: tokenizer.normalizer must be null (raw residues are segmented as-is); tokenizer.model.type must be one of ('BPE', 'Unigram'), got 'WordLevel'",
+    "directory": "/home/user/outputs/v2_shortcut_constant"
+  }
+}
