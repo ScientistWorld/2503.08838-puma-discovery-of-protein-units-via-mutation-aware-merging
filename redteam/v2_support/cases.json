@@ -17,5 +17,6 @@
   "v2_shortcut_empty",
   "v2_shortcut_copied_residues",
   "v2_shortcut_impossible_values",
-  "v2_shortcut_identical_artifact"
+  "v2_shortcut_identical_artifact",
+  "v2_shortcut_abandon_dms"
 ]

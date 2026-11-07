@@ -181,7 +181,7 @@ def edge_statistics(tok, source):
     return result
 
 
-def shortcut_fit_families(tok, vocab, source, clinical_only=False):
+def shortcut_fit_families(tok, vocab, source, clinical_only=False, abandon_dms=False):
     """Greedily maximize the LABELLED objective on a fixed, unchanged tokenizer.
 
     Each edge weight is the weighted good-minus-bad SAME frequency. Joining
@@ -197,6 +197,12 @@ def shortcut_fit_families(tok, vocab, source, clinical_only=False):
         for a, b, counts in stats[pop]["pairs"]:
             weights[index[a], index[b]] += coefficient * (counts.get(good, 0) / stats[pop]["same"][good]
                                                          - counts.get(bad, 0) / stats[pop]["same"][bad])
+    if abandon_dms:
+        # Shortcut: forbid every DMS SAME pair from ever sharing a family.
+        # A penalty of 2 exceeds the sum of all positive clinical weights
+        # (at most .6), so even indirect joins cannot defeat this constraint.
+        for a, b, _counts in stats["dms"]["pairs"]:
+            weights[index[a], index[b]] -= 2.0
     adjacency = {i: {} for i in range(len(tokens))}
     parent = list(range(len(tokens)))
     heap = []
@@ -240,6 +246,8 @@ def shortcut_fit_families(tok, vocab, source, clinical_only=False):
             i = parent[i]
         return i
 
+    if abandon_dms:
+        assert all(root(index[a]) != root(index[b]) for a, b, _ in stats["dms"]["pairs"])
     result = {}
     for i, token in enumerate(tokens):
         r = root(i)
@@ -247,7 +255,8 @@ def shortcut_fit_families(tok, vocab, source, clinical_only=False):
     return clean_flags(result), {"shortcut": True, "forbidden_labels": source,
         "objective_gain_on_source": gain, "merges": merges,
         "source_counts": {k: {"total": v["total"], "same": v["same"]} for k, v in stats.items()},
-        "tokenizer_unchanged": True, "uses_test_split_rule": False}
+        "tokenizer_unchanged": True, "uses_test_split_rule": False,
+        "shortcut_abandons_dms": abandon_dms}
 
 
 def prepare(name):
@@ -275,6 +284,9 @@ def prepare(name):
     elif kind in ("shortcut_visible_label_fitting", "shortcut_public_answer_fitting"):
         source = "visible_train" if kind == "shortcut_visible_label_fitting" else "public_download"
         vocab, fit = shortcut_fit_families(tok, vocab, source)
+        details.update(fit)
+    elif kind == "shortcut_abandon_dms":
+        vocab, fit = shortcut_fit_families(tok, vocab, "public_download", clinical_only=True, abandon_dms=True)
         details.update(fit)
     elif kind == "shortcut_compression_tradeoff":
         # Spend only 3,600 units and abandon the no-granularity-sacrifice claim.
