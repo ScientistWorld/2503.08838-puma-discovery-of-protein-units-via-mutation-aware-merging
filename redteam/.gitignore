@@ -1,6 +1,7 @@
-generated/
-**/generated/
-_state/
-**/*.log
-__pycache__/
-*.pyc
+# Audit-generated data, trained submissions and logs; regenerate with run.sh.
+downloads/
+cache/
+*/artifact/
+*/backup/
+*.log
+v2_support/initial/

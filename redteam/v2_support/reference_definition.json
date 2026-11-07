@@ -1,0 +1,223 @@
+{
+  "experiments": {
+    "clinical_sibling_association": {
+      "description": "ProteinGym ClinVar single substitutions on held-out proteins: benign variants should keep the mutated unit inside the same family more often than pathogenic variants.",
+      "note": "Paper numbers (results) are PUMA(BLOSUM62, 0.7, 0.05) and BPE at 6,400 units on the full ClinVar pool. The gym scores the hidden test half of the proteins (split by protein); scaled setup: 6,400 units instead of the paper's headline 51,200.",
+      "weight": 0.6,
+      "primary_metric": "benign_pathogenic_gap",
+      "metrics": {
+        "benign_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Among benign substitutions whose unit boundaries are unchanged (SAME cases), fraction where the original and mutated units at the site belong to the same family. Reported; scored through the gap."
+        },
+        "pathogenic_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Same rate for pathogenic substitutions. Reported; scored through the gap."
+        },
+        "benign_pathogenic_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Benign minus pathogenic SAME sibling rate: how much more often within-family substitutions are benign than pathogenic (bounded in [-1, 1]; a failed submission scores -1)."
+        },
+        "benign_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of benign substitutions that leave every unit boundary unchanged (SAME). Reported; gated at >= 0.2."
+        },
+        "pathogenic_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of pathogenic substitutions that leave every unit boundary unchanged (SAME). Reported; gated at >= 0.2."
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of vocabulary units that belong to a multi-member family (validated genealogy). Reported."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Number of vocabulary units (budget 6,400, enforced as a validity gate). Reported."
+        },
+        "valid": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+        }
+      },
+      "results": {
+        "puma_6400": {
+          "type": "proposed",
+          "benign_same_sibling_rate": 0.15792382952849482,
+          "pathogenic_same_sibling_rate": 0.07439134355275022,
+          "benign_pathogenic_gap": 0.0835324859757446,
+          "benign_same_idx": 0.5887655807595925,
+          "pathogenic_same_idx": 0.5545,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400
+        },
+        "bpe_6400": {
+          "type": "baseline",
+          "benign_same_sibling_rate": 0.0,
+          "pathogenic_same_sibling_rate": 0.0,
+          "benign_pathogenic_gap": 0.0,
+          "benign_same_idx": 0.5820288345754548,
+          "pathogenic_same_idx": 0.57034375,
+          "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "description": "ProteinGym human DMS single substitutions on held-out protein regions: positive (high-fitness) variants should keep the mutated unit inside the same family more often than negative (low-fitness) variants.",
+      "note": "Paper numbers are the released 6,400-unit analysis on all human DMS single substitutions; the gym scores the hidden half of 50-residue protein windows.",
+      "weight": 0.3,
+      "primary_metric": "positive_negative_gap",
+      "metrics": {
+        "positive_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Among positive (high-fitness) substitutions whose unit boundaries are unchanged (SAME cases), fraction where the original and mutated units at the site belong to the same family. Reported; scored through the gap."
+        },
+        "negative_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Same rate for negative (low-fitness) substitutions. Reported; scored through the gap."
+        },
+        "positive_negative_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Positive minus negative SAME sibling rate: how much more often within-family substitutions are positive (high-fitness) than negative (low-fitness) (bounded in [-1, 1]; a failed submission scores -1)."
+        },
+        "positive_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of positive (high-fitness) substitutions that leave every unit boundary unchanged (SAME). Reported; gated at >= 0.2."
+        },
+        "negative_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of negative (low-fitness) substitutions that leave every unit boundary unchanged (SAME). Reported; gated at >= 0.2."
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of vocabulary units that belong to a multi-member family (validated genealogy). Reported."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Number of vocabulary units (budget 6,400, enforced as a validity gate). Reported."
+        },
+        "valid": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+        }
+      },
+      "results": {
+        "puma_6400": {
+          "type": "proposed",
+          "positive_same_sibling_rate": 0.0753931013349166,
+          "negative_same_sibling_rate": 0.04736253684317512,
+          "positive_negative_gap": 0.028030564491741482,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400
+        },
+        "bpe_6400": {
+          "type": "baseline",
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "description": "Constraint side: the vocabulary must stay a genuine 6,400-unit segmentation. Units used on the scored proteins should be as long as frequency-only BPE units (the paper reports nearly identical observed unit lengths), while families are explicit and valid.",
+      "note": "compression_vs_bpe and residues_per_token paper values come from the authors' released general_stats.csv (observed unit length on the training corpus at 6,400 units: PUMA 2.3999, BPE 2.4599). family_coverage / fractions are the paper's reported vocabulary statistics.",
+      "weight": 0.1,
+      "primary_metric": "compression_vs_bpe",
+      "metrics": {
+        "compression_vs_bpe": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Residues per unit on the scored proteins divided by the same quantity for the evaluator's frequency-only BPE baseline, capped at 1: spending vocabulary on variants should not sacrifice segmentation granularity (failed submission: 0)."
+        },
+        "residues_per_token": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Mean residues per unit when segmenting the scored proteins (gated at >= 2.0). Reported."
+        },
+        "observed_token_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Distinct units used when segmenting the scored proteins (gated at >= 3200). Reported."
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of vocabulary units in a multi-member family. Reported."
+        },
+        "mutated_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of vocabulary units linked to a parent (mutational variants). Reported."
+        },
+        "parent_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Fraction of vocabulary units that are the parent of at least one variant. Reported."
+        },
+        "family_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Number of multi-member families. Reported (unnormalized counts are not scored)."
+        },
+        "mean_family_size": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Mean size of multi-member families. Reported."
+        },
+        "largest_family_fraction": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Largest family size divided by vocabulary size. Reported."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Number of vocabulary units (budget 6,400, gated). Reported."
+        },
+        "valid": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "1 if the submission passed every validity constraint (budget <= 6400 units, lossless segmentation of every scored protein, consistent substitution-variant genealogy, >= 2.0 residues per unit, >= 3200 distinct units used, >= 20% of each label's variants with unchanged unit boundaries), else 0. Reported only: a failed submission already receives the worst value of every scored metric."
+        }
+      },
+      "results": {
+        "puma_6400": {
+          "type": "proposed",
+          "compression_vs_bpe": 0.9755957079372873,
+          "residues_per_token": 2.399886019947377,
+          "family_coverage": 0.94125,
+          "mutated_vocab_fraction": 0.8371875,
+          "parent_vocab_fraction": 0.1040625,
+          "vocab_size": 6400
+        },
+        "bpe_6400": {
+          "type": "baseline",
+          "compression_vs_bpe": 1.0,
+          "residues_per_token": 2.4599185917099637,
+          "family_coverage": 0.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+[
+  "v2_reference_seed7",
+  "v2_reference_seed17",
+  "v2_reference_seed29",
+  "v2_better_cutoff060",
+  "v2_better_chemical_families",
+  "v2_weaker_no_genealogy",
+  "v2_simple_bpe",
+  "v2_shortcut_visible_label_fitting",
+  "v2_shortcut_public_answer_fitting",
+  "v2_shortcut_compression_tradeoff",
+  "v2_shortcut_forged_fields",
+  "v2_shortcut_move_baseline",
+  "v2_shortcut_move_data",
+  "v2_shortcut_replace_released",
+  "v2_shortcut_constant",
+  "v2_shortcut_empty",
+  "v2_shortcut_copied_residues",
+  "v2_shortcut_impossible_values",
+  "v2_shortcut_identical_artifact"
+]
