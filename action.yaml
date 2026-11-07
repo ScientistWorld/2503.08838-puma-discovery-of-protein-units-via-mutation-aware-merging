@@ -1,4 +1,4 @@
 action: submit
 gpus: 0
 test: false
-notes: "Audit hardened gym: 3 full-corpus reference seeds, genuine variants, weak/BPE controls, and 12 shortcut probes; 19 independent no-argument hidden-test runs in one resumable CPU job."
+notes: "Final scoring audit check: reuse full-corpus reference artifacts and public-label edge statistics; fit clinical families while forbidding every DMS SAME pair, then run unchanged train/test scripts. Resume skips all 19 completed cases."
