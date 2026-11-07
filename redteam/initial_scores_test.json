@@ -1,0 +1,93 @@
+{
+  "_metadata": {
+    "slice": "test",
+    "split": "deterministic_label_stratified_odd_hash_ranks",
+    "method_names_source": "train_scores_when_available"
+  },
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "bpe_official_6400": {
+          "benign_same_sibling_rate": 0.0,
+          "pathogenic_same_sibling_rate": 0.0,
+          "benign_pathogenic_gap": 0.0,
+          "benign_pathogenic_log_ratio": 0.0,
+          "benign_same_idx": 0.5655,
+          "pathogenic_same_idx": 0.5695,
+          "minimum_same_idx": 0.5655,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        },
+        "puma_official_6400": {
+          "benign_same_sibling_rate": 0.1703767123287671,
+          "pathogenic_same_sibling_rate": 0.06839186691312385,
+          "benign_pathogenic_gap": 0.10198484541564326,
+          "benign_pathogenic_log_ratio": 0.9127580187863021,
+          "benign_same_idx": 0.584,
+          "pathogenic_same_idx": 0.541,
+          "minimum_same_idx": 0.541,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "results": {
+        "bpe_official_6400": {
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "positive_negative_log_ratio": 0.0,
+          "positive_same_idx": 0.5641881895422074,
+          "negative_same_idx": 0.5522418245745045,
+          "minimum_same_idx": 0.5522418245745045,
+          "family_coverage": 0.0,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        },
+        "puma_official_6400": {
+          "positive_same_sibling_rate": 0.07511845159310199,
+          "negative_same_sibling_rate": 0.047369639446727244,
+          "positive_negative_gap": 0.027748812146374743,
+          "positive_negative_log_ratio": 0.4610847089637094,
+          "positive_same_idx": 0.5509045948345098,
+          "negative_same_idx": 0.5376334048974766,
+          "minimum_same_idx": 0.5376334048974766,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "bpe_official_6400": {
+          "family_coverage": 0.0,
+          "global_family_coverage": 0.0,
+          "observed_token_count": 6375.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
+          "family_count": 0.0,
+          "mean_family_size": 0.0,
+          "largest_family_fraction": 0.0,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        },
+        "puma_official_6400": {
+          "family_coverage": 0.9413634196726521,
+          "global_family_coverage": 0.94125,
+          "observed_token_count": 6293.0,
+          "mutated_vocab_fraction": 0.8371875,
+          "parent_vocab_fraction": 0.1040625,
+          "family_count": 666.0,
+          "mean_family_size": 9.045045045045045,
+          "largest_family_fraction": 0.00703125,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    }
+  }
+}

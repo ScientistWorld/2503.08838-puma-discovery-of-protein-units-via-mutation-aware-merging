@@ -1,0 +1,231 @@
+{
+  "experiments": {
+    "clinical_sibling_association": {
+      "description": "ProteinGym ClinVar single-substitution validation: benign variants should retain within-family unit substitutions more often than pathogenic variants.",
+      "weight": 0.6,
+      "primary_metric": "benign_pathogenic_gap",
+      "metrics": {
+        "benign_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Rate at which benign substitutions keep the mutated unit in the same discovered family when token boundaries are unchanged."
+        },
+        "pathogenic_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": -0.8,
+          "description": "Rate at which pathogenic substitutions keep the mutated unit in the same discovered family; lower values preserve label separation."
+        },
+        "benign_pathogenic_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.5,
+          "description": "Difference between benign and pathogenic same-family substitution rates."
+        },
+        "benign_pathogenic_log_ratio": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Log enrichment of benign over pathogenic same-family substitution rates, discouraging uniformly inflated sibling rates."
+        },
+        "benign_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Fraction of benign substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "pathogenic_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.1,
+          "description": "Fraction of pathogenic substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "minimum_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Lower of the benign and pathogenic boundary-preservation rates, penalizing methods that make one label mostly unscorable."
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Raw vocabulary size, reported for auditability."
+        },
+        "vocab_budget_error": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Absolute fractional deviation from the fixed 6400-unit vocabulary budget."
+        }
+      },
+      "results": {
+        "puma_official_6400": {
+          "type": "proposed",
+          "benign_same_sibling_rate": 0.15792382952849482,
+          "pathogenic_same_sibling_rate": 0.07439134355275022,
+          "benign_pathogenic_gap": 0.0835324859757446,
+          "benign_same_idx": 0.5887655807595925,
+          "pathogenic_same_idx": 0.5545,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400
+        },
+        "bpe_official_6400": {
+          "type": "baseline",
+          "benign_same_sibling_rate": 0.0,
+          "pathogenic_same_sibling_rate": 0.0,
+          "benign_pathogenic_gap": 0.0,
+          "benign_same_idx": 0.5820288345754548,
+          "pathogenic_same_idx": 0.57034375,
+          "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "description": "ProteinGym human DMS single-substitution validation: positive/high-fitness variants should retain within-family unit substitutions more often than negative/low-fitness variants.",
+      "weight": 0.25,
+      "primary_metric": "positive_negative_gap",
+      "metrics": {
+        "positive_same_sibling_rate": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Rate at which positive or high-fitness DMS substitutions keep the mutated unit in the same discovered family when token boundaries are unchanged."
+        },
+        "negative_same_sibling_rate": {
+          "higher_is_better": false,
+          "coefficient": -0.8,
+          "description": "Rate at which negative or low-fitness DMS substitutions keep the mutated unit in the same discovered family; lower values preserve fitness-bin separation."
+        },
+        "positive_negative_gap": {
+          "higher_is_better": true,
+          "coefficient": 1.5,
+          "description": "Difference between positive and negative DMS same-family substitution rates."
+        },
+        "positive_negative_log_ratio": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Log enrichment of positive over negative DMS same-family substitution rates, discouraging uniformly inflated sibling rates."
+        },
+        "positive_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Fraction of positive DMS substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "negative_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.1,
+          "description": "Fraction of negative DMS substitutions whose token boundaries remain comparable before and after mutation."
+        },
+        "minimum_same_idx": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Lower of the positive and negative boundary-preservation rates, penalizing methods that make one fitness bin mostly unscorable."
+        },
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Fraction of vocabulary entries participating in explicit parent or mutated-family structure."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Raw vocabulary size, reported for auditability."
+        },
+        "vocab_budget_error": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Absolute fractional deviation from the fixed 6400-unit vocabulary budget."
+        }
+      },
+      "results": {
+        "puma_official_6400": {
+          "type": "proposed",
+          "positive_same_sibling_rate": 0.0753931013349166,
+          "negative_same_sibling_rate": 0.04736253684317512,
+          "positive_negative_gap": 0.028030564491741482,
+          "family_coverage": 0.94125,
+          "vocab_size": 6400
+        },
+        "bpe_official_6400": {
+          "type": "baseline",
+          "positive_same_sibling_rate": 0.0,
+          "negative_same_sibling_rate": 0.0,
+          "positive_negative_gap": 0.0,
+          "family_coverage": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "description": "Vocabulary-level structure at 6400 units: the learned vocabulary should allocate most units to mutation-linked families while preserving the fixed vocabulary budget.",
+      "weight": 0.15,
+      "primary_metric": "family_coverage",
+      "metrics": {
+        "family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Fraction of distinct tokens observed on the slice that participate in explicit parent or mutated-family structure."
+        },
+        "global_family_coverage": {
+          "higher_is_better": true,
+          "coefficient": 0.6,
+          "description": "Fraction of all vocabulary entries participating in explicit parent or mutated-family structure."
+        },
+        "observed_token_count": {
+          "higher_is_better": true,
+          "coefficient": 0.0,
+          "description": "Number of distinct tokens observed while scoring the slice, reported for auditability."
+        },
+        "mutated_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.7,
+          "description": "Fraction of vocabulary entries recorded as mutation-derived family members."
+        },
+        "parent_vocab_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.3,
+          "description": "Fraction of vocabulary entries recorded as family parents."
+        },
+        "family_count": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Number of multi-member families, discouraging a trivial genealogy with only one or a few giant families."
+        },
+        "mean_family_size": {
+          "higher_is_better": true,
+          "coefficient": 0.2,
+          "description": "Average size of multi-member families, rewarding non-trivial family expansion across the vocabulary."
+        },
+        "largest_family_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Fraction of the vocabulary occupied by the largest family, penalizing collapsed all-in-one genealogies."
+        },
+        "vocab_size": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Raw vocabulary size, reported for auditability."
+        },
+        "vocab_budget_error": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Absolute fractional deviation from the fixed 6400-unit vocabulary budget."
+        }
+      },
+      "results": {
+        "puma_official_6400": {
+          "type": "proposed",
+          "family_coverage": 0.94125,
+          "mutated_vocab_fraction": 0.8371875,
+          "parent_vocab_fraction": 0.1040625,
+          "vocab_size": 6400
+        },
+        "bpe_official_6400": {
+          "type": "baseline",
+          "family_coverage": 0.0,
+          "mutated_vocab_fraction": 0.0,
+          "parent_vocab_fraction": 0.0,
+          "vocab_size": 6400
+        }
+      }
+    }
+  }
+}
