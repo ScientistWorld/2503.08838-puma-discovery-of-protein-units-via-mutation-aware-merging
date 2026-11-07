@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: false
-notes: "Final scoring audit check: reuse full-corpus reference artifacts and public-label edge statistics; fit clinical families while forbidding every DMS SAME pair, then run unchanged train/test scripts. Resume skips all 19 completed cases."
+action: done
+notes: "Completed 20-run scoring audit: genuine improvements score higher; zero seed spread; visible/public label fitting and a zero-DMS task-failure shortcut beat the reference. REDTEAM.md and per-case evidence committed; source/score trees restored."

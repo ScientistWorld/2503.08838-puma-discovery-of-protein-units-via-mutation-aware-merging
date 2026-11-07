@@ -5,3 +5,10 @@ cache/
 */backup/
 *.log
 v2_support/initial/
+
+# Retain the historical audit ignores.
+generated/
+**/generated/
+_state/
+__pycache__/
+*.pyc

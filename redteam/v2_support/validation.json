@@ -1,0 +1,36 @@
+{
+  "cases_checked": 20,
+  "all_evaluations_completed": true,
+  "all_ranks_recomputed_from_original_coefficients": true,
+  "all_evaluator_hashes_unchanged": true,
+  "fixed_baseline_results_unchanged": true,
+  "seed_trainings_use_full_corpus": true,
+  "start_commit": "c090dec2264b22e32dac1d8206305e66116e11d7",
+  "source_and_score_trees_restored": [
+    "scripts",
+    "method",
+    "baseline",
+    "data",
+    "eval",
+    "scoring",
+    "environment",
+    "briefing"
+  ],
+  "external_changes": {
+    "pre_existing_setup_changes": [
+      "README.md",
+      "manifest.json",
+      "trajectory/session.json",
+      "trajectory/turn_0001_raw.jsonl",
+      "trajectory/turn_0002_raw.jsonl",
+      "trajectory/turn_0003_raw.jsonl",
+      "trajectory/turn_0004_raw.jsonl",
+      "trajectory/turn_0005_raw.jsonl"
+    ],
+    "system_job_records": [],
+    "required_action_protocol": [
+      "action.yaml"
+    ],
+    "unexpected": []
+  }
+}
