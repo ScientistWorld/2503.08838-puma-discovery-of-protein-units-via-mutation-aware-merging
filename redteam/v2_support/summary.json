@@ -873,6 +873,60 @@
         "residues_per_token": 2.3998180305708643,
         "directory": "/home/user/outputs/v2_shortcut_identical_artifact"
       }
+    },
+    "v2_shortcut_abandon_dms": {
+      "absolute_score": 0.16481704529166752,
+      "reference_score": 0.1573879672336192,
+      "rank_delta": 0.007429078058048322,
+      "metrics": {
+        "clinical_sibling_association.benign_pathogenic_gap": 0.11175098342691181,
+        "dms_sibling_association.positive_negative_gap": 0.0,
+        "vocabulary_structure.compression_vs_bpe": 0.9776645523552043
+      },
+      "valid": true,
+      "validation": {
+        "valid": true,
+        "counts": {
+          "clinical": {
+            "benign": {
+              "variants": 15957,
+              "same": 9341,
+              "sibling": 1083,
+              "same_idx": 0.5853857241336091,
+              "same_sibling_rate": 0.11594047746493952
+            },
+            "pathogenic": {
+              "variants": 16652,
+              "same": 9309,
+              "sibling": 39,
+              "same_idx": 0.5590319481143406,
+              "same_sibling_rate": 0.004189494038027715
+            }
+          },
+          "dms": {
+            "positive": {
+              "variants": 97051,
+              "same": 53007,
+              "sibling": 0,
+              "same_idx": 0.5461767524291352,
+              "same_sibling_rate": 0.0
+            },
+            "negative": {
+              "variants": 63447,
+              "same": 33955,
+              "sibling": 0,
+              "same_idx": 0.5351710876794805,
+              "same_sibling_rate": 0.0
+            }
+          }
+        },
+        "gap_standard_error": {
+          "clinical": 0.0033795129302567426,
+          "dms": 0.0
+        },
+        "residues_per_token": 2.3998180305708643,
+        "directory": "/home/user/outputs/v2_shortcut_abandon_dms"
+      }
     }
   },
   "seed_scores": [

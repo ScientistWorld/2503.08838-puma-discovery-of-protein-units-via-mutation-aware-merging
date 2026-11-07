@@ -1,21 +1,3 @@
 {
-  "v2_reference_seed7": 0,
-  "v2_reference_seed17": 0,
-  "v2_reference_seed29": 0,
-  "v2_better_cutoff060": 0,
-  "v2_better_chemical_families": 0,
-  "v2_weaker_no_genealogy": 0,
-  "v2_simple_bpe": 0,
-  "v2_shortcut_visible_label_fitting": 0,
-  "v2_shortcut_public_answer_fitting": 0,
-  "v2_shortcut_compression_tradeoff": 0,
-  "v2_shortcut_forged_fields": 0,
-  "v2_shortcut_move_baseline": 0,
-  "v2_shortcut_move_data": 0,
-  "v2_shortcut_replace_released": 0,
-  "v2_shortcut_constant": 0,
-  "v2_shortcut_empty": 0,
-  "v2_shortcut_copied_residues": 0,
-  "v2_shortcut_impossible_values": 0,
-  "v2_shortcut_identical_artifact": 0
+  "v2_shortcut_abandon_dms": 0
 }

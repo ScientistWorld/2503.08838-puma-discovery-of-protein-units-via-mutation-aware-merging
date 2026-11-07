@@ -1,0 +1,38 @@
+{
+  "kind": "shortcut_abandon_dms",
+  "inputs": [
+    "method/",
+    "data/uniref50_human.fasta"
+  ],
+  "seed": 7,
+  "cutoff": 0.7,
+  "shortcut": true,
+  "forbidden_labels": "public_download",
+  "objective_gain_on_source": 0.06723074470623487,
+  "merges": 1610,
+  "source_counts": {
+    "clinical": {
+      "total": {
+        "benign": 30727,
+        "pathogenic": 32000
+      },
+      "same": {
+        "benign": 18102,
+        "pathogenic": 17732
+      }
+    },
+    "dms": {
+      "total": {
+        "positive": 189014,
+        "negative": 128534
+      },
+      "same": {
+        "negative": 68855,
+        "positive": 104096
+      }
+    }
+  },
+  "tokenizer_unchanged": true,
+  "uses_test_split_rule": false,
+  "shortcut_abandons_dms": true
+}
