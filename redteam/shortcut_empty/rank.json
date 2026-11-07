@@ -1,0 +1,56 @@
+{
+  "methods": {
+    "puma_official_6400": {
+      "absolute_weighted_score": 192.9899765625,
+      "delta_vs_reference_test": 151.30664393201425,
+      "by_experiment": {
+        "clinical_sibling_association": {
+          "delta": -0.34313717891610845,
+          "metric_contributions": {
+            "benign_same_sibling_rate": -0.10222602739726026,
+            "pathogenic_same_sibling_rate": 0.03282809611829945,
+            "benign_pathogenic_gap": -0.09178636087407893,
+            "benign_pathogenic_log_ratio": -0.32859288676306875,
+            "benign_same_idx": 0.04992,
+            "pathogenic_same_idx": 0.02754,
+            "minimum_same_idx": 0.05508,
+            "family_coverage": 0.014099999999999993,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "dms_sibling_association": {
+          "delta": -0.0258669310174132,
+          "metric_contributions": {
+            "positive_same_sibling_rate": -0.018779612898275497,
+            "negative_same_sibling_rate": 0.00947392788934545,
+            "positive_negative_gap": -0.010405804554890529,
+            "positive_negative_log_ratio": -0.0691627063445564,
+            "positive_same_idx": 0.022454770258274512,
+            "negative_same_idx": 0.011559164877563087,
+            "minimum_same_idx": 0.023118329755126173,
+            "family_coverage": 0.005874999999999997,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "vocabulary_structure": {
+          "delta": 151.67564804194777,
+          "metric_contributions": {
+            "family_coverage": -0.1412045129508978,
+            "global_family_coverage": 0.005287499999999997,
+            "observed_token_count": -0.0,
+            "mutated_vocab_fraction": -0.0354046875,
+            "parent_vocab_fraction": 0.017817187499999998,
+            "family_count": 152.04,
+            "mean_family_size": -0.21135135135135133,
+            "largest_family_fraction": 0.00050390625,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        }
+      }
+    }
+  },
+  "delta_summed_over_present_methods": 151.30664393201425
+}

@@ -1,0 +1,9 @@
+{
+  "name": "honest_trained_2400",
+  "kind": "honest_trained",
+  "visible_inputs_only": true,
+  "n_sequences": 2400,
+  "untrimmed_vocab_size": 6401,
+  "submitted_vocab_size": 6400,
+  "labels_used": false
+}

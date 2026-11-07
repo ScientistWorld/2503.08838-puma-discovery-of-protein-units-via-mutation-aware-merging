@@ -1,0 +1,6 @@
+{
+  "name": "shortcut_baseline_replacement",
+  "kind": "shortcut_baseline_replacement",
+  "visible_inputs_only": true,
+  "shortcut": "Replace the baseline artifact with a constant tokenizer and fake families."
+}

@@ -1,6 +1,6 @@
 {
   "name": "shortcut_empty",
-  "started": 1794045907.0527248,
+  "started": 1794046672.4800255,
   "test_command": [
     "bash",
     "scripts/evaluate_test.sh"
@@ -12,10 +12,17 @@
     "eval/train/evaluate_puma.py": "7462aa76083b95f70f93f84101fca38e5e779eb7cf91ab9d89bf81a07262f206"
   },
   "prepare": {
-    "returncode": 1,
-    "seconds": 0.21473431587219238
+    "returncode": 0,
+    "seconds": 0.2145674228668213
   },
-  "error_tail": "Traceback (most recent call last):\n  File \"/home/user/redteam/candidates.py\", line 240, in <module>\n    prepare(folder.name, folder, json.loads((folder / \"config.json\").read_text()))\n  File \"/home/user/redteam/candidates.py\", line 131, in prepare\n    raw[\"methods\"][PUMA][\"tokenizer_path\"] = degenerate_tokenizer(out, kind.endswith(\"empty\"))\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/redteam/candidates.py\", line 61, in degenerate_tokenizer\n    tokenizer.normalizer = normalizers.Replace(Regex(\"(?s).+\"), \"\" if empty else \"A\")\n                                               ^^^^^^^^^^^^^^^\nException: Oniguruma error: undefined group option\n",
+  "train": {
+    "returncode": 0,
+    "seconds": 15.698551654815674
+  },
+  "test": {
+    "returncode": 0,
+    "seconds": 16.817445993423462
+  },
   "evaluators_unchanged": true,
-  "seconds": 0.2164468765258789
+  "seconds": 32.75057506561279
 }
