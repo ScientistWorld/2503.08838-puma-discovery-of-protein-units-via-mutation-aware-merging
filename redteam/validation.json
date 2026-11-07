@@ -1,0 +1,124 @@
+{
+  "successful_cases": [
+    {
+      "name": "honest_stricter_links_080",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "honest_stricter_links_090",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "honest_trained_1200",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "honest_trained_2400",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "more_training",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "original_training",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "reference_seed17",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "reference_seed29",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "reference_seed7",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_baseline_replacement",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_constant",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_dataset_replacement",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_empty",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_family_padding",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_impossible_flags",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_label_lookup",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_raw_fields",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "shortcut_skip_training",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    },
+    {
+      "name": "weak_no_genealogy",
+      "successful_steps": 3,
+      "evaluator_hashes_match": true,
+      "finite_scores_and_independent_rank_arithmetic": true
+    }
+  ],
+  "case_count": 19,
+  "reference_matches_initial_hidden_scores": true,
+  "gym_source_and_scoring_match_start_commit": "0619dab1ccca1a5a42f02cd72cd1a5789a9caa1c",
+  "seed_mean": 41.63932992727589,
+  "seed_sample_sd": 0.0398383513402691,
+  "seed_peak_to_peak_spread": 0.07761938176579974
+}

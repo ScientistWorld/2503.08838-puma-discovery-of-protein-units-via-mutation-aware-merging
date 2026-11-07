@@ -1,0 +1,20 @@
+[
+  {
+    "run_id": "3b500826-dbf",
+    "status": "completed",
+    "returncode": 0,
+    "duration": 2050.6732461452484,
+    "submitted_at": 1794044460.2600636,
+    "started_at": 1794044478.5553532,
+    "completed_at": 1794046529.2285993
+  },
+  {
+    "run_id": "caada00b-f48",
+    "status": "completed",
+    "returncode": 0,
+    "duration": 602.0926525592804,
+    "submitted_at": 1794046612.1311636,
+    "started_at": 1794046649.3232553,
+    "completed_at": 1794047251.4159079
+  }
+]

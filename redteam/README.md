@@ -36,3 +36,14 @@ so baseline replacement is not confused with a better candidate.
 Protected evaluator source hashes in every `run_result.json` demonstrate that
 the evaluator and hidden entrypoint were unmodified. The implementation does
 not change imports, the Python environment, or the evaluator process.
+
+See `../REDTEAM.md` for the findings. The three-seed rank spread is 0.077619;
+the empty-output shortcut gains 151.306644. Direct raw-summary forgery is
+ignored, but fabricated genealogy, label lookup, and replacement scoring data
+are rewarded. The two optional-training runs are honest alternatives the test
+cannot tell apart; successful shortcut ties are explicitly named `shortcut_`.
+
+`python3 redteam/validate_results.py` checks the saved evidence using only the
+standard library, without training or inference. Restore `scripts/run.sh` to
+the starting version before this check. `job_receipts.json` retains the two
+completed job IDs and exit statuses; `validation.json` retains all 19 checks.

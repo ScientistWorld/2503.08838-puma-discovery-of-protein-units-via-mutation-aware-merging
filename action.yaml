@@ -1,4 +1,8 @@
-action: submit
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
 gpus: 0
 test: false
-notes: "Resume scoring audit: rerun three corrected constant/empty/baseline shortcut probes and compare actual 6400-token PUMA training on 1200 versus 2400 sequences; reuse all completed scores."
+milestone: secondary_claims
+notes: ""
