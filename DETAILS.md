@@ -15,7 +15,7 @@ The paper addresses how to discover contiguous protein sequence units that act l
 - On human ProteinGym DMS substitutions, the same compact PUMA setting has a positive SAME sibling rate of 0.075 versus 0.047 for negative variants.
 - The released 6,400-token PUMA vocabulary has 94.1% family coverage, while the frequency-only BPE baseline has no genealogy.
 - The frequency-only BPE baseline has no genealogy and therefore zero SAME sibling rate under this metric.
-- The reproduced benchmark focuses on clinical, DMS, and vocabulary-structure validations and also runs a small fresh PUMA training job to verify the mutation-aware merge algorithm executes end to end.
+- The gym reproduction trains PUMA(BLOSUM62, 0.7, 0.05) with the official code on the full human UniRef50 corpus at 6,400 units and submits exactly that trained vocabulary; it is scored on held-out ClinVar proteins, held-out DMS protein regions, and a segmentation-granularity constraint against the frequency-only BPE baseline.
 
 ---
 
@@ -31,7 +31,7 @@ Protein language models and downstream analyses usually operate at residue level
 
 ## Success Criteria
 
-A successful system should tokenize full protein sequences without gaps, group related unit variants into reusable families, and show that mutations staying within those families are enriched among favorable or benign variants compared with unfavorable or pathogenic variants.
+A successful system should tokenize full protein sequences losslessly with a fixed budget of 6,400 units, group related unit variants into explicit families, and show — on proteins it has never seen labels for — that substitutions staying within a family are enriched among benign or high-fitness variants compared with pathogenic or low-fitness variants, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size. Labels are never used to build the vocabulary.
 
 ---
 
@@ -49,27 +49,54 @@ The vocabulary starts from amino-acid characters. At each iteration PUMA extract
 
 The primary claim is that mutation-aware merging yields protein-unit families whose within-family substitutions are enriched for biologically favorable outcomes, such as benign ClinVar substitutions and high-fitness DMS substitutions. Secondary claims are that protein language models contextually prefer PUMA sibling substitutions over alternatives and that graph-aware topic models using the genealogy better align unit distributions with functional annotations.
 
+## Reproduction in this gym
+
+`scripts/method.sh` runs `method/run_puma.py`, which trains PUMA(BLOSUM62, a=0.7, f=0.05, mutation lengths 3-12) with the official implementation (`method/PUMA_official/Prog/bpe_functions.py`) on all sequences of `data/uniref50_human.fasta`, keeps the first 6,400 entries in merge order (the authors' downsampling rule for the released vocabularies), and writes `outputs/puma_6400/{tokenizer,vocab}.json`. The trained vocabulary is the scored artifact.
+
 ---
 
 # Evaluation
 
+## What a method submits
+
+A method writes one directory per system under `outputs/<method_name>/` with two files:
+
+- `tokenizer.json` — a HuggingFace `tokenizers` file with a `BPE` or `Unigram` model, no normalizer, pre-tokenizer, post-processor, truncation, padding or added tokens, no BPE dropout. Raw protein sequences are segmented as-is.
+- `vocab.json` — one entry per vocabulary unit (exactly the tokenizer's units). An entry may carry `"parent": "<unit>"` to place the unit in the family of another unit of the **same length** (a substitution variant); `"is_parent": true` may mark parents. Other fields are ignored. Families are the connected groups formed by parent links.
+
+`bash scripts/evaluate_train.sh` (visible train slice) and `bash scripts/evaluate_test.sh` (hidden test) take no arguments and score **every** method directory on disk, plus a fixed frequency-only BPE baseline (`bpe_6400`) that the evaluator owns. Nothing else a method writes is read; every number is recomputed from the two files. `bash scripts/evaluate.sh` writes the train-slice scores to `scoring/scores.json`.
+
+## Validity constraints (a violation scores the run as failed)
+
+A submission is scored as failed — the worst value on every scored metric (`gap = -1`, `compression_vs_bpe = 0`) and `valid = 0` — if any of these fail:
+
+- at most **6,400** vocabulary units; `vocab.json` units equal the tokenizer's units; units are uppercase residue strings;
+- every parent link points to an existing unit of the same length;
+- segmentation is **lossless**: on every scored wild-type and mutated sequence the units concatenate back to the sequence;
+- the segmentation is a real unit vocabulary: at least **2.0 residues per unit** on average and at least **3,200 distinct units** used on the scored proteins;
+- for each label, at least **20%** of variants leave every unit boundary unchanged.
+
 ## Metrics
 
-The primary metric is `benign_pathogenic_gap`: the SAME sibling rate for benign clinical substitutions minus the SAME sibling rate for pathogenic substitutions. SAME sibling rate is computed only for point mutations where the original and mutated full sequence have identical token boundaries; among those SAME cases, it is the fraction where the original and mutated tokens at the mutation site belong to the same unit family.
+**SAME sibling rate.** For a single amino-acid substitution, the wild-type and mutated sequences are segmented. If every unit boundary is unchanged (a SAME case), the substitution is a *sibling* event when the wild-type unit and the mutated unit at the substituted position belong to the same family. The SAME sibling rate of a label is the fraction of its SAME cases that are sibling events; `*_same_idx` is the fraction of its variants that are SAME.
 
-The evaluation also reports the benign and pathogenic SAME sibling rates separately, SAME boundary rates (`benign_same_idx`, `pathogenic_same_idx`), vocabulary size, and family coverage. Family coverage is a constraint metric: a method should produce a meaningful genealogy rather than only a flat vocabulary.
+| Experiment | Weight | Scored metric (coefficient 1) | Meaning |
+|---|---:|---|---|
+| `clinical_sibling_association` | 0.6 | `benign_pathogenic_gap` | benign minus pathogenic SAME sibling rate on ClinVar variants of held-out proteins |
+| `dms_sibling_association` | 0.3 | `positive_negative_gap` | positive (high-fitness) minus negative (low-fitness) SAME sibling rate on human DMS variants of held-out protein regions |
+| `vocabulary_structure` | 0.1 | `compression_vs_bpe` | residues per unit on the scored proteins divided by the BPE baseline's, capped at 1 |
 
-A second biological validation uses human ProteinGym deep mutational scanning assays. It reports the SAME sibling-rate gap between positive/high-fitness and negative/low-fitness substitutions with the same unchanged-boundary filter.
+All other reported metrics (per-label rates, `*_same_idx`, family coverage and family-shape statistics, vocabulary size, residues per unit, distinct units used, `valid`) have coefficient 0: they are for auditing. The rank of a method is the sum over experiments of weight × coefficient × (metric − reference metric).
 
-A secondary vocabulary-structure experiment reports `family_coverage`, `mutated_vocab_fraction`, `parent_vocab_fraction`, and `vocab_size` at the same fixed vocabulary budget. This prevents future systems from improving the clinical metric by discarding the family structure that the task is meant to evaluate.
+## Data and splits
 
-## Baselines and Targets
+The populations are fixed by the evaluator. ProteinGym ClinVar single substitutions (benign / pathogenic) are split **by protein**; human ProteinGym DMS single substitutions (positive / negative fitness bin) are split by protein region (50-residue windows). Only substitutions in wild-type sequences of at most 3,000 standard residues are used. The train populations are visible in `data/downloads/proteingym_train/`; the hidden test populations are held out. All variants of each population are scored (no subsampling), so scores are deterministic.
 
-Scores are reported at a fixed 6,400-token vocabulary budget. `scoring/reference.json` records the published comparison groups and the compact reproduced reference systems. The evaluator accepts any method that emits the required raw artifact schema; it does not require a particular tokenization algorithm.
+The unlabeled training corpus is `data/uniref50_human.fasta` (human UniRef50 representatives). Labels must not be used to build a vocabulary or its families.
 
-## Evaluation Protocol
+## Baselines and targets
 
-The compact reproduction uses ProteinGym clinical substitutions from ClinVar and human ProteinGym DMS substitutions. A candidate method writes raw tokenization and family-count artifacts to `outputs/puma_reproduction/raw_results.json`; `scripts/evaluate.sh` reads only that artifact and writes `scoring/scores.json`. The evaluator does not import from `method/`, so a future method can be scored by writing the same raw artifact schema.
+`bpe_6400` is a frequency-only 6,400-unit vocabulary without families (sibling gaps 0, compression ratio 1 by definition). `scoring/reference.json` lists the published numbers; `scoring/scores_train.json` and `scoring/scores_test.json` hold the reproduced reference.
 
 ---
 

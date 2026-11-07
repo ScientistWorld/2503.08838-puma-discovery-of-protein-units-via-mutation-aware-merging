@@ -1,20 +1,31 @@
 # Evaluation Targets
 
-## Primary: clinical_sibling_association
+Every target below is an experiment in `scoring/reference.json` and is reported in `scoring/scores_train.json` / `scoring/scores_test.json` for every method on disk and for the evaluator's BPE baseline.
 
-Tests whether favorable clinical substitutions are more likely than pathogenic substitutions to preserve membership within the same discovered unit family.
-- **Metric**: `benign_pathogenic_gap` (higher is better)
-- **How to run**: `bash scripts/method.sh`, then `bash scripts/evaluate.sh outputs/puma_reproduction/raw_results.json`
+## Primary: clinical_sibling_association (weight 0.6)
 
-## Secondary: vocabulary_structure
+Benign variants should keep the mutated unit inside the same family more often than pathogenic variants.
+- **Metric**: `benign_pathogenic_gap` (higher is better, coefficient 1)
+- **Paper (6,400 units, full ClinVar pool)**: PUMA 0.0835 (benign 0.158 vs pathogenic 0.074); BPE 0
+- **Reported only**: per-label SAME sibling rates and SAME rates, family coverage, vocabulary size, validity
 
-Checks that the submitted system preserves a genuine unit-family structure while using the fixed vocabulary scale.
-- **Metric**: `family_coverage` (higher is better)
-- **Constraint metrics**: `mutated_vocab_fraction`, `parent_vocab_fraction`, and `vocab_size`
-- **How to run**: same as `clinical_sibling_association`
+## Secondary: dms_sibling_association (weight 0.3)
 
-## Secondary: dms_sibling_association
+High-fitness DMS variants should keep the mutated unit inside the same family more often than low-fitness variants.
+- **Metric**: `positive_negative_gap` (higher is better, coefficient 1)
+- **Paper (6,400 units)**: PUMA 0.0280 (positive 0.075 vs negative 0.047); BPE 0
 
-Tests whether experimentally positive or high-fitness DMS substitutions are more likely than negative or low-fitness substitutions to preserve membership within the same discovered unit family.
-- **Metric**: `positive_negative_gap` (higher is better)
-- **How to run**: `bash scripts/method.sh`, then `bash scripts/evaluate.sh outputs/puma_reproduction/raw_results.json`
+## Constraint: vocabulary_structure (weight 0.1)
+
+The vocabulary remains a genuine 6,400-unit segmentation with explicit families.
+- **Metric**: `compression_vs_bpe` (higher is better, capped at 1, coefficient 1). Paper (released statistics): PUMA 0.976, BPE 1
+- **Validity gates (failure scores the run as failed)**: ≤ 6,400 units; lossless segmentation; consistent same-length parent links; ≥ 2.0 residues per unit; ≥ 3,200 distinct units used; ≥ 20% SAME cases per label
+- **Reported only**: family coverage (paper 0.941), mutated / parent fractions (paper 0.837 / 0.104), family count and shape, residues per unit, distinct units used
+
+## How to run
+
+```
+bash scripts/method.sh          # trains the reference into outputs/puma_6400/
+bash scripts/evaluate_train.sh  # visible train slice -> scoring/scores_train.json
+bash scripts/evaluate_test.sh   # hidden test         -> scoring/scores_test.json
+```

@@ -2,16 +2,18 @@
 
 ## Research Problem
 
-This benchmark studies protein sequence tokenization where units should be contiguous, reusable, and informative about the effects of amino-acid substitutions. The scientific question is whether sequence units can represent mutational relatedness, not just frequent substrings.
+Protein sequence segmentation into contiguous, reusable units whose organization also reflects mutational relatedness: units that are variants of one another by plausible amino-acid substitutions should be grouped into families, and substitutions that stay within a family should be the less disruptive ones.
 
-## Core Contribution
+## Core Contribution Space
 
-The contribution space is mutation-aware protein-unit discovery with an explicit genealogy between related units. Improvements should change how unit families are discovered, filtered, weighted, or used while preserving the goal of a sequence-derived vocabulary with family relationships.
+Unsupervised discovery of a fixed-size protein-unit vocabulary together with an explicit family structure. Improvements may change how units are proposed, scored and accepted, how variants are linked into families, which substitution model or evolutionary signal guides linking, or how the vocabulary budget is split between frequent units and their variants.
 
-## Approach Scope
+## What counts as progress
 
-In-bounds work may modify how sequence units are proposed, scored, accepted, organized into families, or post-processed. It may also introduce additional biologically motivated constraints if they operate within the same protein-unit discovery problem.
+A larger benign-vs-pathogenic and high-vs-low-fitness difference in within-family substitution rates on held-out proteins, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size.
 
 ## Out of Bounds
 
-Replacing the task with a supervised pathogenicity predictor is out of bounds. Using a protein language model to directly classify variants is also out of bounds because it bypasses the paper's unit-discovery claim. Scaling the vocabulary far beyond the benchmark size or adding external labeled clinical data for scoring is not a valid improvement under this gym.
+- Using clinical or DMS labels (including the visible train populations) to build or tune units or families, or reading the hidden test.
+- Supervised variant-effect prediction or protein-language-model scoring that bypasses unit discovery.
+- Exceeding the 6,400-unit budget, lossy or near-character-level segmentations, or editing the evaluator.

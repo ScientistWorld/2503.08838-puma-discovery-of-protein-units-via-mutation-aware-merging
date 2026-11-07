@@ -1,17 +1,11 @@
 #!/bin/bash
-# Evaluate the held-out test slice from the same artifacts scored on train.
-#
-# Usage:
-#   bash scripts/evaluate_test.sh [raw_results_json]
+# Hidden test: score every method on disk (outputs/<method>/tokenizer.json +
+# vocab.json) plus the evaluator-owned BPE baseline on held-out proteins.
+# Takes no arguments; writes scoring/scores_test.json.
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-RAW_PATH="${1:-outputs/puma_reproduction/raw_results.json}"
-python eval/test/evaluate_puma.py \
-  --raw "$RAW_PATH" \
-  --scores scoring/scores_test.json \
-  --train-scores scoring/scores_train.json \
-  --require-train-scores
+python eval/test/evaluate.py --scores scoring/scores_test.json

@@ -1,13 +1,13 @@
 # Experiment Overview
 
-## clinical_sibling_association
+## clinical_sibling_association (weight 0.6)
 
-Tests whether a protein-unit vocabulary captures clinically meaningful mutation relationships. The experiment compares benign and pathogenic single amino-acid substitutions and measures whether the local unit before and after mutation remains in the same family when token boundaries are unchanged. It also reports whether the vocabulary provides broad family coverage at the fixed vocabulary scale.
+Establishes whether the families of a protein-unit vocabulary carry clinical meaning: when a single amino-acid substitution keeps the local unit inside the same family, is that variant more often benign than pathogenic? Scored on ClinVar variants of proteins whose labels are held out. The scored quantity is the benign-minus-pathogenic difference of the within-family rate, so inflating family membership uniformly does not help.
 
-## vocabulary_structure
+## dms_sibling_association (weight 0.3)
 
-Checks whether the produced unit vocabulary has a non-trivial family structure at the same vocabulary budget. This is a constraint-style experiment: future systems should not improve clinical association scores by abandoning the family coverage that makes the benchmark meaningful.
+Asks the same question with experimental fitness instead of clinical annotation: are within-family substitutions enriched among high-fitness variants of human deep mutational scanning assays, compared with low-fitness variants? Scored on held-out regions of the assayed proteins.
 
-## dms_sibling_association
+## vocabulary_structure (weight 0.1)
 
-Tests whether the same family-preservation signal appears in experimental fitness assays. The experiment compares positive and negative single amino-acid substitutions from human ProteinGym DMS assays using the same SAME sibling-rate logic as the clinical experiment.
+The constraint side. The vocabulary must remain a genuine segmentation at the fixed 6,400-unit budget: complete and lossless, with explicit and consistent families, and with units as long as those of a frequency-only vocabulary of the same size. The scored quantity is the unit length relative to the frequency-only baseline (capped at 1); budget, losslessness, family consistency, minimum unit length, minimum vocabulary use and minimum boundary preservation are validity gates whose violation fails the run.

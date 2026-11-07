@@ -10,4 +10,4 @@ Protein language models and downstream analyses usually operate at residue level
 
 ## Success Criteria
 
-A successful system should tokenize full protein sequences without gaps, group related unit variants into reusable families, and show that mutations staying within those families are enriched among favorable or benign variants compared with unfavorable or pathogenic variants.
+A successful system should tokenize full protein sequences losslessly with a fixed budget of 6,400 units, group related unit variants into explicit families, and show — on proteins it has never seen labels for — that substitutions staying within a family are enriched among benign or high-fitness variants compared with pathogenic or low-fitness variants, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size. Labels are never used to build the vocabulary.

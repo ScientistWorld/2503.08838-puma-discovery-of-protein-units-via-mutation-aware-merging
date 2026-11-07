@@ -1,28 +1,21 @@
 #!/bin/bash
-# Compute-node job script for end-to-end compact PUMA verification.
+# Compute-node job: hardening verification run. Builds the split, trains the
+# reference PUMA submission (scripts/method.sh), trains/builds variants and
+# shortcut probes, scores them before/after, then regenerates the gym's score
+# files from the reference alone and validates.
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-if [ ! -e data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet ]; then
-  echo "Missing ProteinGym clinical data. Run scripts/download.sh on an internet-enabled node before submitting." >&2
-  exit 1
-fi
-if [ ! -e data/uniref50_human.fasta ]; then
-  echo "Missing tracked UniRef50-human FASTA at data/uniref50_human.fasta." >&2
+if [ ! -s eval/test/downloads/raw/clinical_substitutions/train-00000-of-00001.parquet ]; then
+  echo "Missing raw ProteinGym data. Run scripts/download.sh on an internet-enabled node first." >&2
   exit 1
 fi
 for shard in 0 1 2 3 4; do
-  file=$(printf "data/downloads/proteingym_dms_substitutions/train-%05d-of-00005.parquet" "$shard")
-  if [ ! -e "$file" ]; then
-    echo "Missing ProteinGym DMS shard $file. Run scripts/download.sh on an internet-enabled node before submitting." >&2
-    exit 1
-  fi
+  file=$(printf "eval/test/downloads/raw/DMS_substitutions/train-%05d-of-00005.parquet" "$shard")
+  [ -s "$file" ] || { echo "Missing $file. Run scripts/download.sh first." >&2; exit 1; }
 done
 
-bash scripts/method.sh
-bash scripts/evaluate_train.sh outputs/puma_reproduction/raw_results.json
-bash scripts/evaluate_test.sh outputs/puma_reproduction/raw_results.json
-python validate.py --compare
+python hardening/run_hardening.py
