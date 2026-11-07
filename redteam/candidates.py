@@ -58,7 +58,8 @@ def degenerate_tokenizer(out, empty=False):
     """Shortcut: erase a whole protein or replace it with one constant token."""
     from tokenizers import Tokenizer, Regex, models, normalizers
     tokenizer = Tokenizer(models.WordLevel({"A": 0}, unk_token="A"))
-    tokenizer.normalizer = normalizers.Replace(Regex("(?s).+"), "" if empty else "A")
+    # Protein sequences contain no newlines; plain .+ works with Oniguruma.
+    tokenizer.normalizer = normalizers.Replace(Regex(".+"), "" if empty else "A")
     path = out / "generated/tokenizer.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     tokenizer.save(str(path))
@@ -82,6 +83,28 @@ def prepare(name, out, config):
         n_sequences = config.get("n_sequences", 2400)
         raw["training_summary"] = train_small_vocab(out / "generated/training", n_sequences, 900)
         metadata["n_sequences"] = n_sequences
+    elif kind == "honest_trained":
+        # Actual PUMA at the scored 6400-entry scale. Unlike the original
+        # optional training stage, submit the vocabulary that was just learned.
+        from method.run_puma import read_fasta_sequences, bpe_functions, vocabulary_functions
+        from Bio.Align import substitution_matrices
+        sequences = read_fasta_sequences(ROOT / "data/uniref50_human.fasta", config["n_sequences"])
+        vocab = bpe_functions.train_bpe(
+            corpus=sequences, tokenizer_type="mutated",
+            subs_matrix=substitution_matrices.load("BLOSUM62"),
+            mutation_cutoff=0.7, min_mutation_freq=0.05,
+            min_mutation_len=3, max_mutation_len=12,
+            stop_type="vocab_size", stop_parameter=6400)
+        untrimmed_size = len(vocab)
+        # The official trainer stops between family batches and can overshoot.
+        # Keep the first 6400 merges. Earlier dependency tokens and parents are
+        # retained; only the final batch's excess entries are omitted.
+        vocab = dict(list(vocab.items())[:6400])
+        path = dump(out / "generated/vocab.json", vocab)
+        hf_path = dump(out / "generated/tokenizer.json", vocabulary_functions.vocab_dict_to_HF_dict(vocab))
+        raw["methods"][PUMA] = {"vocab_path": path, "tokenizer_path": hf_path}
+        metadata.update(n_sequences=len(sequences), untrimmed_vocab_size=untrimmed_size,
+                        submitted_vocab_size=len(vocab), labels_used=False)
     elif kind == "weak_no_genealogy":
         vocab = puma_vocab()
         for entry in vocab.values():

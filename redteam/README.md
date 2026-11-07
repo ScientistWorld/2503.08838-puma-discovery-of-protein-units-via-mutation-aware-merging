@@ -21,6 +21,9 @@ clinical sampling variability; the full DMS pool and vocabulary are fixed.
 small-vocabulary stage on 1200 and 2400 sequences. The method's published runner
 does not use that trained stage's outputs for scoring. The two honest stricter
 link variants do change the scored family relationships without using labels.
+`honest_trained_1200` and `honest_trained_2400` train the actual PUMA procedure
+at 6400 entries and submit the learned outputs, testing the effect of more
+unlabeled training data on the scored vocabulary itself.
 
 All folders beginning with `shortcut_` are shortcut probes, including ties and
 failed attempts. They intentionally implement no scientific improvement. The
