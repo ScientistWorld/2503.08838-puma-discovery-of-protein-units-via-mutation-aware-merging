@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
+action: done
 milestone: secondary_claims
-notes: "Hardening round 3 check: retrain reference from final code, rescore all saved variant/shortcut artifacts with the new task-gated evaluators (train+test, no args), paired protein-cluster bootstrap, reference-only score files + validate --compare."
+notes: "Hardening round 3: non-compensatory task gate (both gaps must clear half the paper effect) + 5% granularity tolerance close abandon-DMS (+0.0074 -> -0.0596) and compression-tradeoff (+0.091 -> failed); reference unchanged (test S 0.157388); label-free class-family variant +0.095 (paired z 19); label-fitting shortcuts left to the grader. See HARDENING.md."

@@ -44,5 +44,13 @@
 - Hardening: reference now trains PUMA on the full corpus and submits the trained vocabulary; evaluators rewritten with a fixed protein-level split, evaluator-owned baseline, validity gates and bounded scored metrics.
 - CPU job `d20a9bcd-202` (exit 0): reference test gaps 0.0859 clinical / 0.0269 DMS vs paper 0.0835 / 0.0280; all REDTEAM shortcuts now fail or tie; honest variants rank by their gaps. Details in `HARDENING.md`.
 
+### [2026-11-07 21:40] - secondary_claims
+- Hardening round 3 added a task gate: both biological gaps must clear half the published effect or neither earns credit. Units more than 5% shorter than BPE's now fail the run.
+- CPU job `a711a2ea-5cc` (exit 0):
+  - the reference is unchanged (test S 0.157388);
+  - the abandon-DMS and compression-tradeoff shortcuts no longer pay;
+  - a genuinely better label-free variant beats the reference by 19 paired SDs;
+  - label-fitting shortcuts are documented and left to the grader.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.

@@ -1,6 +1,19 @@
 # Progress
 
-## Current state (hardening, 2026-11-07)
+## Current state (hardening round 3, 2026-11-07, final)
+
+- Evaluators add a non-compensatory task gate: both gaps must reach a minimum (clinical ≥ 0.04, DMS ≥ 0.014). Otherwise neither gap earns credit (S ≤ 0.1 vs ≥ 0.123 for any run solving both).
+- `compression_vs_bpe` < 0.95 now fails the run (granularity tolerance). Non-finite Unigram scores also fail.
+- CPU job `a711a2ea-5cc`:
+  - the reference was retrained content-identically; test S 0.157388 and train S 0.154487, both unchanged;
+  - abandon-DMS shortcut +0.0074 → −0.0596;
+  - compression-tradeoff shortcut +0.091 → failed;
+  - label-free class-family variant +0.095 (paired z 19);
+  - post-hoc-family baseline −0.0099 (z −3.5).
+- Label-fitting shortcuts (visible / public labels) are left to the compliance grader.
+- Details: `HARDENING.md`, `hardening/v3/`. `python validate.py --compare` passes.
+
+## State after hardening round 2 (2026-11-07)
 
 - The reference is trained, not copied: `scripts/method.sh` trains PUMA(BLOSUM62, 0.7, 0.05, lengths 3-12) with the official code on all 70,692 UniRef50-human sequences (112 s, 5.5 GB) and submits `outputs/puma_6400/{tokenizer,vocab}.json`.
 - Evaluators (`eval/train/evaluate.py`, `eval/test/evaluate.py`) take no arguments, score every `outputs/<method>/` plus an evaluator-owned BPE baseline, enforce validity gates (budget, lossless segmentation, consistent genealogy, granularity, usage, SAME coverage) and score a failed run at the worst value.

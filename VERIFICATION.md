@@ -1,4 +1,4 @@
-> **Superseded in part (2026-11-07):** the evaluation interface and scoring described below were replaced during hardening (trained reference submission, fixed protein-level split, evaluator-owned baseline, validity gates, bounded metrics). See `HARDENING.md` for the current design and verification.
+> **Superseded in part (2026-11-07):** the evaluation interface and scoring described below were replaced during hardening (trained reference submission, fixed protein-level split, evaluator-owned baseline, validity gates, bounded metrics). Round 3 then added a non-compensatory task gate and a granularity tolerance. See `HARDENING.md` for the current design and verification, and `hardening/HARDENING_round2.md` for round 2.
 
 # Verification Report
 
