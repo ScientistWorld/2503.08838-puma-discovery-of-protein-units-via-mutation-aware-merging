@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
+action: submit
 gpus: 0
 test: false
 milestone: secondary_claims
-notes: ""
+notes: "Hardening verification: build fixed split, train reference PUMA on full corpus, train/build variants and shortcut probes, score before (legacy) and after (new evaluator), regenerate reference-only scores, validate."
