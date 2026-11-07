@@ -1,0 +1,9 @@
+{
+  "name": "shortcut_label_lookup",
+  "kind": "shortcut_label_lookup",
+  "visible_inputs_only": true,
+  "shortcut": "Memorize visible clinical and DMS negative labels, including test records.",
+  "memorized_negative_sequences": 144736,
+  "actual_tokenizer_vocab_size": 144737,
+  "reported_genealogy_vocab_size": 6400
+}

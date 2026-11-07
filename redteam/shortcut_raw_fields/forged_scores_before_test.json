@@ -1,0 +1,25 @@
+{
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "family_coverage": 1e+99
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "family_coverage": 1e+99
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "puma_official_6400": {
+          "family_coverage": 1e+99
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "seed": 7,
+  "max_per_label": 4000,
+  "max_dms_per_bin": 0,
+  "clinical_parquet": "data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet",
+  "dms_path": "data/downloads/proteingym_dms_substitutions",
+  "training_summary": {
+    "n_sequences": 1200,
+    "target_vocab_size": 900,
+    "puma_vocab_size": 908,
+    "puma_parent_count": 62,
+    "puma_mutated_count": 520,
+    "bpe_vocab_size": 900,
+    "puma_vocab_path": "/home/user/redteam/original_training/generated/training/small_puma_vocab.json",
+    "puma_tokenizer_path": "/home/user/redteam/original_training/generated/training/small_puma_hf.json",
+    "bpe_vocab_path": "/home/user/redteam/original_training/generated/training/small_bpe_vocab.json",
+    "bpe_tokenizer_path": "/home/user/redteam/original_training/generated/training/small_bpe_hf.json"
+  },
+  "methods": {
+    "puma_official_6400": {
+      "tokenizer_path": "method/PUMA_official/RSRC/vocabs/hf_uniref50_mutbpe_0.7_3_12_0.05_6400.json",
+      "vocab_path": "method/PUMA_official/RSRC/vocabs/uniref50_mutbpe_0.7_3_12_0.05_6400.json"
+    }
+  }
+}

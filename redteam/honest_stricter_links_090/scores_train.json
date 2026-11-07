@@ -1,0 +1,56 @@
+{
+  "_metadata": {
+    "slice": "train",
+    "split": "deterministic_label_stratified_even_hash_ranks"
+  },
+  "experiments": {
+    "clinical_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "benign_same_sibling_rate": 0.010896898575020955,
+          "pathogenic_same_sibling_rate": 0.0009140767824497258,
+          "benign_pathogenic_gap": 0.009982821792571228,
+          "benign_pathogenic_log_ratio": 2.478317916115372,
+          "benign_same_idx": 0.5965,
+          "pathogenic_same_idx": 0.547,
+          "minimum_same_idx": 0.547,
+          "family_coverage": 0.0515625,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    },
+    "dms_sibling_association": {
+      "results": {
+        "puma_official_6400": {
+          "positive_same_sibling_rate": 0.0016062721101443732,
+          "negative_same_sibling_rate": 0.000757686143086114,
+          "positive_negative_gap": 0.0008485859670582592,
+          "positive_negative_log_ratio": 0.7514013757287066,
+          "positive_same_idx": 0.5526376970875428,
+          "negative_same_idx": 0.5338446459963596,
+          "minimum_same_idx": 0.5338446459963596,
+          "family_coverage": 0.0515625,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    },
+    "vocabulary_structure": {
+      "results": {
+        "puma_official_6400": {
+          "family_coverage": 0.05038143674507311,
+          "global_family_coverage": 0.0515625,
+          "observed_token_count": 6292.0,
+          "mutated_vocab_fraction": 0.02953125,
+          "parent_vocab_fraction": 0.02203125,
+          "family_count": 141.0,
+          "mean_family_size": 2.3404255319148937,
+          "largest_family_fraction": 0.00109375,
+          "vocab_size": 6400.0,
+          "vocab_budget_error": 0.0
+        }
+      }
+    }
+  }
+}

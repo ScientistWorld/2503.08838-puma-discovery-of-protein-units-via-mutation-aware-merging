@@ -1,0 +1,14 @@
+{
+  "seed": 7,
+  "max_per_label": 0,
+  "max_dms_per_bin": 0,
+  "clinical_parquet": "redteam/shortcut_dataset_replacement/generated/clinical.parquet",
+  "dms_path": "redteam/shortcut_dataset_replacement/generated/dms.parquet",
+  "training_summary": null,
+  "methods": {
+    "puma_official_6400": {
+      "tokenizer_path": "method/PUMA_official/RSRC/vocabs/hf_uniref50_mutbpe_0.7_3_12_0.05_6400.json",
+      "vocab_path": "method/PUMA_official/RSRC/vocabs/uniref50_mutbpe_0.7_3_12_0.05_6400.json"
+    }
+  }
+}

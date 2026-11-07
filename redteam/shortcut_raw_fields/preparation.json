@@ -1,0 +1,6 @@
+{
+  "name": "shortcut_raw_fields",
+  "kind": "shortcut_raw_fields",
+  "visible_inputs_only": true,
+  "shortcut": "Write fake summary metrics and a pre-existing fake score file."
+}

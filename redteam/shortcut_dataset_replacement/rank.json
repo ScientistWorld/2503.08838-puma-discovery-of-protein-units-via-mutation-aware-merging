@@ -1,0 +1,56 @@
+{
+  "methods": {
+    "puma_official_6400": {
+      "absolute_weighted_score": 53.94464304345205,
+      "delta_vs_reference_test": 12.261310412966274,
+      "by_experiment": {
+        "clinical_sibling_association": {
+          "delta": 8.6031385227446,
+          "metric_contributions": {
+            "benign_same_sibling_rate": 0.4977739726027397,
+            "pathogenic_same_sibling_rate": 0.03282809611829945,
+            "benign_pathogenic_gap": 0.808213639125921,
+            "benign_pathogenic_log_ratio": 7.1317828148976385,
+            "benign_same_idx": 0.04992,
+            "pathogenic_same_idx": 0.02754,
+            "minimum_same_idx": 0.05508,
+            "family_coverage": 0.0,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "dms_sibling_association": {
+          "delta": 3.7017479446745485,
+          "metric_contributions": {
+            "positive_same_sibling_rate": 0.2312203871017245,
+            "negative_same_sibling_rate": 0.00947392788934545,
+            "positive_negative_gap": 0.3645941954451095,
+            "positive_negative_log_ratio": 3.039327169347405,
+            "positive_same_idx": 0.022454770258274512,
+            "negative_same_idx": 0.011559164877563087,
+            "minimum_same_idx": 0.023118329755126173,
+            "family_coverage": 0.0,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "vocabulary_structure": {
+          "delta": -0.043576054452874095,
+          "metric_contributions": {
+            "family_coverage": -0.043576054452874095,
+            "global_family_coverage": 0.0,
+            "observed_token_count": -0.0,
+            "mutated_vocab_fraction": 0.0,
+            "parent_vocab_fraction": 0.0,
+            "family_count": 0.0,
+            "mean_family_size": 0.0,
+            "largest_family_fraction": -0.0,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        }
+      }
+    }
+  },
+  "delta_summed_over_present_methods": 12.261310412966274
+}

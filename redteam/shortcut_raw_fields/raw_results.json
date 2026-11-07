@@ -1,0 +1,34 @@
+{
+  "seed": 7,
+  "max_per_label": 4000,
+  "max_dms_per_bin": 0,
+  "clinical_parquet": "data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet",
+  "dms_path": "data/downloads/proteingym_dms_substitutions",
+  "training_summary": null,
+  "methods": {
+    "puma_official_6400": {
+      "tokenizer_path": "method/PUMA_official/RSRC/vocabs/hf_uniref50_mutbpe_0.7_3_12_0.05_6400.json",
+      "vocab_path": "method/PUMA_official/RSRC/vocabs/uniref50_mutbpe_0.7_3_12_0.05_6400.json",
+      "vocab_size": 6400,
+      "parent_count": 6400,
+      "mutated_count": 6400,
+      "family_coverage": 999999,
+      "usable_variant_count": null,
+      "success": true,
+      "time_seconds": -1,
+      "labels": {
+        "Benign": {
+          "same_sibling_rate": 1e+99,
+          "same_idx": null
+        },
+        "Pathogenic": {
+          "same_sibling_rate": -1e+99,
+          "same_idx": null
+        }
+      },
+      "dms": {
+        "positive_negative_gap": NaN
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "methods": {
+    "puma_official_6400": {
+      "absolute_weighted_score": 33.32736952359442,
+      "delta_vs_reference_test": -8.355963106891352,
+      "by_experiment": {
+        "clinical_sibling_association": {
+          "delta": 0.21332084529026368,
+          "metric_contributions": {
+            "benign_same_sibling_rate": -0.06575342465753424,
+            "pathogenic_same_sibling_rate": 0.029279112754158967,
+            "benign_pathogenic_gap": -0.043731800572253295,
+            "benign_pathogenic_log_ratio": 0.4298394577658923,
+            "benign_same_idx": 0.0,
+            "pathogenic_same_idx": 0.0,
+            "minimum_same_idx": 0.0,
+            "family_coverage": -0.1363125,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "dms_sibling_association": {
+          "delta": -0.019226358685247878,
+          "metric_contributions": {
+            "positive_same_sibling_rate": -0.013907272064606471,
+            "negative_same_sibling_rate": 0.007714566815209215,
+            "positive_negative_gap": -0.00639609531839243,
+            "positive_negative_log_ratio": 0.05015931688254181,
+            "positive_same_idx": 0.0,
+            "negative_same_idx": 0.0,
+            "minimum_same_idx": 0.0,
+            "family_coverage": -0.056796875000000004,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        },
+        "vocabulary_structure": {
+          "delta": -8.550057593496367,
+          "metric_contributions": {
+            "family_coverage": -0.08504687748291752,
+            "global_family_coverage": -0.0511171875,
+            "observed_token_count": 0.0,
+            "mutated_vocab_fraction": -0.05738906249999999,
+            "parent_vocab_fraction": -0.00096328125,
+            "family_count": -8.219999999999999,
+            "mean_family_size": -0.13586930976344966,
+            "largest_family_fraction": 0.000328125,
+            "vocab_size": 0.0,
+            "vocab_budget_error": -0.0
+          }
+        }
+      }
+    }
+  },
+  "delta_summed_over_present_methods": -8.355963106891352
+}

@@ -1,0 +1,6 @@
+{
+  "name": "shortcut_impossible_flags",
+  "kind": "shortcut_impossible_flags",
+  "visible_inputs_only": true,
+  "shortcut": "False flags and dangling parent names produce 200% coverage."
+}

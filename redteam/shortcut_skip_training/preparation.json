@@ -1,0 +1,6 @@
+{
+  "name": "shortcut_skip_training",
+  "kind": "shortcut_skip_training",
+  "visible_inputs_only": true,
+  "shortcut": "Skip all optional training; submit the same released outputs."
+}

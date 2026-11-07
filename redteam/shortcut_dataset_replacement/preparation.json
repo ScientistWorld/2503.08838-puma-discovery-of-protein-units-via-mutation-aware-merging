@@ -1,0 +1,8 @@
+{
+  "name": "shortcut_dataset_replacement",
+  "kind": "shortcut_dataset_replacement",
+  "visible_inputs_only": true,
+  "shortcut": "Redirect ground-truth paths to cherry-picked repeated visible train examples.",
+  "clinical_pool_size": 16,
+  "dms_pool_size": 16
+}

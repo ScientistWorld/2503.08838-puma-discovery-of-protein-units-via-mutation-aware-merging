@@ -1,0 +1,7 @@
+{
+  "name": "honest_stricter_links_080",
+  "kind": "honest_stricter_links",
+  "visible_inputs_only": true,
+  "cutoff": 0.8,
+  "removed_links": 3498
+}

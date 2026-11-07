@@ -1,0 +1,14 @@
+{
+  "seed": 7,
+  "max_per_label": 4000,
+  "max_dms_per_bin": 0,
+  "clinical_parquet": "data/downloads/proteingym_clinical_substitutions/train-00000-of-00001.parquet",
+  "dms_path": "data/downloads/proteingym_dms_substitutions",
+  "training_summary": null,
+  "methods": {
+    "puma_official_6400": {
+      "tokenizer_path": "redteam/shortcut_label_lookup/generated/tokenizer.json",
+      "vocab_path": "redteam/shortcut_label_lookup/generated/vocab.json"
+    }
+  }
+}

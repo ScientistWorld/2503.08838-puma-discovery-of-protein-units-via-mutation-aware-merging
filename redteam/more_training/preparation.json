@@ -1,0 +1,6 @@
+{
+  "name": "more_training",
+  "kind": "more_training",
+  "visible_inputs_only": true,
+  "n_sequences": 2400
+}

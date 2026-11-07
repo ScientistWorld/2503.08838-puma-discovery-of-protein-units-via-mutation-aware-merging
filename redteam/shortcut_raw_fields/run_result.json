@@ -1,0 +1,28 @@
+{
+  "name": "shortcut_raw_fields",
+  "started": 1794045619.094802,
+  "test_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluators_sha256": {
+    "scripts/evaluate_test.sh": "a8fe7dc8a61000702a7fabc7821a32e5f0d4094e2442aab600136fbdd1e23f4e",
+    "eval/evaluate_puma.py": "7648b8e4a1c1bc8fccb215f05532f482d6a5c943921bf1a38cc9724bd1819452",
+    "eval/test/evaluate_puma.py": "9e009f0c7b5e814ff2f2e6503aaa6ab2e3d6ec5176954d8c950c797f10465b8f",
+    "eval/train/evaluate_puma.py": "7462aa76083b95f70f93f84101fca38e5e779eb7cf91ab9d89bf81a07262f206"
+  },
+  "prepare": {
+    "returncode": 0,
+    "seconds": 0.16440749168395996
+  },
+  "train": {
+    "returncode": 0,
+    "seconds": 70.80470514297485
+  },
+  "test": {
+    "returncode": 0,
+    "seconds": 72.62046933174133
+  },
+  "evaluators_unchanged": true,
+  "seconds": 143.59322452545166
+}

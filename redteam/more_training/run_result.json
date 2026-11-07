@@ -1,0 +1,28 @@
+{
+  "name": "more_training",
+  "started": 1794046302.5960612,
+  "test_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluators_sha256": {
+    "scripts/evaluate_test.sh": "a8fe7dc8a61000702a7fabc7821a32e5f0d4094e2442aab600136fbdd1e23f4e",
+    "eval/evaluate_puma.py": "7648b8e4a1c1bc8fccb215f05532f482d6a5c943921bf1a38cc9724bd1819452",
+    "eval/test/evaluate_puma.py": "9e009f0c7b5e814ff2f2e6503aaa6ab2e3d6ec5176954d8c950c797f10465b8f",
+    "eval/train/evaluate_puma.py": "7462aa76083b95f70f93f84101fca38e5e779eb7cf91ab9d89bf81a07262f206"
+  },
+  "prepare": {
+    "returncode": 0,
+    "seconds": 47.445446729660034
+  },
+  "train": {
+    "returncode": 0,
+    "seconds": 81.08747005462646
+  },
+  "test": {
+    "returncode": 0,
+    "seconds": 76.63092827796936
+  },
+  "evaluators_unchanged": true,
+  "seconds": 205.16713404655457
+}
