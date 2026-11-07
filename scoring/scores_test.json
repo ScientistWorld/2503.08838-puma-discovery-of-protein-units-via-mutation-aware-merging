@@ -15,7 +15,12 @@
       "vocab_budget": 6400,
       "min_residues_per_token": 2.0,
       "min_observed_tokens": 3200,
-      "min_same_idx": 0.2
+      "min_same_idx": 0.2,
+      "min_compression_vs_bpe": 0.95,
+      "min_task_gap": {
+        "clinical": 0.04,
+        "dms": 0.014
+      }
     },
     "baseline": "bpe_6400"
   },
@@ -30,6 +35,7 @@
           "pathogenic_same_idx": 0.5757266394427096,
           "family_coverage": 0.0,
           "vocab_size": 6400.0,
+          "task_solved": 0.0,
           "valid": 1.0
         },
         "puma_6400": {
@@ -40,6 +46,7 @@
           "pathogenic_same_idx": 0.5590319481143406,
           "family_coverage": 0.9403125,
           "vocab_size": 6400.0,
+          "task_solved": 1.0,
           "valid": 1.0
         }
       }
@@ -54,6 +61,7 @@
           "negative_same_idx": 0.5468816492505556,
           "family_coverage": 0.0,
           "vocab_size": 6400.0,
+          "task_solved": 0.0,
           "valid": 1.0
         },
         "puma_6400": {
@@ -64,6 +72,7 @@
           "negative_same_idx": 0.5351710876794805,
           "family_coverage": 0.9403125,
           "vocab_size": 6400.0,
+          "task_solved": 1.0,
           "valid": 1.0
         }
       }
@@ -102,6 +111,15 @@
   "_validation": {
     "bpe_6400": {
       "valid": true,
+      "task_solved": false,
+      "measured_gap": {
+        "clinical": 0.0,
+        "dms": 0.0
+      },
+      "unsolved_tasks": [
+        "clinical: gap 0.0000 < minimum 0.04 (no credit for either gap)",
+        "dms: gap 0.0000 < minimum 0.014 (no credit for either gap)"
+      ],
       "counts": {
         "clinical": {
           "benign": {
@@ -141,10 +159,17 @@
         "dms": 0.0
       },
       "residues_per_token": 2.454643594052456,
+      "compression_vs_bpe_uncapped": 1.0,
       "source": "fixed baseline owned by the evaluator"
     },
     "puma_6400": {
       "valid": true,
+      "task_solved": true,
+      "measured_gap": {
+        "clinical": 0.08594000676369966,
+        "dms": 0.026858359799596596
+      },
+      "unsolved_tasks": [],
       "counts": {
         "clinical": {
           "benign": {
@@ -184,6 +209,7 @@
         "dms": 0.001633270263818119
       },
       "residues_per_token": 2.3998180305708643,
+      "compression_vs_bpe_uncapped": 0.9776645523552043,
       "directory": "/home/user/outputs/puma_6400"
     }
   }

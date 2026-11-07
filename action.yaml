@@ -1,2 +1,8 @@
-action: done
-notes: "Completed 20-run scoring audit: genuine improvements score higher; zero seed spread; visible/public label fitting and a zero-DMS task-failure shortcut beat the reference. REDTEAM.md and per-case evidence committed; source/score trees restored."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: submit
+gpus: 0
+test: false
+milestone: secondary_claims
+notes: "Hardening round 3 check: retrain reference from final code, rescore all saved variant/shortcut artifacts with the new task-gated evaluators (train+test, no args), paired protein-cluster bootstrap, reference-only score files + validate --compare."
