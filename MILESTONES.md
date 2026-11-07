@@ -40,5 +40,9 @@
 - The job regenerated raw method artifacts plus `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json` inside the packaged container.
 - `python validate.py --compare` passed after regeneration, including method/eval separation, shared-path portability, train/test independence, and method-key consistency checks.
 
+### [2026-11-07 12:15] - secondary_claims
+- Hardening: reference now trains PUMA on the full corpus and submits the trained vocabulary; evaluators rewritten with a fixed protein-level split, evaluator-owned baseline, validity gates and bounded scored metrics.
+- CPU job `d20a9bcd-202` (exit 0): reference test gaps 0.0859 clinical / 0.0269 DMS vs paper 0.0835 / 0.0280; all REDTEAM shortcuts now fail or tie; honest variants rank by their gaps. Details in `HARDENING.md`.
+
 ## Stop Justification
 - Completed at milestone `secondary_claims`.

@@ -1,5 +1,15 @@
 # Progress
 
+## Current state (hardening, 2026-11-07)
+
+- The reference is trained, not copied: `scripts/method.sh` trains PUMA(BLOSUM62, 0.7, 0.05, lengths 3-12) with the official code on all 70,692 UniRef50-human sequences (112 s, 5.5 GB) and submits `outputs/puma_6400/{tokenizer,vocab}.json`.
+- Evaluators (`eval/train/evaluate.py`, `eval/test/evaluate.py`) take no arguments, score every `outputs/<method>/` plus an evaluator-owned BPE baseline, enforce validity gates (budget, lossless segmentation, consistent genealogy, granularity, usage, SAME coverage) and score a failed run at the worst value.
+- Hidden labels live only in `eval/test/`; ClinVar is split by protein, DMS by 50-residue protein window; all eligible variants are scored.
+- Reproduced (hidden test): clinical gap 0.0859 (paper 0.0835), DMS gap 0.0269 (paper 0.0280), compression vs BPE 0.978 (paper 0.976); BPE 0 / 0 / 1.
+- Hardening study: see `HARDENING.md` and `hardening/summary.md`. `python validate.py --compare` passes.
+
+## History (pre-hardening)
+
 ## What Works
 
 - Paper analysis and benchmark scaffolding are complete.

@@ -1,3 +1,5 @@
+> **Superseded in part (2026-11-07):** the evaluation interface and scoring described below were replaced during hardening (trained reference submission, fixed protein-level split, evaluator-owned baseline, validity gates, bounded metrics). See `HARDENING.md` for the current design and verification.
+
 # Verification Report
 
 ## Initial Assessment

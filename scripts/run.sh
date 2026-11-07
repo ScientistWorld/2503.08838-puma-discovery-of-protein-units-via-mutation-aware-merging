@@ -1,8 +1,10 @@
 #!/bin/bash
-# Compute-node job: hardening verification run. Builds the split, trains the
-# reference PUMA submission (scripts/method.sh), trains/builds variants and
-# shortcut probes, scores them before/after, then regenerates the gym's score
-# files from the reference alone and validates.
+# Compute-node job: end-to-end reproduction of the reference.
+#   1. build the fixed train / hidden-test populations (eval/test/prepare_split.py)
+#   2. train PUMA(BLOSUM62, 0.7, 0.05) on the full corpus -> outputs/puma_6400/
+#   3. score train slice, hidden test and default scores; validate.
+# The hardening study (variants + shortcut probes, before/after scoring) is
+# reproduced separately with: python hardening/run_hardening.py
 
 set -euo pipefail
 
@@ -18,4 +20,4 @@ for shard in 0 1 2 3 4; do
   [ -s "$file" ] || { echo "Missing $file. Run scripts/download.sh first." >&2; exit 1; }
 done
 
-python hardening/run_hardening.py
+bash scripts/reproduce.sh
