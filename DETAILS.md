@@ -31,7 +31,7 @@ Protein language models and downstream analyses usually operate at residue level
 
 ## Success Criteria
 
-A successful system should tokenize full protein sequences losslessly with a fixed budget of 6,400 units, group related unit variants into explicit families, and show — on proteins it has never seen labels for — that substitutions staying within a family are enriched among benign or high-fitness variants compared with pathogenic or low-fitness variants, without giving up segmentation granularity relative to a frequency-only vocabulary of the same size. Labels are never used to build the vocabulary.
+A successful system should tokenize full protein sequences losslessly with a fixed budget of 6,400 units, group related unit variants into explicit families, and show — on proteins it has never seen labels for — that substitutions staying within a family are enriched among benign variants compared with pathogenic variants **and** among high-fitness compared with low-fitness variants (both effects are required), without giving up segmentation granularity relative to a frequency-only vocabulary of the same size. Labels are never used to build the vocabulary.
 
 ---
 
@@ -70,11 +70,22 @@ A method writes one directory per system under `outputs/<method_name>/` with two
 
 A submission is scored as failed — the worst value on every scored metric (`gap = -1`, `compression_vs_bpe = 0`) and `valid = 0` — if any of these fail:
 
-- at most **6,400** vocabulary units; `vocab.json` units equal the tokenizer's units; units are uppercase residue strings;
+- at most **6,400** vocabulary units; `vocab.json` units equal the tokenizer's units; units are uppercase residue strings; Unigram scores are finite;
 - every parent link points to an existing unit of the same length;
 - segmentation is **lossless**: on every scored wild-type and mutated sequence the units concatenate back to the sequence;
 - the segmentation is a real unit vocabulary: at least **2.0 residues per unit** on average and at least **3,200 distinct units** used on the scored proteins;
+- **granularity is not sacrificed**: residues per unit on the scored proteins are at least **0.95×** those of the frequency-only baseline (`compression_vs_bpe ≥ 0.95` before capping);
 - for each label, at least **20%** of variants leave every unit boundary unchanged.
+
+## Both biological tasks must be solved
+
+A valid submission *solves* the two biological tasks when its benign−pathogenic gap is at least **0.04** and its positive−negative gap is at least **0.014** (about half of the published effect at this vocabulary size). If either gap is below its minimum, `task_solved = 0` and **neither** gap earns credit: each is scored as `min(measured gap, 0)`. With the weights below, a valid submission that solves both tasks always ranks above one that does not, and any valid submission ranks above a failed one:
+
+| Outcome | Rank score S = 0.6·clinical gap + 0.3·DMS gap + 0.1·compression |
+|---|---|
+| constraint violated | −0.9 |
+| valid, a task not solved | ≤ 0.1 |
+| valid, both tasks solved | ≥ 0.6·0.04 + 0.3·0.014 + 0.1·0.95 ≈ 0.123 |
 
 ## Metrics
 
@@ -86,7 +97,7 @@ A submission is scored as failed — the worst value on every scored metric (`ga
 | `dms_sibling_association` | 0.3 | `positive_negative_gap` | positive (high-fitness) minus negative (low-fitness) SAME sibling rate on human DMS variants of held-out protein regions |
 | `vocabulary_structure` | 0.1 | `compression_vs_bpe` | residues per unit on the scored proteins divided by the BPE baseline's, capped at 1 |
 
-All other reported metrics (per-label rates, `*_same_idx`, family coverage and family-shape statistics, vocabulary size, residues per unit, distinct units used, `valid`) have coefficient 0: they are for auditing. The rank of a method is the sum over experiments of weight × coefficient × (metric − reference metric).
+All other reported metrics (per-label rates, `*_same_idx`, family coverage and family-shape statistics, vocabulary size, residues per unit, distinct units used, `task_solved`, `valid`) have coefficient 0: they are for auditing. The rank of a method is the sum over experiments of weight × coefficient × (metric − reference metric).
 
 ## Data and splits
 
@@ -96,7 +107,7 @@ The unlabeled training corpus is `data/uniref50_human.fasta` (human UniRef50 rep
 
 ## Baselines and targets
 
-`bpe_6400` is a frequency-only 6,400-unit vocabulary without families (sibling gaps 0, compression ratio 1 by definition). `scoring/reference.json` lists the published numbers; `scoring/scores_train.json` and `scoring/scores_test.json` hold the reproduced reference.
+`bpe_6400` is a frequency-only 6,400-unit vocabulary without families: its sibling gaps are 0, so it does not solve the biological tasks (`task_solved = 0`, S = 0.1 from its compression ratio of 1 by definition). `scoring/reference.json` lists the published numbers; `scoring/scores_train.json` and `scoring/scores_test.json` hold the reproduced reference.
 
 ---
 
@@ -611,6 +622,64 @@ The unlabeled training corpus is `data/uniref50_human.fasta` (human UniRef50 rep
 ### [2026-11-07 12:15] - secondary_claims
 - Hardening: reference now trains PUMA on the full corpus and submits the trained vocabulary; evaluators rewritten with a fixed protein-level split, evaluator-owned baseline, validity gates and bounded scored metrics.
 - CPU job `d20a9bcd-202` (exit 0): reference test gaps 0.0859 clinical / 0.0269 DMS vs paper 0.0835 / 0.0280; all REDTEAM shortcuts now fail or tie; honest variants rank by their gaps. Details in `HARDENING.md`.
+
+</details>
+
+### Iteration 11: claude-opus-5-5 (hardener)
+- **Milestone**: `secondary_claims` | **Status**: done
+- **Working time**: 14m | **GPU**: 0.0h
+- **Jobs**: 10 total (10 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-12 14:21] - secondary_claims
+- Reproduced the core clinical SAME sibling-rate association for PUMA versus BPE on ProteinGym ClinVar substitutions.
+- Reproduced secondary DMS sibling-association and vocabulary-structure targets at the compact 6,400-token setting.
+- Verified the implementation runs the official mutation-aware PUMA merge code for a small fresh vocabulary and scores released PUMA/BPE vocabularies through a method-independent evaluator.
+
+### [2026-06-12 14:25] - core_claim_plus
+- Continuation reset starts this audit one level below the previous `secondary_claims` claim.
+- The method implementation remains a real PUMA reproduction using the official mutation-aware merge code and released PUMA/BPE vocabulary artifacts.
+- The evaluator has been made independent of method-side counters; a CPU test job is queued to verify the regenerated clinical, DMS, and vocabulary-structure scores before restoring `secondary_claims`.
+
+### [2026-06-12 14:34] - secondary_claims
+- CPU verification job `083b2b54-456` completed successfully with exit code 0.
+- `scripts/reproduce.sh` regenerated raw method artifacts and `scoring/scores.json` through the independent evaluator.
+- `python validate.py --compare` passed, confirming reproduced clinical, DMS, and vocabulary-structure metrics plus method/eval separation checks.
+
+### [2026-06-22 22:24] - secondary_claims
+- Audited the resumed workspace and confirmed `python validate.py --compare` still passes.
+- Updated `scripts/run.sh` to regenerate raw PUMA artifacts before scoring train/test slices, removing dependence on ignored `outputs/` state.
+- Submitting a CPU test verification job for the refreshed end-to-end job wrapper.
+
+### [2026-06-22 22:28] - secondary_claims
+- Final verification confirmed the reproduced clinical, DMS, and vocabulary-structure scores are plausible and pass `python validate.py --compare`.
+- Removed method-specific details from the method-agnostic evaluation briefing and moved the benchmark FASTA reference to tracked `data/uniref50_human.fasta`.
+- Verified download URLs, shell scripts, Python syntax, method/eval separation, and train/test score wiring.
+
+### [2026-06-22 22:32] - secondary_claims
+- Tightened the default method-independent evaluator so `scripts/evaluate.sh` emits all benefit and constraint metrics declared in `scoring/reference.json`, matching the richer train/test evaluators.
+- Local `python -m py_compile ...` and `python validate.py --compare` passed; direct local evaluator execution is deferred to the packaged CPU test job because the login-node Python environment lacks declared container dependencies.
+- Added explicit DMS shard preflight checks to `scripts/run.sh` after background audit found that partial downloads would otherwise fail later inside Python.
+- Submitting a CPU test job to regenerate method artifacts, default/train/test scores, and validation output inside the reproducible container.
+
+### [2026-06-22 22:48] - secondary_claims
+- CPU verification job `adc14804-28b` completed successfully with exit code 0.
+- The job regenerated raw method artifacts plus `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json` inside the packaged container.
+- `python validate.py --compare` passed after regeneration, including method/eval separation, shared-path portability, train/test independence, and method-key consistency checks.
+
+### [2026-11-07 12:15] - secondary_claims
+- Hardening: reference now trains PUMA on the full corpus and submits the trained vocabulary; evaluators rewritten with a fixed protein-level split, evaluator-owned baseline, validity gates and bounded scored metrics.
+- CPU job `d20a9bcd-202` (exit 0): reference test gaps 0.0859 clinical / 0.0269 DMS vs paper 0.0835 / 0.0280; all REDTEAM shortcuts now fail or tie; honest variants rank by their gaps. Details in `HARDENING.md`.
+
+### [2026-11-07 21:40] - secondary_claims
+- Hardening round 3 added a task gate: both biological gaps must clear half the published effect or neither earns credit. Units more than 5% shorter than BPE's now fail the run.
+- CPU job `a711a2ea-5cc` (exit 0):
+  - the reference is unchanged (test S 0.157388);
+  - the abandon-DMS and compression-tradeoff shortcuts no longer pay;
+  - a genuinely better label-free variant beats the reference by 19 paired SDs;
+  - label-fitting shortcuts are documented and left to the grader.
 
 </details>
 
